@@ -11,6 +11,7 @@ canvas {
 }
 
 body {
+    font-family: Hyperspace Bold;
     background-color: #101010;
 }
 
@@ -19,5 +20,15 @@ table {
     left: 43.8%;
     top: 55%;
     z-index: 2;
+    border: 0px;
+}
+
+input {
+    font-family: Hyperspace Bold;
+    color: white;
+    background-color: #101010;
+}
+
+tr, td {
     border: 0px;
 }

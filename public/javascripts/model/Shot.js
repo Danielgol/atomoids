@@ -5,17 +5,17 @@ function Shot(circle, angle){
 	this.angle = angle;
 	this.reach = 15;
 
-	this.move = function(){
+	this.move = function(i){
 			if ((this.angle < 90 || this.angle > 270) || (this.angle > 90 && this.angle < 270)) {//CIMA BAIXO
-	        this.circle['pos'].y -= Math.cos(this.angle * Math.PI / 180) * 3;
+	        this.circle['pos'].y -= Math.cos(this.angle * Math.PI / 180) * i;
 	    }
 	    if ((this.angle < 360 && this.angle > 180) || (this.angle < 180 && this.angle > 0)) { //DIREITA ESQUERDA
-	        this.circle['pos'].x += Math.sin(this.angle * Math.PI / 180) * 3;
+	        this.circle['pos'].x += Math.sin(this.angle * Math.PI / 180) * i;
 	    }
 	}
 
-	this.LostReach = function(){
-			this.reach -= 0.1;
+	this.LoseReach = function(i){
+			this.reach -= i;
 	}
 
 	this.obeyLimit = function(width, height){

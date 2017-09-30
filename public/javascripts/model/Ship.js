@@ -17,8 +17,7 @@ function Ship(triangle, centerX, centerY){
 		this.triangle.translate(this.x, this.y);
 	}
 
-	this.slide = function(){
-				var delay = 0.001;
+	this.slide = function(delay){
 				if (this.forceX > 0) {
 						if (this.forceX - delay > 0) {
 								this.forceX -= delay;
@@ -47,8 +46,7 @@ function Ship(triangle, centerX, centerY){
 				}
 	}
 
-	this.regulateForcesLimit = function(){
-		  var maxVelocity = 1.5;
+	this.regulateVelocity = function(maxVelocity){
 			if (this.forceX > maxVelocity) {
 					this.forceX = maxVelocity;
 			} else if (this.forceX < (-maxVelocity)) {
@@ -64,7 +62,7 @@ function Ship(triangle, centerX, centerY){
 	this.move = function(keys){
 				if (38 in keys) {
 					this.boost();
-					this.throwFire();
+					drawFire(ctx, this.throwFire());
 				}
 				if (39 in keys) {
 					this.turn(1);
@@ -85,16 +83,7 @@ function Ship(triangle, centerX, centerY){
 			losangle.rotate((Math.PI/180)* this.angle );
 			losangle.translate(this.x, this.y);
 
-			ctx.beginPath();
-			ctx.lineWidth = 1;
-	    ctx.moveTo(losangle['points'][0]['x'], losangle['points'][0]['y']);
-	    ctx.lineTo(losangle['points'][1]['x'], losangle['points'][1]['y']);
-	    ctx.lineTo(losangle['points'][2]['x'], losangle['points'][2]['y']);
-			ctx.lineTo(losangle['points'][3]['x'], losangle['points'][3]['y']);
-	    ctx.lineTo(losangle['points'][0]['x'], losangle['points'][0]['y']);
-	    ctx.strokeStyle = "white";
-	    ctx.stroke();
-	    ctx.closePath();
+			return losangle;
 
 	}
 
