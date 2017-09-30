@@ -105,7 +105,8 @@ function loop(){
 		if(molecules.length === 0 && aloneAtoms.length === 0 && hasMoleculesAndAtoms === true){//................CONDIÇÃO PARA CARREGAR NOVAS MOLÉCULAS
 				hasMoleculesAndAtoms = false;//................................................ACIONA O TEMPORIZADOR PARA CARREGAR MOLÉCULAS
 				setTimeout(function() {
-						loadMolecules();//.......................................................CARREGAR NOVAS MOLÉCULAS
+						level += 1;
+						loadMolecules(level);//.......................................................CARREGAR NOVAS MOLÉCULAS
 						hasMoleculesAndAtoms = true;
 				}, 2000);
 		}
@@ -114,31 +115,66 @@ function loop(){
 
 		drawScore(ctx, score.points, (canvas.width/2)-5, 20);//.......................EXIBE O SCORE ATUAL
 
-		// ctx.beginPath();
-		// ctx.fillStyle = "white";
-		// ctx.font = "15px Arial";
-		// ctx.fillText("aloneAtoms.length: " + aloneAtoms.length, 10, 400);
-		// ctx.fillText("molecules.length: " + molecules.length, 10, 420);
-		// ctx.closePath();
+		drawLifes(ctx, lifes);
+
+
+		ctx.beginPath();
+		ctx.fillStyle = "white";
+		ctx.fillText("lvl: " + level, 10, 590);
+		ctx.closePath();
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
 }
 
 
-function loadMolecules(){
-	molecules.push(createMolecule(canvas.width, canvas.height, 1));//}loadMolecules(lvl);
-	molecules.push(createMolecule(canvas.width, canvas.height, 2));//}
-	molecules.push(createMolecule(canvas.width, canvas.height, 2));//}
-	molecules.push(createMolecule(canvas.width, canvas.height, 1));//}
-	molecules.push(createMolecule(canvas.width, canvas.height, 2));//}
-	molecules.push(createMolecule(canvas.width, canvas.height, 1));//}
+function loadMolecules(lvl){
+	 if(lvl === 1){
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 2));
+	 }else if(lvl === 2){
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 2));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	 }else if(lvl === 3){
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 2));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	 }else if(lvl === 4){
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 2));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	 }else if(lvl === 5){
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 2));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	 }
 }
 
 
 function start(){
 		ship = createShip(canvas.width/2, canvas.height/2);
-		loadMolecules();
+		loadMolecules(level);
 		drawScreen(ctx, canvas.width, canvas.height);
 		IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
 }
@@ -152,6 +188,7 @@ var ctx = canvas.getContext("2d");
 //	Game.start() ...
 //	Game contém todos os métodos do Controller
 //	Tudo abaixo
+var level = 1;
 var hasMoleculesAndAtoms = true;// colocar numa classe game
 var hasShip = true;// colocar numa classe game
 var lifes = 3;// colocar numa classe game

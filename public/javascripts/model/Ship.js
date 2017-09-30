@@ -100,9 +100,9 @@ function Ship(triangle, centerX, centerY){
 	this.turn = function(i){
 			this.angle += i;
 
-			if(this.angle === 360){
+			if(this.angle >= 360){
 	        this.angle = 0;
-	    }else if(this.angle === -1){
+	    }else if(this.angle < 0){
 	        this.angle = 359;
 	    }//PENSAR EM CRIAR UM MÉTODO PRA ISSO (SE É MAIS CORRETO)
 

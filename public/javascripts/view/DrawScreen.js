@@ -24,6 +24,25 @@ function drawScore(ctx, score, x, y){
 
 }
 
+function drawLifes(ctx, lifes){
+
+	var space = 20;
+
+	for(l = 0; l<lifes; l++){
+			ctx.beginPath();
+			ctx.lineWidth = 1;
+	    ctx.moveTo(space, 10);
+	    ctx.lineTo(space+5, 20);
+	    ctx.lineTo(space-5, 20);
+	    ctx.lineTo(space, 10);
+	    ctx.strokeStyle = "white";
+	    ctx.stroke();
+	    ctx.closePath();
+			space+=15;
+	}
+
+}
+
 function cleanScreen(ctx, width, height){
 
 		ctx.clearRect(1, 1, width - 2, height - 2);
