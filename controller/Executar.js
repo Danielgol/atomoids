@@ -7,6 +7,35 @@ function loopDoJogo(){
 
 	moleculas[0].mover();
 
+	if(nave.x > canvas.width){
+       	nave.triangulo.translate(-nave.x, -nave.y);
+        nave.x = 0;
+        nave.triangulo.translate(nave.x, nave.y);
+    }else if(nave.x < 0){
+        nave.triangulo.translate(-nave.x, -nave.y);
+        nave.x = canvas.width;
+        nave.triangulo.translate(nave.x, nave.y);
+    }else if(nave.y > canvas.height){
+        nave.triangulo.translate(-nave.x, -nave.y);
+        nave.y = 0;
+        nave.triangulo.translate(nave.x, nave.y);
+    }else if(nave.y < 0){
+        nave.triangulo.translate(-nave.x, -nave.y);
+        nave.y = canvas.height;
+        nave.triangulo.translate(nave.x, nave.y);
+    }
+
+
+	if(moleculas[0].circulo['pos'].x > canvas.width){
+        moleculas[0].circulo['pos'].x = 0;
+    }else if(moleculas[0].circulo['pos'].x < 0){
+        moleculas[0].circulo['pos'].x = canvas.width;
+    }else if(moleculas[0].circulo['pos'].y > canvas.height){
+        moleculas[0].circulo['pos'].y = 0;
+    }else if(moleculas[0].circulo['pos'].y < 0){
+        moleculas[0].circulo['pos'].y = canvas.height;
+    }
+
 	desenharNave(ctx, nave.triangulo);
 	
 	desenharMolecula(ctx, moleculas[0].circulo);

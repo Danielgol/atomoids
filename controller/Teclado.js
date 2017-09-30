@@ -44,4 +44,5 @@ function comandosTeclado(nave) {
 		nave.triangulo.rotate((Math.PI/180)*(-1));
 		nave.triangulo.translate(nave.x, nave.y);
 	}
+
 }
