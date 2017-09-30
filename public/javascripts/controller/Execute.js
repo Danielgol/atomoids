@@ -93,7 +93,7 @@ function loop(){
 		for(i = 0; i<aloneAtoms.length; i++){
 				aloneAtoms[i].move(aloneAtoms[i].angle, aloneAtoms[i].velocity);
 				aloneAtoms[i].obeyLimit(canvas.width, canvas.height);
-				drawAtom(ctx, aloneAtoms[i].circle);
+				drawAtom(ctx, aloneAtoms[i].circle, aloneAtoms[i].color);
 				for(x = 0; x<shots.length; x++){
 						var response = new SAT.Response();
 						var collided = SAT.testCircleCircle(aloneAtoms[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO

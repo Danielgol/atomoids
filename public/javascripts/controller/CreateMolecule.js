@@ -20,10 +20,10 @@ function createMolecule(width, height, type){
 
 		var angle = Math.floor((Math.random() * 359) + 1);
 
-		var atom1 = new Atom(circle1, angle);
-		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1));
-		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1));
-		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1));
+		var atom1 = new Atom(circle1, angle, "red");
+		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "blue");
+		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "blue");
+		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1), "blue");
 
 		atoms.push(atom1);
 		atoms.push(atom2);
@@ -47,9 +47,9 @@ function createMolecule(width, height, type){
 
 		var angle = Math.floor((Math.random() * 359) + 1);
 
-		var atom1 = new Atom(circle1, angle);
-		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1));
-		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1));
+		var atom1 = new Atom(circle1, angle, "blue");
+		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "green");
+		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "green");
 
 		atoms.push(atom1);
 		atoms.push(atom2);
@@ -73,10 +73,10 @@ function createMolecule(width, height, type){
 
 		var angle = Math.floor((Math.random() * 359) + 1);
 
-		var atom1 = new Atom(circle1, angle);
-		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1));
-		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1));
-		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1));
+		var atom1 = new Atom(circle1, angle, "red");
+		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "yellow");
+		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "yellow");
+		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1), "yellow");
 
 		atoms.push(atom1);
 		atoms.push(atom2);
@@ -102,11 +102,11 @@ function createMolecule(width, height, type){
 
 		var angle = Math.floor((Math.random() * 359) + 1);
 
-		var atom1 = new Atom(circle1, angle);
-		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1));
-		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1));
-		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1));
-		var atom5 = new Atom(circle5, Math.floor((Math.random() * 359) + 1));
+		var atom1 = new Atom(circle1, angle, "orange");
+		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "purple");
+		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "purple");
+		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1), "purple");
+		var atom5 = new Atom(circle5, Math.floor((Math.random() * 359) + 1), "purple");
 
 		atoms.push(atom1);
 		atoms.push(atom2);
@@ -135,13 +135,13 @@ function createMolecule(width, height, type){
 
 		var angle = Math.floor((Math.random() * 359) + 1);
 
-		var atom1 = new Atom(circle1, angle);
-		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1));
-		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1));
-		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1));
-		var atom5 = new Atom(circle5, Math.floor((Math.random() * 359) + 1));
-		var atom6 = new Atom(circle6, Math.floor((Math.random() * 359) + 1));
-		var atom7 = new Atom(circle7, Math.floor((Math.random() * 359) + 1));
+		var atom1 = new Atom(circle1, angle, "green");
+		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "yellow");
+		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "yellow");
+		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1), "yellow");
+		var atom5 = new Atom(circle5, Math.floor((Math.random() * 359) + 1), "yellow");
+		var atom6 = new Atom(circle6, Math.floor((Math.random() * 359) + 1), "blue");
+		var atom7 = new Atom(circle7, Math.floor((Math.random() * 359) + 1), "blue");
 
 		atoms.push(atom1);
 		atoms.push(atom2);
