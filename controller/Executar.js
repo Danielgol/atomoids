@@ -9,8 +9,7 @@ function loopDoJogo(){
 
 	moleculas[0].mover();
 
-
-	if(tiros.length > 0){
+if(tiros.length > 0){
 
 		for(i = 0; i<tiros.length; i++){
 			tiros[i].mover();
@@ -47,9 +46,7 @@ function loopDoJogo(){
         moleculas[0].circulo['pos'].y = 0;
     }else if(moleculas[0].circulo['pos'].y < 0){
         moleculas[0].circulo['pos'].y = canvas.height;
-    }
-
-	desenharNave(ctx, nave.triangulo);
+    }	desenharNave(ctx, nave.triangulo);
 	
 	desenharMolecula(ctx, moleculas[0].circulo);
 
