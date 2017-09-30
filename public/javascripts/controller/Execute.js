@@ -117,11 +117,7 @@ function loop(){
 
 		drawLifes(ctx, lifes);
 
-
-		ctx.beginPath();
-		ctx.fillStyle = "white";
-		ctx.fillText("lvl: " + level, 10, 590);
-		ctx.closePath();
+		drawLevel(ctx, level);
 
 //-----------------------------------------------------------------------------------------------------------------------------
 

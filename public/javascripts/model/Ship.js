@@ -65,10 +65,10 @@ function Ship(triangle, centerX, centerY){
 					drawFire(ctx, this.throwFire());
 				}
 				if (39 in keys) {
-					this.turn(1);
+					this.turn(2);
 				}
 				if (37 in keys) {
-					this.turn(-1);
+					this.turn(-2);
 				}
 	}
 
@@ -112,15 +112,17 @@ function Ship(triangle, centerX, centerY){
 	}
 
 	this.shoot = function(shots, keys){
-			if(this.energy >= 15){
-				if(17 in keys){
+			if(17 in keys){
+				if(this.energy >= 15){
 					var circle = new SAT.Circle(new SAT.Vector(this.x , this.y), 2);
 					var shot = new Shot(circle, this.angle);
 					shots.push(shot);
 					this.energy -= 15;
 				}
 			}else{
-				this.energy += 0.5;
+				if(this.energy < 15){
+					this.energy += 2;
+			  }
 			}
 			return shots;
 	}

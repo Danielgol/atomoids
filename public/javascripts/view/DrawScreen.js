@@ -24,10 +24,18 @@ function drawScore(ctx, score, x, y){
 
 }
 
+function drawLevel(ctx, level){
+
+	ctx.beginPath();
+	ctx.fillStyle = "white";
+	ctx.fillText("lvl: " + level, 10, 590);
+	ctx.closePath();
+
+}
+
 function drawLifes(ctx, lifes){
 
 	var space = 20;
-
 	for(l = 0; l<lifes; l++){
 			ctx.beginPath();
 			ctx.lineWidth = 1;

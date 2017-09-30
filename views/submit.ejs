@@ -35,15 +35,15 @@
           // }
       </script>
 
-      <table border="1" style="color: white; top: 35%; left: 42.5%;">
-        <tr><td>Score: <%= points %></td></tr>
-        <tr><td><%= date %></td></tr>
+      <table border="1" style="color: white; top: 25%; left: 36%;">
+        <tr><td style="font-size: 30px;">Score: <%= points %></td></tr>
+        <tr><td style="font-size: 30px;"><%= date %></td></tr>
       </table>
 
       <form action="/submited" method="post" name="formulario" id="addToRankingButton">
-        <table border="1" style="top: 55%; left: 42%;">
-          <tr><td><input type="text" name="playerName"></td>
-          <td><input type="button" value="Submeter" onclick="addScoreIntoDB()"></td></tr>
+        <table border="1" style="top: 60%; left: 38%;">
+          <tr><td><input style="width: 350px; font-size: 22px;" type="text" name="playerName" placeholder="Coloque o seu nome aqui" ></td>
+          <td><input style="font-size: 22px;" type="button" value=">" onclick="addScoreIntoDB()"></td></tr>
         </table>
       </form>
 
@@ -56,8 +56,8 @@
           </table>
       </form> -->
 
-      <table border="1" style="top: 60%; left: 42%;">
-        <tr><td><input type="button" value="             Menu             " onclick="window.location.replace('/')"></td></tr>
+      <table border="1" style="top: 70%; left: 38.2%;">
+        <tr><td><input style="font-size: 30px;" type="button" value="        Menu        " onclick="window.location.replace('/')"></td></tr>
       </table>
 
     </body>
