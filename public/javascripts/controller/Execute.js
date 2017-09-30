@@ -75,6 +75,7 @@ function loop(){
 													clearInterval(IntervalId);//................................INTERROMPE O LOOP;
 													window.document.formulario.date.value = ''+score._id;
 													window.document.formulario.points.value = ''+score.points;
+													window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
 													document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
 												}else{
 													ship = createShip(canvas.width/2, canvas.height/2);
@@ -124,6 +125,7 @@ function loop(){
 											clearInterval(IntervalId);//................................INTERROMPE O LOOP;
 											window.document.formulario.date.value = ''+score._id;
 											window.document.formulario.points.value = ''+score.points;
+											window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
 											document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
 										}else{
 											ship = createShip(canvas.width/2, canvas.height/2);
@@ -184,6 +186,7 @@ function loop(){
 			setTimeout(function() {
 				window.document.formulario.date.value = ''+score._id;
 				window.document.formulario.points.value = ''+score.points;
+				window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
 				document.getElementById("form").submit();
 			}, 1000);
 		}

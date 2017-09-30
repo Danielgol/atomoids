@@ -9,6 +9,10 @@
     </head>
     <body>
 
+      <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
+
+      <script type="text/javascript" src="javascripts/view/DrawScreen.js"></script>
+
       <script type="text/javascript">
 
           var db = new PouchDB('atomoids_ranking');
@@ -28,11 +32,16 @@
               });
           }
 
+          var canvas = document.getElementById("mycanvas");
+          var ctx = canvas.getContext("2d");
+
+          drawScreen(ctx, canvas.width, canvas.height);
+
       </script>
 
       <table style="top: 30%;">
         <tr><td style="font-size: 30px;">Score: <%= points %></td></tr>
-        <tr><td style="font-size: 30px;"><%= date %></td></tr>
+        <tr><td style="font-size: 30px;"><%= time %></td></tr>
       </table>
 
       <form action="/submited" method="post" name="formulario" id="addToRankingButton">
