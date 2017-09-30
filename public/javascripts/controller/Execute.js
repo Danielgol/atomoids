@@ -1,6 +1,8 @@
 
 function loop(){
 
+		if(isPaused === false){
+
 		cleanScreen(ctx, canvas.width, canvas.height);//..............................LIMPA A TELA (O RASTRO DAS COISAS)
 
 // PARTE DA NAVE---------------------------------------------------------------------------------------------------------------
@@ -121,6 +123,8 @@ function loop(){
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
+	}
+
 }
 
 
@@ -172,7 +176,17 @@ function start(){
 		ship = createShip(canvas.width/2, canvas.height/2);
 		loadMolecules(level);
 		drawScreen(ctx, canvas.width, canvas.height);
-		IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
+
+		setTimeout(function() {
+			drawScore(ctx, score.points, (canvas.width/2)-5, 20);//.......................EXIBE O SCORE ATUAL
+			drawLifes(ctx, lifes);
+			drawLevel(ctx, level);
+		}, 1000);
+
+		setTimeout(function() {
+			IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
+		}, 2000);
+
 }
 
 
@@ -184,6 +198,7 @@ var ctx = canvas.getContext("2d");
 //	Game.start() ...
 //	Game contém todos os métodos do Controller
 //	Tudo abaixo
+
 var level = 1;
 var hasMoleculesAndAtoms = true;// colocar numa classe game
 var hasShip = true;// colocar numa classe game

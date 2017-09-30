@@ -7,10 +7,6 @@ module.exports = {
 
   sendToSubmit: function(req, res ,next){
     res.render('submit', {points: req.body.points , date: req.body.date} );
-  },
-
-  pauseTheGame: function(req, res, next){
-    res.render('pause');
   }
 
 }
