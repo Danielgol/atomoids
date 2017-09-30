@@ -133,8 +133,13 @@ function loop(){
 						level += 1;
 						loadMolecules(level);//.......................................................CARREGAR NOVAS MOLÉCULAS
 						hasMoleculesAndAtoms = true;
-				document.getElementById("pauseButton").style.visibility="visible";
+						imortality = true;
+						document.getElementById("pauseButton").style.visibility="visible";
 				}, 2000);
+
+				setTimeout(function() {
+						imortality = false;
+				}, 4000);
 		}
 
 // OUTROS----------------------------------------------------------------------------------------------------------------------
@@ -205,8 +210,6 @@ function start(){
 		loadMolecules(level);
 		drawScreen(ctx, canvas.width, canvas.height);
 
-		document.getElementById("pauseButton").style.visibility="hidden";
-
 		setTimeout(function() {
 			drawScore(ctx, score.points, (canvas.width/2)-5, 20);//.......................EXIBE O SCORE ATUAL
 			drawLifes(ctx, lifes);
@@ -221,7 +224,6 @@ function start(){
 		setTimeout(function() {
 			imortality = false;
 		}, 5000);
-
 }
 
 
