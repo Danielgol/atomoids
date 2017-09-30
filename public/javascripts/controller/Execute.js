@@ -32,15 +32,15 @@ function loop(){
 
 		for(i = 0; i<molecules.length; i++){
 
-				//alert("BUM");
-
 				molecules[i].move();//....................................................MOVE A MOLECULA
 				//molecules[i].obeyLimit(canvas.width, canvas.height);//....................FAZ COM QUE A MOLECULA OBEDEÇA OS LIMITES DA TELA
 				//drawMolecule(ctx, molecules[i].atoms);//.................................DESENHA A MOLECULA
 
-				for(x = 0; x<shots.length; x++){
+
 						//Está dando erro: Unable to get property 'circle' of undefined or null reference
-						for(j = 0; j<molecules[i].atoms.length;j++){
+				for(j = 0; j<molecules[i].atoms.length; j++){
+
+						for(x = 0; x<shots.length; x++){
 								var response = new SAT.Response();
 								var collided = SAT.testCircleCircle(molecules[i].atoms[j].circle, shots[x].circle, response);// VERIFICA A COLISÃO
 								if(collided === true){//..............................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
@@ -50,53 +50,78 @@ function loop(){
 									score.points += 10;//..................................................AUMENTA O SCORE
 								}
 						}
+
+						if(hasShip === true){
+								var response = new SAT.Response();
+								var collided = SAT.testPolygonCircle(ship.triangle, molecules[i].atoms[j].circle, response);// VERIFICA A COLISÃO
+								if(collided === true){//..............................................SE A NAVE COLIDIU COM UMA MOLÉCULA
+										aloneAtoms = molecules[i].divide(aloneAtoms);
+										molecules.splice(i, 1);//............................................REMOVE A MOLECULA
+										lifes -= 1;//........................................................FAZ A NAVE PERDER VIDA
+										hasShip = false;//.........................................ACIONA O TEMPORIZADOR DE RESPAWN
+										setTimeout(function() {
+												if(lifes === 0){//............................................CONDIÇÃO DO FIM
+													clearInterval(IntervalId);//................................INTERROMPE O LOOP;
+													window.document.formulario.date.value = ''+score._id;
+													window.document.formulario.points.value = ''+score.points;
+													document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
+												}else{
+													ship = createShip(canvas.width/2, canvas.height/2);
+												}
+												hasShip = true;
+										}, 2000);
+								}
+						}
+
 				}
 
 				//COLISÃO (NAVE COM MOLECULAS);
-				// if(hasShip === true){
-				// 		var response = new SAT.Response();
-				// 		var collided = SAT.testPolygonCircle(ship.triangle, molecules[i].circle, response);// VERIFICA A COLISÃO
-				// 		if(collided === true){//..............................................SE A NAVE COLIDIU COM UMA MOLÉCULA
-				// 				molecules.splice(i, 1);//............................................REMOVE A MOLECULA
-				// 				lifes -= 1;//........................................................FAZ A NAVE PERDER VIDA
-				// 				hasShip = false;//.........................................ACIONA O TEMPORIZADOR DE RESPAWN
-				// 				setTimeout(function() {
-				// 						if(lifes === 0){//............................................CONDIÇÃO DO FIM
-				// 							clearInterval(IntervalId);//................................INTERROMPE O LOOP;
-				// 							window.document.formulario.date.value = ''+score._id;
-				// 							window.document.formulario.points.value = ''+score.points;
-				// 							document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
-				// 						}else{
-				// 							ship = createShip(canvas.width/2, canvas.height/2);
-				// 						}
-				// 						hasShip = true;
-				// 				}, 2000);
-				// 		}
-				// }
+
 		}
 
 		for(i = 0; i<aloneAtoms.length; i++){
-					aloneAtoms[i].move(aloneAtoms[i].angle, aloneAtoms[i].velocity);
-					aloneAtoms[i].obeyLimit(canvas.width, canvas.height);
-					drawAtom(ctx, aloneAtoms[i].circle);
-					for(x = 0; x<shots.length; x++){
-							var response = new SAT.Response();
-							var collided = SAT.testCircleCircle(aloneAtoms[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO
-							if(collided === true){//..............................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
-								aloneAtoms.splice(i, 1);
-								shots.splice(x, 1);//..................................................REMOVE O TIRO
-								score.points += 10;//..................................................AUMENTA O SCORE
-							}
-					}
+				aloneAtoms[i].move(aloneAtoms[i].angle, aloneAtoms[i].velocity);
+				aloneAtoms[i].obeyLimit(canvas.width, canvas.height);
+				drawAtom(ctx, aloneAtoms[i].circle);
+				for(x = 0; x<shots.length; x++){
+						var response = new SAT.Response();
+						var collided = SAT.testCircleCircle(aloneAtoms[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO
+						if(collided === true){//..............................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
+							aloneAtoms.splice(i, 1);
+							shots.splice(x, 1);//..................................................REMOVE O TIRO
+							score.points += 10;//..................................................AUMENTA O SCORE
+						}
+				}
+
+				if(hasShip === true){
+						var response = new SAT.Response();
+						var collided = SAT.testPolygonCircle(ship.triangle, aloneAtoms[i].circle, response);// VERIFICA A COLISÃO
+						if(collided === true){//..............................................SE A NAVE COLIDIU COM UMA MOLÉCULA
+								aloneAtoms.splice(i, 1);//............................................REMOVE A MOLECULA
+								lifes -= 1;//........................................................FAZ A NAVE PERDER VIDA
+								hasShip = false;//.........................................ACIONA O TEMPORIZADOR DE RESPAWN
+								setTimeout(function() {
+										if(lifes === 0){//............................................CONDIÇÃO DO FIM
+											clearInterval(IntervalId);//................................INTERROMPE O LOOP;
+											window.document.formulario.date.value = ''+score._id;
+											window.document.formulario.points.value = ''+score.points;
+											document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
+										}else{
+											ship = createShip(canvas.width/2, canvas.height/2);
+										}
+										hasShip = true;
+								}, 2000);
+						}
+				}
 		}
 
-		// if(molecules.length === 0 && hasMolecules === true){//................CONDIÇÃO PARA CARREGAR NOVAS MOLÉCULAS
-		// 		hasMolecules = false;//................................................ACIONA O TEMPORIZADOR PARA CARREGAR MOLÉCULAS
-		// 		setTimeout(function() {
-		// 				loadMolecules();//.......................................................CARREGAR NOVAS MOLÉCULAS
-		// 				hasMolecules = true;
-		// 		}, 2000);
-		// }
+		if(molecules.length === 0 && aloneAtoms.length === 0 && hasMoleculesAndAtoms === true){//................CONDIÇÃO PARA CARREGAR NOVAS MOLÉCULAS
+				hasMoleculesAndAtoms = false;//................................................ACIONA O TEMPORIZADOR PARA CARREGAR MOLÉCULAS
+				setTimeout(function() {
+						loadMolecules();//.......................................................CARREGAR NOVAS MOLÉCULAS
+						hasMoleculesAndAtoms = true;
+				}, 2000);
+		}
 
 // OUTROS----------------------------------------------------------------------------------------------------------------------
 
@@ -106,6 +131,7 @@ function loop(){
 		ctx.fillStyle = "white";
 		ctx.font = "15px Arial";
 		ctx.fillText("aloneAtoms.length: " + aloneAtoms.length, 10, 400);
+		ctx.fillText("molecules.length: " + molecules.length, 10, 420);
 		ctx.closePath();
 
 //-----------------------------------------------------------------------------------------------------------------------------
@@ -140,7 +166,7 @@ var ctx = canvas.getContext("2d");
 //	Game.start() ...
 //	Game contém todos os métodos do Controller
 //	Tudo abaixo
-var hasMolecules = true;// colocar numa classe game
+var hasMoleculesAndAtoms = true;// colocar numa classe game
 var hasShip = true;// colocar numa classe game
 var lifes = 3;// colocar numa classe game
 var ship;// colocar numa classe game
