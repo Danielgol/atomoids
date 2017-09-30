@@ -180,7 +180,8 @@ function loop(){
 function loadMolecules(lvl){
 
 	for(i = 0; i<(lvl+5); i++){
-		molecules.push(createMolecule(canvas.width, canvas.height, 1));
+		var moleculeId = Math.floor(Math.random() * 2 + 1);
+		molecules.push(createMolecule(canvas.width, canvas.height, moleculeId));
 	}
 
 	//  if(lvl === 1){
@@ -225,9 +226,6 @@ function loadMolecules(lvl){
 	//  }
 }
 
-
-var time = 180
-
 function countTime(){
 	if(isPaused===false){
 		time -= 1;
@@ -248,14 +246,13 @@ function start(){
 
 		setTimeout(function() {
 			IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
+			setInterval(countTime, 1000);
 		}, 2000);
 
 		// setInterval(function() {
 		// 	var audio = new Audio('./../../sounds/music.m4a');
 		// 	audio.play();
 		// }, 1800);
-
-		setInterval(countTime, 1000);
 
 		setTimeout(function() {
 			imortality = false;
@@ -273,6 +270,7 @@ var ctx = canvas.getContext("2d");
 //	Game contém todos os métodos do Controller
 //	Tudo abaixo
 
+var time = 180;
 var contador = 0;
 var imortality = true;
 var level = 1;
