@@ -10,28 +10,70 @@
     </head>
     <body>
 
-         <form id="form1">
-            <table border="1">
-              <tr><td><input type="text" id="nameBox"></td>
-              <td><input type="submit" value="Submeter"></td></tr>
-            </table>
-         </form>
+        <script type="text/javascript">
 
-         <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
+            //var db = new PouchDB('ranking');
+            var score;
 
-         <script type="text/javascript" src="javascripts/SAT.js">//DEVERIA SER PELO: var SAT = require('sat');</script>
-         <script type="text/javascript" src="javascripts/controller/Keyboard.js"></script>
-         <script type="text/javascript" src="javascripts/model/Score.js"></script>
-         <script type="text/javascript" src="javascripts/model/Ship.js"></script>
-         <script type="text/javascript" src="javascripts/model/Molecule.js"></script>
-         <script type="text/javascript" src="javascripts/model/Shot.js"></script>
-         <script type="text/javascript" src="javascripts/view/DrawScreen.js"></script>
-         <script type="text/javascript" src="javascripts/view/DrawShip.js"></script>
-         <script type="text/javascript" src="javascripts/view/DrawMolecule.js"></script>
-         <script type="text/javascript" src="javascripts/view/DrawShot.js"></script>
-         <script type="text/javascript" src="javascripts/controller/CreateShip.js"></script>
-         <script type="text/javascript" src="javascripts/controller/CreateMolecule.js"></script>
-         <script type="text/javascript" src="javascripts/controller/Execute.js"></script>
+            function addScoreIntoDB(){
+                score.playerName = window.document.formulario.playerName.value;
+                //score.id = tamanhoDoBanco.length;
+                alert("Nome: "+score.playerName+" Placar: "+score.score);
+                // db.put(score, function callback(error, result){
+                //     if(!error){
+                       clearFields();
+                //     }
+                // });
+            }
+            function clearFields(){
+                window.document.formulario.playerName.value = "";
+                score.score = 0;
+            }
+        </script>
+
+        <script type="text/javascript">
+
+            function showRanking(){
+            //     db.allDocs({include_docs: true, descending: true},
+            //                 function(err, doc){
+            //                       showRankingAlert(doc.rows);
+            //                 });
+                  alert("SHOW");
+            }
+            // function showRankingAlert(data) {
+            //     var str = "";
+            //
+            //     for(var i=0; i<data.length;i++){
+            //         str += "| Name: "+data[i].doc.playerName+
+            //                "Placar: "+data[i].doc.score;
+            //     }
+            //     alert(str);
+            // }
+        </script>
+
+        <form name="formulario" id="form1">
+          <table border="1">
+            <tr><td><input type="text" name="playerName"></td>
+            <td><input type="button" value="Submeter" onclick="addScoreIntoDB()"></td></tr>
+            <tr><td><input type="button" value="Mostrar Ranking" onclick="showRanking()"></td></tr>
+          </table>
+        </form>
+
+        <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
+
+        <script type="text/javascript" src="javascripts/SAT.js">//DEVERIA SER PELO: var SAT = require('sat');</script>
+        <script type="text/javascript" src="javascripts/controller/Keyboard.js"></script>
+        <script type="text/javascript" src="javascripts/model/Score.js"></script>
+        <script type="text/javascript" src="javascripts/model/Ship.js"></script>
+        <script type="text/javascript" src="javascripts/model/Molecule.js"></script>
+        <script type="text/javascript" src="javascripts/model/Shot.js"></script>
+        <script type="text/javascript" src="javascripts/view/DrawScreen.js"></script>
+        <script type="text/javascript" src="javascripts/view/DrawShip.js"></script>
+        <script type="text/javascript" src="javascripts/view/DrawMolecule.js"></script>
+        <script type="text/javascript" src="javascripts/view/DrawShot.js"></script>
+        <script type="text/javascript" src="javascripts/controller/CreateShip.js"></script>
+        <script type="text/javascript" src="javascripts/controller/CreateMolecule.js"></script>
+        <script type="text/javascript" src="javascripts/controller/Execute.js"></script>
 
     </body>
 </html>

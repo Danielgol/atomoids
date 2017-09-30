@@ -50,8 +50,7 @@ function loop(){
 
 			clearInterval(IntervalId);// INTERROMPE O LOOP;
 
-			//	FAZ A MINI "TELINHA" DE SUBMISSÃO
-			ctx.beginPath();ctx.lineWidth = 2;
+			ctx.beginPath();ctx.lineWidth = 2;//	FAZ A MINI "TELINHA" DE SUBMISSÃO
 			ctx.moveTo((canvas.width/2)-250, (canvas.height/2)-150 );
 			ctx.lineTo((canvas.width/2)-250, (canvas.height/2)+150 );
 			ctx.lineTo((canvas.width/2)+250, (canvas.height/2)+150 );
@@ -69,16 +68,11 @@ function loop(){
 			//	TORNA O CAMPO DE TEXTO VISIVEL: https://stackoverflow.com/questions/3961422/conditional-display-of-html-element-forms
 			document.getElementById("form1").style.visibility="visible";
 
-			//ISSUE:	Aparecer o campo para digitar o nome + submit + validação (nome vazio, caracteres..., fazer depois)
-			//ISSUE:	Salvar o score no banco
-			//ISSUE: 	Quit (reiniciar sem salvar o score, o reiniciar é para depois)
-
 		}
 
 		//X-------------------------------------------------------------------------------------------------------X
 
 }
-
 
 
 function start(){
@@ -102,13 +96,12 @@ function start(){
 }
 
 
-
 var canvas = document.getElementById("mycanvas");
 var ctx = canvas.getContext("2d");
 
 var molecules = [];
 var shots = [];
-var score;
+//var score;
 var IntervalId;
 var ship;
 

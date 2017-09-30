@@ -1,14 +1,12 @@
 
 function Score(){
 
+  this.id = 0;
   this.score = 0;
   this.playerName = "";
-  //this.date = "...";
 
   this.increaseScore = function(i){
-
-    this.score += i;
-    
+      this.score += i;
   }
 
 }
