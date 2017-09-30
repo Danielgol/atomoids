@@ -180,7 +180,7 @@ function loop(){
 function loadMolecules(lvl){
 
 	for(i = 0; i<(lvl+5); i++){
-		var moleculeId = Math.floor(Math.random() * 2 + 1);
+		var moleculeId = Math.floor(Math.random() * 5 + 1);
 		molecules.push(createMolecule(canvas.width, canvas.height, moleculeId));
 	}
 
