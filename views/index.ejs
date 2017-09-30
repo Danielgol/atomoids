@@ -3,22 +3,42 @@
 <html lang="pt-br">
     <head>
         <meta charset="utf-8">
-        <title>Atomoids_INDEX</title>
+        <title>Atomoids_Index</title>
+        <script src="javascripts/pouchdb-6.2.0.min.js"></script>
+        <link rel="stylesheet" href="stylesheets/style.css">
     </head>
     <body>
 
-      <table border="1"><tr><td>APERTE ESPAÇO PARA JOGAR</td></tr></table>
+      <script type="text/javascript">
+          window.onkeydown = keyPressed;
+          function keyPressed(event){
+          	  switch(event.keyCode){
+      	         case 32:
+                    window.location.replace("/game");
+  	             break;
+  	           }
+  	      }
 
-      <script>
-        window.onkeydown = keyPressed;
-        function keyPressed(event){
-        	  switch(event.keyCode){
-    	         case 32:
-                  window.location.replace("/game");
-	             break;
-	           }
-	      }
+          var db = new PouchDB('atomoids_ranking');
+
+          function showRanking(){
+              var scores = null;
+              db.allDocs({include_docs: true, descending: true}).then(function(docs){
+                scores = docs.rows;
+                var string = "SCORES: \n";
+                for(var f = 0; f<scores.length; f++){
+                    string += "Name: "+scores[f].doc.name+" Score:"+scores[f].doc.points+"\n";
+                }
+                alert(string);
+              });
+          }
       </script>
+
+      <table border="1" style="color: white;">
+        <tr><td><%= message %></td></tr>
+        <tr><td>APERTE ESPAÇO PARA JOGAR</td></tr>
+        <tr><td><input type="button" value="Mostrar Ranking" onclick="showRanking()"></td></tr>
+      </table>
 
     </body>
 </html>
