@@ -12,4 +12,11 @@ function Molecule(angle, atoms){
 		}
 	}
 
+  this.divide = function(aloneAtoms){
+    for(var i=0; i<this.atoms.length; i++){
+      aloneAtoms.push(this.atoms[i]);
+    }
+    return aloneAtoms;
+  }
+
 }

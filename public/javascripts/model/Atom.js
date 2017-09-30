@@ -2,6 +2,8 @@
 function Atom(circle){
 
 	this.circle = circle;
+	this.angle = Math.floor((Math.random() * 359) + 1);
+	this.velocity = Math.floor((Math.random() * 1.5) + 1);
 
 	this.move = function(angle, velocity){
 			if ((angle < 90 || angle > 270) || (angle > 90 && angle < 270)) {//CIMA BAIXO

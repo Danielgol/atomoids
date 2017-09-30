@@ -44,7 +44,8 @@ function loop(){
 								var response = new SAT.Response();
 								var collided = SAT.testCircleCircle(molecules[i].atoms[j].circle, shots[x].circle, response);// VERIFICA A COLISÃO
 								if(collided === true){//..............................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
-									molecules[i].atoms.splice(j, 1);
+									aloneAtoms = molecules[i].divide(aloneAtoms);
+									molecules.splice(i, 1);
 									shots.splice(x, 1);//..................................................REMOVE O TIRO
 									score.points += 10;//..................................................AUMENTA O SCORE
 								}
@@ -74,6 +75,21 @@ function loop(){
 				// }
 		}
 
+		for(i = 0; i<aloneAtoms.length; i++){
+					aloneAtoms[i].move(aloneAtoms[i].angle, aloneAtoms[i].velocity);
+					aloneAtoms[i].obeyLimit(canvas.width, canvas.height);
+					drawAtom(ctx, aloneAtoms[i].circle);
+					for(x = 0; x<shots.length; x++){
+							var response = new SAT.Response();
+							var collided = SAT.testCircleCircle(aloneAtoms[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO
+							if(collided === true){//..............................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
+								aloneAtoms.splice(i, 1);
+								shots.splice(x, 1);//..................................................REMOVE O TIRO
+								score.points += 10;//..................................................AUMENTA O SCORE
+							}
+					}
+		}
+
 		// if(molecules.length === 0 && hasMolecules === true){//................CONDIÇÃO PARA CARREGAR NOVAS MOLÉCULAS
 		// 		hasMolecules = false;//................................................ACIONA O TEMPORIZADOR PARA CARREGAR MOLÉCULAS
 		// 		setTimeout(function() {
@@ -85,6 +101,12 @@ function loop(){
 // OUTROS----------------------------------------------------------------------------------------------------------------------
 
 		drawScore(ctx, score.points, (canvas.width/2)-5, 20);//.......................EXIBE O SCORE ATUAL
+
+		ctx.beginPath();
+		ctx.fillStyle = "white";
+		ctx.font = "15px Arial";
+		ctx.fillText("aloneAtoms.length: " + aloneAtoms.length, 10, 400);
+		ctx.closePath();
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
@@ -123,6 +145,7 @@ var hasShip = true;// colocar numa classe game
 var lifes = 3;// colocar numa classe game
 var ship;// colocar numa classe game
 var shots = [];// colocar numa classe game
+var aloneAtoms = [];
 var molecules = [];// colocar numa classe game
 var IntervalId;// colocar numa classe game
 var score = {// colocar numa classe game
