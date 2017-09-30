@@ -62,8 +62,8 @@ function loop(){
 			ctx.clearRect((canvas.width/2)-250, (canvas.height/2)-150, 500, 300);
 			ctx.beginPath();
 		  ctx.fillStyle = "white";
-		  ctx.font = "20px Arial";
-		  ctx.fillText("FIM DO JOGO!", (canvas.width/2)-70, (canvas.height/2)-100);
+		  ctx.font = "17px Arial";
+		  ctx.fillText("FIM DO JOGO!", (canvas.width/2)-60, (canvas.height/2)-100);
 		  ctx.closePath();
 
 			//	TORNA O CAMPO DE TEXTO VISIVEL: https://stackoverflow.com/questions/3961422/conditional-display-of-html-element-forms

@@ -7,21 +7,34 @@
         <style>
             canvas {
                 position: absolute;
-                background-color: #101010;
+                background-color: green;
                 width:  70%;
                 height: 90%;
                 top: 5%;
                 left: 15%;
                 margin: 0px;
+                z-index: 1; /*https://developer.mozilla.org/pt-BR/docs/Web/CSS/z-index?v=control*/
             }
             body {
                 background-color: #101010;
+            }
+            table {
+                position: absolute;
+                left: 41%;
+                top: 55%;
+                z-index: 2;
+                visibility: hidden;
+            }
+            input {
+                width:  150%;
             }
         </style>
     </head>
     <body>
 
-         <input type="text" style="visibility: hidden;" id="nameBox">
+         <table border="1">
+           <tr><td><input type="text" style="visibility: hidden;" id="nameBox"></td></tr>
+         </table>
 
          <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
 
@@ -38,8 +51,6 @@
          <script type="text/javascript" src="./controller/CreateShip.js"></script>
          <script type="text/javascript" src="./controller/CreateMolecule.js"></script>
          <script type="text/javascript" src="./controller/Execute.js"></script>
-
-
 
     </body>
 </html>
