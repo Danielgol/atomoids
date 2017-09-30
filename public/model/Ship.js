@@ -79,11 +79,10 @@ function Ship(triangle, centerX, centerY){
 	}
 
 	this.respawn = function(centerX, centerY){
-
+			// PENSAR EM COMO ZERAR O ANGULO
 			this.triangle.translate(-this.x, -this.y);
 			this.x = centerX;
 			this.y = centerY;
-			// PENSAR EM COMO ZERAR O ANGULO
 			this.triangle.translate(this.x, this.y);
 	}
 

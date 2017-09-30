@@ -7,7 +7,7 @@
         <style>
             canvas {
                 position: absolute;
-                background-color: green;
+                background-color: #101010;
                 width:  70%;
                 height: 90%;
                 top: 5%;
@@ -20,25 +20,28 @@
             }
             table {
                 position: absolute;
-                left: 41%;
+                left: 43.8%;
                 top: 55%;
                 z-index: 2;
-                visibility: hidden;
+                border: 0px;
             }
-            input {
-                width:  150%;
+            form {
+                visibility: hidden;
             }
         </style>
     </head>
     <body>
 
-         <table border="1">
-           <tr><td><input type="text" style="visibility: hidden;" id="nameBox"></td></tr>
-         </table>
+         <form id="form1">
+            <table border="1">
+              <tr><td><input type="text" id="nameBox"></td>
+              <td><input type="submit" value="Submeter"></td></tr>
+            </table>
+         </form>
 
          <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
 
-         <script type="text/javascript" src="./node_modules/sat/SAT.js"></script>
+         <script type="text/javascript" src="./SAT.js">//DEVERIA SER PELO: var SAT = require('sat');</script>
          <script type="text/javascript" src="./controller/Keyboard.js"></script>
          <script type="text/javascript" src="./model/Score.js"></script>
          <script type="text/javascript" src="./model/Ship.js"></script>

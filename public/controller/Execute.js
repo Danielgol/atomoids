@@ -67,7 +67,7 @@ function loop(){
 		  ctx.closePath();
 
 			//	TORNA O CAMPO DE TEXTO VISIVEL: https://stackoverflow.com/questions/3961422/conditional-display-of-html-element-forms
-			document.getElementById("nameBox").style.visibility="visible";
+			document.getElementById("form1").style.visibility="visible";
 
 			//ISSUE:	Aparecer o campo para digitar o nome + submit + validação (nome vazio, caracteres..., fazer depois)
 			//ISSUE:	Salvar o score no banco
