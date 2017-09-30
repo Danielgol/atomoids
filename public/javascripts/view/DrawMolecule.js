@@ -1,4 +1,5 @@
 
+//@Deprecated
 function drawMolecule(ctx, circle){
 
     ctx.beginPath();

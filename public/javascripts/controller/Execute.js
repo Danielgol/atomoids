@@ -28,18 +28,11 @@ function loop(){
 				}
 		}
 
-// PARTE DA MOLECULA + COLISÕES ----------------------------------------------------------------------------------------------
+// PARTE DAS MOLECULAS E ATOMOS + COLISÕES ------------------------------------------------------------------------------------
 
 		for(i = 0; i<molecules.length; i++){
-
 				molecules[i].move();//....................................................MOVE A MOLECULA
-				//molecules[i].obeyLimit(canvas.width, canvas.height);//....................FAZ COM QUE A MOLECULA OBEDEÇA OS LIMITES DA TELA
-				//drawMolecule(ctx, molecules[i].atoms);//.................................DESENHA A MOLECULA
-
-
-						//Está dando erro: Unable to get property 'circle' of undefined or null reference
 				for(j = 0; j<molecules[i].atoms.length; j++){
-
 						for(x = 0; x<shots.length; x++){
 								var response = new SAT.Response();
 								var collided = SAT.testCircleCircle(molecules[i].atoms[j].circle, shots[x].circle, response);// VERIFICA A COLISÃO
@@ -50,7 +43,6 @@ function loop(){
 									score.points += 10;//..................................................AUMENTA O SCORE
 								}
 						}
-
 						if(hasShip === true){
 								var response = new SAT.Response();
 								var collided = SAT.testPolygonCircle(ship.triangle, molecules[i].atoms[j].circle, response);// VERIFICA A COLISÃO
@@ -72,11 +64,7 @@ function loop(){
 										}, 2000);
 								}
 						}
-
 				}
-
-				//COLISÃO (NAVE COM MOLECULAS);
-
 		}
 
 		for(i = 0; i<aloneAtoms.length; i++){
@@ -92,7 +80,6 @@ function loop(){
 							score.points += 10;//..................................................AUMENTA O SCORE
 						}
 				}
-
 				if(hasShip === true){
 						var response = new SAT.Response();
 						var collided = SAT.testPolygonCircle(ship.triangle, aloneAtoms[i].circle, response);// VERIFICA A COLISÃO
@@ -127,17 +114,16 @@ function loop(){
 
 		drawScore(ctx, score.points, (canvas.width/2)-5, 20);//.......................EXIBE O SCORE ATUAL
 
-		ctx.beginPath();
-		ctx.fillStyle = "white";
-		ctx.font = "15px Arial";
-		ctx.fillText("aloneAtoms.length: " + aloneAtoms.length, 10, 400);
-		ctx.fillText("molecules.length: " + molecules.length, 10, 420);
-		ctx.closePath();
+		// ctx.beginPath();
+		// ctx.fillStyle = "white";
+		// ctx.font = "15px Arial";
+		// ctx.fillText("aloneAtoms.length: " + aloneAtoms.length, 10, 400);
+		// ctx.fillText("molecules.length: " + molecules.length, 10, 420);
+		// ctx.closePath();
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
 }
-
 
 
 function loadMolecules(){
@@ -148,14 +134,12 @@ function loadMolecules(){
 }
 
 
-
 function start(){
 		ship = createShip(canvas.width/2, canvas.height/2);
 		loadMolecules();
 		drawScreen(ctx, canvas.width, canvas.height);
 		IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
 }
-
 
 
 var canvas = document.getElementById("mycanvas");
