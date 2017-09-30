@@ -18,17 +18,19 @@ function createMolecule(width, height, type){
 		var circle3 = new SAT.Circle(new SAT.Vector(x, y+25), 15);
 		var circle4 = new SAT.Circle(new SAT.Vector(x+20, y+10), 15);
 
-		var atom1 = new Atom(circle1);
-		var atom2 = new Atom(circle2);
-		var atom3 = new Atom(circle3);
-		var atom4 = new Atom(circle4);
+		var angle = Math.floor((Math.random() * 359) + 1);
+
+		var atom1 = new Atom(circle1, angle);
+		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1));
+		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1));
+		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1));
 
 		atoms.push(atom1);
 		atoms.push(atom2);
 		atoms.push(atom3);
 		atoms.push(atom4);
 
-		var molecule = new Molecule(Math.floor((Math.random() * 359) + 1), atoms);
+		var molecule = new Molecule(atoms, angle);
 
 		return molecule;
 
@@ -43,15 +45,17 @@ function createMolecule(width, height, type){
 		var circle2 = new SAT.Circle(new SAT.Vector(x-25, y+25), 25);
 		var circle3 = new SAT.Circle(new SAT.Vector(x+35, y+25), 25);
 
-		var atom1 = new Atom(circle1);
-		var atom2 = new Atom(circle2);
-		var atom3 = new Atom(circle3);
+		var angle = Math.floor((Math.random() * 359) + 1);
+
+		var atom1 = new Atom(circle1, angle);
+		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1));
+		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1));
 
 		atoms.push(atom1);
 		atoms.push(atom2);
 		atoms.push(atom3);
 
-		var molecule = new Molecule(Math.floor((Math.random() * 359) + 1), atoms);
+		var molecule = new Molecule(atoms, angle);
 
 		return molecule;
 

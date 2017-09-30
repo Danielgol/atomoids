@@ -1,8 +1,8 @@
 
-function Atom(circle){
+function Atom(circle, angle){
 
 	this.circle = circle;
-	this.angle = Math.floor((Math.random() * 359) + 1);
+	this.angle = angle;
 	this.velocity = 1;//Math.floor((Math.random() * 1) + 1);
 
 	this.move = function(angle, velocity){

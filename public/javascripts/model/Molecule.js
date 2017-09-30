@@ -1,9 +1,9 @@
 
-function Molecule(angle, atoms){
+function Molecule(atoms, angle){
 
+  this.atoms = atoms;
   this.angle = angle;
-	this.atoms = atoms;
-
+  
 	this.move = function(){
 		for(var i = 0; i<this.atoms.length; i++){
 			this.atoms[i].move(this.angle, 1);
