@@ -254,7 +254,7 @@ var ctx = canvas.getContext("2d");
 //	Game contém todos os métodos do Controller
 //	Tudo abaixo
 
-var time = 60; var seconds = 0;
+var time = 600; var seconds = 0;
 var contador = 0;
 var imortality = true;
 var level = 1;
