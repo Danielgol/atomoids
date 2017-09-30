@@ -2,34 +2,62 @@
 function Ship(triangle, centerX, centerY){
 
 	this.triangle = triangle;
-	this.angle = 0;
 	this.x = centerX;
 	this.y = centerY;
-	this.energy = 15;
-	this.aceleration = 0.005;
-	this.velocity = 0;
-
+	this.angle = 0;
 	this.resultingAngle = 0;
+	this.forceX = 0;
+	this.forceY = 0;
+	this.energy = 15;
 
-	this.acelerate = function(){
-			if(this.velocity <= 1.5){
-				this.velocity += this.aceleration;
-			}
+	this.applyForces = function(){
+		this.triangle.translate(-this.x, -this.y);
+		this.x += this.forceX;
+		this.y -= this.forceY;
+		this.triangle.translate(this.x, this.y);
 	}
 
-	this.inertia = function(){
-			if(this.velocity >= 0){
+	this.slide = function(){
+				var delay = 0.001;
+				if (this.forceX > 0) {
+						if (this.forceX - delay > 0) {
+								this.forceX -= delay;
+						} else {
+								this.forceX = 0;
+						}
+				} else if (this.forceX < 0) {
+						if (this.forceX + delay < 0) {
+								this.forceX += delay;
+						} else {
+								this.forceX = 0;
+						}
+				}
+				if (this.forceY > 0) {
+						if (this.forceY - delay > 0) {
+								this.forceY -= delay;
+						} else {
+								this.forceY = 0;
+						}
+				} else if (this.forceY < 0) {
+						if (this.forceY + delay < 0) {
+								this.forceY += delay;
+						} else {
+								this.forceY = 0;
+						}
+				}
+	}
 
-				this.velocity -= 0.001;
-
-				this.triangle.translate(-this.x, -this.y);
-				if ((this.resultingAngle < 90 || this.resultingAngle > 270) || (this.resultingAngle > 90 && this.resultingAngle < 270)) {//CIMA BAIXO
-			           this.y -= Math.cos(this.resultingAngle * Math.PI / 180) * this.velocity;
-			  }
-			  if ((this.resultingAngle < 360 && this.resultingAngle > 180) || (this.resultingAngle < 180 && this.resultingAngle > 0)) { //DIREITA ESQUERDA
-			           this.x += Math.sin(this.resultingAngle * Math.PI / 180) * this.velocity;
-			  }
-				this.triangle.translate(this.x, this.y);
+	this.regulateForcesLimit = function(){
+		  var maxVelocity = 1.5;
+			if (this.forceX > maxVelocity) {
+					this.forceX = maxVelocity;
+			} else if (this.forceX < (-maxVelocity)) {
+					this.forceX = (-maxVelocity);
+			}
+			if (this.forceY > maxVelocity) {
+					this.forceY = maxVelocity;
+			} else if (this.forceY < (-maxVelocity)) {
+					this.forceY = (-maxVelocity);
 			}
 	}
 
@@ -46,27 +74,13 @@ function Ship(triangle, centerX, centerY){
 	}
 
 	this.boost = function(){
-
-			this.acelerate();
-			// this.triangle.translate(-this.x, -this.y);
-			// if ((this.angle < 90 || this.angle > 270) || (this.angle > 90 && this.angle < 270)) {//CIMA BAIXO
-		  //          this.y -= Math.cos(this.angle * Math.PI / 180) * 1;
-		  // }
-		  // if ((this.angle < 360 && this.angle > 180) || (this.angle < 180 && this.angle > 0)) { //DIREITA ESQUERDA
-		  //          this.x += Math.sin(this.angle * Math.PI / 180) * 1;
-		  // }
-			// this.triangle.translate(this.x, this.y);
-
 			this.resultingAngle = this.angle;
-
-			this.triangle.translate(-this.x, -this.y);
 			if ((this.angle < 90 || this.angle > 270) || (this.angle > 90 && this.angle < 270)) {//CIMA BAIXO
-		           this.y -= Math.cos(this.angle * Math.PI / 180) * this.velocity;
+		           this.forceY += Math.cos(this.angle * Math.PI / 180) * 0.006;
 		  }
 		  if ((this.angle < 360 && this.angle > 180) || (this.angle < 180 && this.angle > 0)) { //DIREITA ESQUERDA
-		           this.x += Math.sin(this.angle * Math.PI / 180) * this.velocity;
+		           this.forceX += Math.sin(this.angle * Math.PI / 180) * 0.006;
 		  }
-			this.triangle.translate(this.x, this.y);
 	}
 
 	this.turn = function(i){

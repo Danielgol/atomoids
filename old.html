@@ -1,0 +1,816 @@
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Atomoids</title>
+        <style>
+            body, canvas {
+                position: absolute;
+                background-color: #101010; /*cinza muito escuro*/
+                width:  100%;
+                height: 100%;
+                margin: 0px;
+                /*            canvas {
+                position: absolute;
+                left: 28%;
+                top: 50%;
+                background-color: black;
+                margin-top: -300px;
+                margin-left: -300px;
+            }*/
+            }
+
+        </style>
+    </head>
+    <body>
+        <canvas height="600" width="1200" id="mycanvas">O seu browser não suporta canvas</canvas>
+        <script>
+
+            var canvas = document.getElementById("mycanvas");
+            var ctx = canvas.getContext("2d");
+
+            //Lista de comandos digitados "simultaneamente"
+            var teclas = [];
+
+            //Objeto Nave (Não é uma classe, mas um Objeto)
+            var nave = {
+                x: canvas.width / 2, y: canvas.height / 2, //centro
+
+                forcaX: 0,
+                forcaY: 0,
+                aceleracao: 0,
+                angulo: 0,
+                anguloResultante: 0,
+                energia: 0
+            };
+
+            //lista dos tiros que estão soltos
+            var tiros = [];
+            //lista dos atomos soltos
+            var atomos = [];
+            //lista das moleculas
+            var moleculas = [];
+
+            var vidas = 3;
+            var pontos = 0;
+
+            var velocidadeMax = 0; //do nível das moleculas/atomos
+            var aceleracao = 0.0000015; // do nível das moleculas/atomos
+
+            function Tiro(x, y, angulo) {
+                this.x = x;
+                this.y = y;
+
+                this.limite = 80;
+                this.velocidade = 4;
+                this.angulo = angulo;
+                this.raio = 2.5;
+            }
+
+            function Atomo() {
+
+                this.x = ((Math.random() * 1200) + 0);
+                this.y = ((Math.random() * 600) + 0);
+
+                //https://www.w3schools.com/jsref/jsref_random.asp
+                this.velocidade = (Math.floor((Math.random() * 14) + 4)) / 10;
+                //this.velocidade = 0;
+                this.angulo = Math.floor((Math.random() * 3590) + 10) / 10;//Gera um número aleatório entre 0 e 359
+                this.raio = Math.floor((Math.random() * 50) + 10);
+
+                //EXCLUSIVO DE MOLECULA
+                this.posicaoNaMolecula = 0;//Só quando faz parte de uma molecula.
+                //Que distancia do centro da molecula o átomo vai ficar.
+
+                //this.elemento = "H";
+
+            }
+
+            function Molecula() {
+
+                this.atomos = [];
+
+                this.vida = 0;
+
+                this.x = ((Math.random() * 1200) + 0);//ponto central
+                this.y = ((Math.random() * 600) + 0);//ponto central
+
+                this.velocidade = (Math.floor((Math.random() * 14) + 4)) / 100;
+
+                this.angulo = Math.floor((Math.random() * 3590) + 10) / 10; //angulo para onde a molecula anda, não para onde ela gira
+
+            }
+
+            //Reconhece o teclado
+            document.addEventListener("keydown", function (e) {
+                teclas[e.keyCode] = true;
+                //alert(e.keyCode);
+            }, false);
+            document.addEventListener("keyup", function (e) {
+                delete teclas[e.keyCode];
+            }, false);
+
+            function comandos() {
+
+                if (38 in teclas) {//cima
+                    nave.aceleracao = 0.006;
+                    //http://stackoverflow.com/questions/17835144/math-cos-delivers-wrong-result
+                    //CIMA
+                    if (nave.angulo < 90 || nave.angulo > 270) {
+                        nave.forcaY += (Math.cos(nave.anguloResultante * Math.PI / 180) * nave.aceleracao);//pq sobe
+                    }
+                    //BAIXO
+                    if (nave.angulo > 90 && nave.angulo < 270) {
+                        nave.forcaY += (Math.cos(nave.anguloResultante * Math.PI / 180) * nave.aceleracao);//pq desce
+                    }
+                    //ESQUERDA
+                    if (nave.angulo < 360 && nave.angulo > 180) {
+                        nave.forcaX += Math.sin(nave.anguloResultante * Math.PI / 180) * nave.aceleracao;
+                    }
+                    //DIREITA
+                    if (nave.angulo < 180 && nave.angulo > 0) {
+                        nave.forcaX += Math.sin(nave.anguloResultante * Math.PI / 180) * nave.aceleracao;
+                    }
+                    nave.anguloResultante = nave.angulo;
+
+                }
+                if (39 in teclas) {//direita
+                    nave.angulo += 1.5;
+                }
+                if (37 in teclas) {//esquerda
+                    nave.angulo -= 1.5;
+                }
+
+                if (90 in teclas) {//Z-tiro ERRO KEYBOARD GHOSTING não permite up+right+space simultaneamente :(
+                    if (nave.energia >= 1) {
+                        var x2 = nave.x;
+                        x2 -= (15) * Math.cos((nave.angulo + 90) * Math.PI / 180);
+                        var y2 = nave.y;
+                        y2 -= (15) * Math.sin((nave.angulo + 90) * Math.PI / 180);
+                        tiros.push(new Tiro(x2, y2, nave.angulo));
+                        //tiros.push(new Tiro(nave.x, nave.y, nave.angulo));
+                        nave.energia -= 1;
+                    }
+                }
+            }
+
+            function desenharTiros() {
+                for (i = 0; i < tiros.length; i++) {
+
+                    //direciona os tiros
+                    tiros[i].x += Math.sin(tiros[i].angulo * Math.PI / 180) * tiros[i].velocidade;
+                    tiros[i].y -= Math.cos(tiros[i].angulo * Math.PI / 180) * tiros[i].velocidade;
+                    tiros[i].limite -= 1;//vai diminuindo o alcance do tiro
+
+                    //Limites da tela
+                    if (tiros[i].y < -tiros[i].raio) {
+                        tiros[i].y += canvas.height + tiros[i].raio;
+                    } else if (tiros[i].y > canvas.height + tiros[i].raio) {
+                        tiros[i].y -= canvas.height + tiros[i].raio;
+                    } else if (tiros[i].x < -tiros[i].raio) {
+                        tiros[i].x += canvas.width + tiros[i].raio;
+                    } else if (tiros[i].x > canvas.width + tiros[i].raio) {
+                        tiros[i].x -= canvas.width + tiros[i].raio;
+                    }
+
+                    //https://www.w3schools.com/tags/canvas_arc.asp
+                    ctx.beginPath();
+                    ctx.fillStyle = "white";
+                    ctx.arc(tiros[i].x, tiros[i].y, tiros[i].raio, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.closePath();
+
+                    //mede a distancia dos tiros para os atomos
+                    for (x = 0; x < atomos.length; x++) {
+                        if (medirDistancia(tiros[i].x, tiros[i].y, atomos[x]) <= tiros[i].raio + atomos[x].raio) {
+                            atomos.splice(x, 1);
+                            tiros.splice(i, 1);
+//                            x -= 1;
+//                            i -= 1;
+                        }
+                    }
+
+                    //mede a distancia dos tiros para as moleculas
+                    for (x = 0; x < moleculas.length; x++) {
+                        for (j = 0; j < moleculas[x].atomos.length; j++) {
+                            if (medirDistancia(tiros[i].x, tiros[i].y, moleculas[x].atomos[j]) <= tiros[i].raio + moleculas[x].atomos[j].raio) {
+                                tiros.splice(i, 1);
+                                moleculas[x].atomos = quebrarMolecula(moleculas[x]);
+//                                i -= 1;
+                            }
+                        }
+                    }
+
+                    //excluir os tiros que atingiram o limite de distancia
+                    if (tiros[i].limite <= 0) {
+                        tiros.shift();//remove
+                    }
+                }
+            }
+
+            function desenharAtomos() {
+                for (i = 0; i < atomos.length; i++) {
+
+                    atomos[i].velocidade += aceleracao;
+
+                    atomos[i].x += Math.sin(atomos[i].angulo * Math.PI / 180) * atomos[i].velocidade;
+                    atomos[i].y -= Math.cos(atomos[i].angulo * Math.PI / 180) * atomos[i].velocidade;
+
+                    //Limites
+                    if (atomos[i].y < -atomos[i].raio) {
+                        atomos[i].y += canvas.height + atomos[i].raio;
+                    } else if (atomos[i].y > canvas.height + atomos[i].raio) {
+                        atomos[i].y -= canvas.height + atomos[i].raio;
+                    } else if (atomos[i].x < -atomos[i].raio) {
+                        atomos[i].x += canvas.width + atomos[i].raio;
+                    } else if (atomos[i].x > canvas.width + atomos[i].raio) {
+                        atomos[i].x -= canvas.width + atomos[i].raio;
+                    }
+                    //https://www.w3schools.com/tags/canvas_arc.asp
+                    ctx.beginPath();
+                    ctx.fillStyle = "white";
+                    ctx.arc(atomos[i].x, atomos[i].y, atomos[i].raio, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.closePath();
+//                    ctx.fillStyle="black";
+//                    ctx.font = "20px Arial";
+//                    ctx.fillText(atomos[i].elemento, atomos[i].x-7, atomos[i].y+7);
+
+                }
+            }
+
+            function desenharMoleculas() {
+
+                for (i = 0; i < moleculas.length; i++) {
+
+                    moleculas[i].velocidade += aceleracao;
+
+                    for (x = 0; x < moleculas[i].atomos.length; x++) {
+
+                        //muda o angulo para girar a molecula
+                        moleculas[i].atomos[x].angulo += 0.5;
+
+                        //faz a molecula andar para uma direção
+                        moleculas[i].x += Math.sin(moleculas[i].angulo * Math.PI / 180) * moleculas[i].velocidade;
+                        moleculas[i].y -= Math.cos(moleculas[i].angulo * Math.PI / 180) * moleculas[i].velocidade;
+
+                        //faz a molecula girar
+                        moleculas[i].atomos[x].x = moleculas[i].x;
+                        moleculas[i].atomos[x].x -= (moleculas[i].atomos[x].posicaoNaMolecula) * Math.cos((moleculas[i].atomos[x].angulo) * Math.PI / 180);
+
+                        moleculas[i].atomos[x].y = moleculas[i].y;
+                        moleculas[i].atomos[x].y -= (moleculas[i].atomos[x].posicaoNaMolecula) * Math.sin((moleculas[i].atomos[x].angulo) * Math.PI / 180);
+
+                        //CONCERTAR ESSE ATOMOS[0]
+
+                        //limites da tela
+                        if (moleculas[i].y < -moleculas[i].atomos[0].raio) {
+                            moleculas[i].y += canvas.height + moleculas[i].atomos[0].raio;
+                        } else if (moleculas[i].y > canvas.height + moleculas[i].atomos[0].raio) {
+                            moleculas[i].y -= canvas.height + moleculas[i].atomos[0].raio;
+                        } else if (moleculas[i].x < -moleculas[i].atomos[0].raio) {
+                            moleculas[i].x += canvas.width + moleculas[i].atomos[0].raio;
+                        } else if (moleculas[i].x > canvas.width + moleculas[i].atomos[0].raio) {
+                            moleculas[i].x -= canvas.width + moleculas[i].atomos[0].raio;
+                        }
+
+                        ctx.beginPath();
+                        ctx.fillStyle = "white";
+                        ctx.arc(moleculas[i].atomos[x].x, moleculas[i].atomos[x].y, moleculas[i].atomos[x].raio, 0, 2 * Math.PI);
+                        ctx.fill();
+                        ctx.closePath();
+//                        ctx.fillStyle="black";
+//                        ctx.font = "20px Arial";
+//                        ctx.fillText(moleculas[i].atomos[x].elemento, moleculas[i].atomos[x].x-7, moleculas[i].atomos[x].y+7);
+
+                    }
+                }
+            }
+
+            function quebrarMolecula(molecula) {
+
+                var tamanho = molecula.atomos.length;
+
+                for (i = 0; i < tamanho; i++) {
+                    atomos.push(molecula.atomos[i]);
+                }
+
+                var tabelaVazia = [];
+                return tabelaVazia;
+            }
+
+            function colidiu() {
+                //ctx.fillText("BUUUUMM", 10, 540);
+                nave.x = canvas.width / 2;
+                nave.y = canvas.height / 2;
+                nave.angulo = 0;
+                nave.anguloResultante = 0;
+                nave.forcaX = 0;
+                nave.forcaY = 0;
+                nave.aceleracao = 0;
+                vidas -= 1;
+            }
+
+            //mede a distancia de um corpo até um atomo
+            function medirDistancia(x, y, atomo) {
+
+                var dist = 0;
+                if (x > atomo.x && y > atomo.y) {
+                    dist = Math.sqrt(Math.pow(x - atomo.x, 2) + Math.pow(y - atomo.y, 2));
+                } else if (x > atomo.x && y < atomo.y) {
+                    dist = Math.sqrt(Math.pow(x - atomo.x, 2) + Math.pow(atomo.y - y, 2));
+                } else if (x < atomo.x && y > atomo.y) {
+                    dist = Math.sqrt(Math.pow(atomo.x - x, 2) + Math.pow(y - atomo.y, 2));
+                } else if (x < atomo.x && y < atomo.y) {
+                    dist = Math.sqrt(Math.pow(atomo.x - x, 2) + Math.pow(atomo.y - y, 2));
+                }
+                return dist;
+            }
+
+            //cria uma molecula
+            function criarMolecula() {
+
+                var molecula = new Molecula();
+
+                molecula.atomos.push(new Atomo);
+                molecula.atomos.push(new Atomo);
+                molecula.atomos.push(new Atomo);
+                molecula.atomos.push(new Atomo);
+                molecula.atomos.push(new Atomo);
+
+                //raio dos atomos
+                molecula.atomos[0].raio = 40;
+                molecula.atomos[1].raio = 20;
+                molecula.atomos[2].raio = 20;
+                molecula.atomos[3].raio = 20;
+                molecula.atomos[4].raio = 20;
+
+                //em que angulo da molecula cada átomo vai ficar
+                molecula.atomos[2].angulo = molecula.atomos[1].angulo + 90;
+                molecula.atomos[3].angulo = molecula.atomos[1].angulo + 180;
+                molecula.atomos[4].angulo = molecula.atomos[1].angulo + 270;
+
+                //distancia do centro da molecula
+                molecula.atomos[0].posicaoNaMolecula = 0;
+                molecula.atomos[1].posicaoNaMolecula = molecula.atomos[0].raio;
+                molecula.atomos[2].posicaoNaMolecula = molecula.atomos[0].raio;
+                molecula.atomos[3].posicaoNaMolecula = molecula.atomos[0].raio;
+                molecula.atomos[4].posicaoNaMolecula = molecula.atomos[0].raio;
+
+                moleculas.push(molecula);
+
+//EXEMPLO: Anél benzênico
+//                    molecula.atomos.push(new Atomo);
+//                    molecula.atomos.push(new Atomo);
+//                    molecula.atomos.push(new Atomo);
+//                    molecula.atomos.push(new Atomo);
+//                    molecula.atomos.push(new Atomo);
+//                    molecula.atomos.push(new Atomo);
+//                    molecula.atomos.push(new Atomo);
+//                    molecula.atomos.push(new Atomo);
+//                    molecula.atomos.push(new Atomo);
+//                    molecula.atomos.push(new Atomo);
+//                    molecula.atomos.push(new Atomo);
+//                    molecula.atomos.push(new Atomo);
+//
+//                    //raio dos atomos
+//                    molecula.atomos[0].raio=20;
+//                    molecula.atomos[1].raio=20;
+//                    molecula.atomos[2].raio=20;
+//                    molecula.atomos[3].raio=20;
+//                    molecula.atomos[4].raio=20;
+//                    molecula.atomos[5].raio=20;
+//                    molecula.atomos[6].raio=10;
+//                    molecula.atomos[7].raio=10;
+//                    molecula.atomos[8].raio=10;
+//                    molecula.atomos[9].raio=10;
+//                    molecula.atomos[10].raio=10;
+//                    molecula.atomos[11].raio=10;
+//
+//                    //em que angulo da molecula cada átomo vai ficar
+//                    molecula.atomos[1].angulo=molecula.atomos[0].angulo+60;
+//                    molecula.atomos[2].angulo=molecula.atomos[0].angulo+120;
+//                    molecula.atomos[3].angulo=molecula.atomos[0].angulo+180;
+//                    molecula.atomos[4].angulo=molecula.atomos[0].angulo+240;
+//                    molecula.atomos[5].angulo=molecula.atomos[0].angulo+300;
+//                    molecula.atomos[6].angulo=molecula.atomos[0].angulo;
+//                    molecula.atomos[7].angulo=molecula.atomos[0].angulo+60;
+//                    molecula.atomos[8].angulo=molecula.atomos[0].angulo+120;
+//                    molecula.atomos[9].angulo=molecula.atomos[0].angulo+180;
+//                    molecula.atomos[10].angulo=molecula.atomos[0].angulo+240;
+//                    molecula.atomos[11].angulo=molecula.atomos[0].angulo+300;
+//
+//                    //distancia do centro da molecula
+//                    molecula.atomos[0].posicaoNaMolecula = 37;
+//                    molecula.atomos[1].posicaoNaMolecula = 37;
+//                    molecula.atomos[2].posicaoNaMolecula = 37;
+//                    molecula.atomos[3].posicaoNaMolecula = 37;
+//                    molecula.atomos[4].posicaoNaMolecula = 37;
+//                    molecula.atomos[5].posicaoNaMolecula = 37;
+//                    molecula.atomos[6].posicaoNaMolecula = molecula.atomos[0].posicaoNaMolecula+molecula.atomos[0].raio*1.2;
+//                    molecula.atomos[7].posicaoNaMolecula = molecula.atomos[1].posicaoNaMolecula+molecula.atomos[1].raio*1.2;
+//                    molecula.atomos[8].posicaoNaMolecula = molecula.atomos[2].posicaoNaMolecula+molecula.atomos[2].raio*1.2;
+//                    molecula.atomos[9].posicaoNaMolecula = molecula.atomos[3].posicaoNaMolecula+molecula.atomos[3].raio*1.2;
+//                    molecula.atomos[10].posicaoNaMolecula = molecula.atomos[4].posicaoNaMolecula+molecula.atomos[4].raio*1.2;
+//                    molecula.atomos[11].posicaoNaMolecula = molecula.atomos[5].posicaoNaMolecula+molecula.atomos[5].raio*1.2;
+            }
+
+// --------------MAIN-----------------------------------------------------------
+
+            function desenhar() {
+
+                //Limpar o rastro do triângulo
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                //QUADRADO BRANCO QUE VAI SER O LIMITE DA TELA
+                ctx.beginPath();
+                ctx.moveTo(200, 10);
+                ctx.lineTo(200, canvas.height - 10);
+                ctx.lineTo(canvas.width - 200, canvas.height - 10);
+                ctx.lineTo(canvas.width - 200, 10);
+                ctx.lineTo(200, 10);
+                ctx.strokeStyle = "white";
+                ctx.stroke();
+                ctx.closePath();
+
+                //ESSE CONJUNTO DE COMANDOS EXISTE PORQUE O SPLICE NÃO EXCLUIU AS MOLECULAS QUANDO ELAS SE QUEBRAM.
+                //GAMBIARRA ¯\_(ツ)_/¯
+                var newMoleculas = [];
+                for (i = 0; i < moleculas.length; i++) {
+                    if (moleculas[i].atomos.length > 0) {
+                        newMoleculas.push(moleculas[i]);
+                    }
+                }
+                moleculas = newMoleculas;
+                //-------------------------------------------------------------------------------
+
+                //Executa os comando do teclado
+                comandos();
+
+                //Deixa o ângulo entre 0 e 360
+                if (nave.angulo >= 360) {
+                    nave.angulo = 0;
+                } else if (nave.angulo < 0) {
+                    nave.angulo = 359;
+                }
+
+                //limite de velocidade, não pode ultrapassar 1.7
+                if (nave.forcaX > 1.7) {
+                    nave.forcaX = 1.7;
+                } else if (nave.forcaX < (-1.7)) {
+                    nave.forcaX = (-1.7);
+                }
+                if (nave.forcaY > 1.7) {
+                    nave.forcaY = 1.7;
+                } else if (nave.forcaY < (-1.7)) {
+                    nave.forcaY = (-1.7);
+                }
+
+                //Recarregar energia dos tiros
+                if (nave.energia < 1) {
+                    nave.energia += 0.02;
+                }
+
+                //Retardo da nave, faz a nave ir perdendo velocidade
+                var retardo = 0.0007;
+                if (nave.forcaX > 0) {
+                    if (nave.forcaX - retardo > 0) {
+                        nave.forcaX -= retardo;
+                    } else {
+                        nave.forcaX = 0;
+                    }
+                } else if (nave.forcaX < 0) {
+                    if (nave.forcaX + retardo < 0) {
+                        nave.forcaX += retardo;
+                    } else {
+                        nave.forcaX = 0;
+                    }
+                }
+                if (nave.forcaY > 0) {
+                    if (nave.forcaY - retardo > 0) {
+                        nave.forcaY -= retardo;
+                    } else {
+                        nave.forcaY = 0;
+                    }
+                } else if (nave.forcaY < 0) {
+                    if (nave.forcaY + retardo < 0) {
+                        nave.forcaY += retardo;
+                    } else {
+                        nave.forcaY = 0;
+                    }
+                }
+
+                //Aplica as forças nas coordenadas da nave, faz a nave se mover
+                nave.x += nave.forcaX;
+                nave.y -= nave.forcaY;
+
+                if (moleculas.length === 0 && atomos.length === 0) {
+                    criarMolecula();
+                }
+
+                desenharMoleculas();
+
+                desenharAtomos();
+
+                desenharTiros();
+
+                //distancia dos pontos do triangulo com o centro das moleculas (serve para o contato)
+                var distCima = [];
+                var distEsq = [];
+                var distDir = [];
+                var distBaixo = [];
+                var distLadoEsq1 = [];
+                var distLadoEsq2 = [];
+                var distLadoDir1 = [];
+                var distLadoDir2 = [];
+
+                //distancia dos pontos do triangulo com o centro dos atomos (serve para o contato)
+                var distCimaAtomos = [];
+                var distEsqAtomos = [];
+                var distDirAtomos = [];
+                var distBaixoAtomos = [];
+                var distLadoEsq1Atomos = [];
+                var distLadoEsq2Atomos = [];
+                var distLadoDir1Atomos = [];
+                var distLadoDir2Atomos = [];
+                //COLOCAR COMO ATRIBUTOS DA NAVE
+
+//                formula do giro dos pontos{
+//                var x = nave.x;
+//                x -= (distancia do x centro para o x da ponta)
+//                *Math.cos((nave.angulo-angulo do x centro com x ponta)*Math.PI/180);
+//                var y = nave.y;
+//                y -= (distancia do y centro para o y da ponta)
+//                *Math.sin((nave.angulo-angulo do y centro com y ponta)*Math.PI/180);
+//                }
+
+                //JUSTIFICATIVA: PARA A MOLECULA/ÁTOMO, A NAVE NÃO GIRA, POR ISSO TEM QUE FAZER ISSO
+                //ponta cima
+                var x2 = nave.x;
+                x2 -= (15) * Math.cos((nave.angulo + 90) * Math.PI / 180);
+                var y2 = nave.y;
+                y2 -= (15) * Math.sin((nave.angulo + 90) * Math.PI / 180);
+                //ponta esq
+                var x3 = nave.x;
+                x3 -= (18.02) * Math.cos((nave.angulo - 60) * Math.PI / 180);
+                var y3 = nave.y;
+                y3 -= (18.02) * Math.sin((nave.angulo - 60) * Math.PI / 180);
+                //ponta dir
+                var x4 = nave.x;
+                x4 -= (18.02) * Math.cos((nave.angulo - 120) * Math.PI / 180);
+                var y4 = nave.y;
+                y4 -= (18.02) * Math.sin((nave.angulo - 120) * Math.PI / 180);
+                //centro baixo
+                var x5 = nave.x;
+                x5 -= (10) * Math.cos((nave.angulo - 90) * Math.PI / 180);
+                var y5 = nave.y;
+                y5 -= (10) * Math.sin((nave.angulo - 90) * Math.PI / 180);
+                //lado dir cima
+                var x6 = nave.x;
+                x6 -= (6) * Math.cos((nave.angulo + 130) * Math.PI / 180);
+                var y6 = nave.y;
+                y6 -= (6) * Math.sin((nave.angulo + 130) * Math.PI / 180);
+                //lado dir baixo
+                var x7 = nave.x;
+                x7 -= (9) * Math.cos((nave.angulo - 140) * Math.PI / 180);
+                var y7 = nave.y;
+                y7 -= (9) * Math.sin((nave.angulo - 140) * Math.PI / 180);
+                //lado esq cima
+                var x8 = nave.x;
+                x8 -= (6) * Math.cos((nave.angulo + 50) * Math.PI / 180);
+                var y8 = nave.y;
+                y8 -= (6) * Math.sin((nave.angulo + 50) * Math.PI / 180);
+                //lado esq baixo
+                var x9 = nave.x;
+                x9 -= (9) * Math.cos((nave.angulo - 40) * Math.PI / 180);
+                var y9 = nave.y;
+                y9 -= (9) * Math.sin((nave.angulo - 40) * Math.PI / 180);
+
+                //mede a distancia dos pontos para o centro das atomos
+                for (i = 0; i < atomos.length; i++) {
+                    distCimaAtomos.push(medirDistancia(x2, y2, atomos[i]));
+                    distEsqAtomos.push(medirDistancia(x3, y3, atomos[i]));
+                    distDirAtomos.push(medirDistancia(x4, y4, atomos[i]));
+                    distBaixoAtomos.push(medirDistancia(x5, y5, atomos[i]));
+                    distLadoDir1Atomos.push(medirDistancia(x6, y6, atomos[i]));
+                    distLadoDir2Atomos.push(medirDistancia(x7, y7, atomos[i]));
+                    distLadoEsq1Atomos.push(medirDistancia(x8, y8, atomos[i]));
+                    distLadoEsq2Atomos.push(medirDistancia(x9, y9, atomos[i]));
+                }
+
+                //mede a distancia dos pontos para o centro dos moleculas
+                for (i = 0; i < moleculas.length; i++) {
+                    for (x = 0; x < moleculas[i].atomos.length; x++) {
+                        distCima.push(medirDistancia(x2, y2, moleculas[i].atomos[x]));
+                        distEsq.push(medirDistancia(x3, y3, moleculas[i].atomos[x]));
+                        distDir.push(medirDistancia(x4, y4, moleculas[i].atomos[x]));
+                        distBaixo.push(medirDistancia(x5, y5, moleculas[i].atomos[x]));
+                        distLadoDir1.push(medirDistancia(x6, y6, moleculas[i].atomos[x]));
+                        distLadoDir2.push(medirDistancia(x7, y7, moleculas[i].atomos[x]));
+                        distLadoEsq1.push(medirDistancia(x8, y8, moleculas[i].atomos[x]));
+                        distLadoEsq2.push(medirDistancia(x9, y9, moleculas[i].atomos[x]));
+                    }
+                }
+
+                //http://stackoverflow.com/questions/2677671/how-do-i-rotate-a-single-object-on-an-html-5-canvas
+                //JUSTIFICATIVA PARA MANTER: MAIS SIMPLES PARA DESENHAR E O FOGUINHO NÃO COLIDE COM NADA, ENTÃO FICA MELHOR
+                ctx.save();
+                ctx.translate(nave.x, nave.y); //centro do triangulo x1-10, y1-15
+                ctx.rotate((Math.PI / 180) * nave.angulo); //MOVE O ANGULO SEM MUDAR A ROTA
+                ctx.translate(-(nave.x), -(nave.y));
+
+                //Limites da tela da nave
+                if (nave.y + 15 < -5) {
+                    nave.y += canvas.height + 30;
+                } else if (nave.y + 15 > canvas.height + 30) {
+                    nave.y -= canvas.height + 30;
+                } else if (nave.x - 10 < -30) {
+                    nave.x += canvas.width + 30;
+                } else if (nave.x - 10 > canvas.width) {
+                    nave.x -= canvas.width + 30;
+                }
+
+                //Desenha a nave
+                //https://developer.mozilla.org/pt-BR/docs/Web/Guide/HTML/Canvas_tutorial/Drawing_shapes
+                ctx.beginPath();
+                //ctx.fillStyle = "white";
+                ctx.moveTo(nave.x - 10, nave.y + 15);// /_ ponta esquerda
+                ctx.lineTo(nave.x, nave.y + 10);// /_^_\ ponta do meio (não é o centro)
+                ctx.lineTo(nave.x + 10, nave.y + 15); // _\ ponta direita
+                ctx.lineTo(nave.x, nave.y - 15); // ^  ponta de cima
+                ctx.lineTo(nave.x - 10, nave.y + 15);//SE TIRAR O STROKE TIRE ISSO
+                ctx.strokeStyle = "white";
+                ctx.stroke();
+                //ctx.fill();
+                ctx.closePath();
+
+                //fogo de propulsão da nave
+                if (38 in teclas) {
+                    ctx.beginPath();
+                    ctx.fillStyle = "white";
+                    ctx.moveTo(nave.x, nave.y + 15);
+                    ctx.lineTo(nave.x - 5, nave.y + 22);
+                    ctx.lineTo(nave.x, nave.y + 35);
+                    ctx.lineTo(nave.x + 5, nave.y + 22);
+                    ctx.fill();
+                    ctx.closePath();
+                }
+
+                ctx.restore(); // Restaura o centro de angulo para o canvas (desde o save())
+
+                //TESTE
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.font = "15px Arial";
+                ctx.fillText("Ângulo: " + nave.angulo, 10, 400);
+                ctx.fillText("COS: " + Math.cos(nave.angulo * Math.PI / 180), 10, 420);
+                ctx.fillText("SEN: " + Math.sin(nave.angulo * Math.PI / 180), 10, 440);
+                ctx.fillText("fX: " + nave.forcaX, 10, 460);
+                ctx.fillText("fY: " + nave.forcaY, 10, 480);
+                ctx.fillText("X: " + nave.x, 10, 500);
+                ctx.fillText("Y: " + nave.y, 10, 520);
+
+                var jaColidiu = false;
+
+                //mede a distancia da nave para os atomos (se for menor que o raio de um atomo, colidiu)
+                for (i = 0; i < atomos.length; i++) {
+                    if (distCimaAtomos[i] <= atomos[i].raio) {
+
+                        colidiu();
+                        atomos.splice(i, 1);
+                        jaColidiu = true;
+                        break;
+                    }
+                    if (distEsqAtomos[i] <= atomos[i].raio) {
+
+                        colidiu();
+                        atomos.splice(i, 1);
+                        jaColidiu = true;
+                        break;
+                    }
+                    if (distDirAtomos[i] <= atomos[i].raio) {
+
+                        colidiu();
+                        atomos.splice(i, 1);
+                        jaColidiu = true;
+                        break;
+                    }
+                    if (distBaixoAtomos[i] <= atomos[i].raio) {
+
+                        colidiu();
+                        atomos.splice(i, 1);
+                        jaColidiu = true;
+                        break;
+                    }
+                    if (distLadoEsq1Atomos[i] <= atomos[i].raio) {
+
+                        colidiu();
+                        atomos.splice(i, 1);
+                        jaColidiu = true;
+                        break;
+                    }
+                    if (distLadoEsq2Atomos[i] <= atomos[i].raio) {
+
+                        colidiu();
+                        atomos.splice(i, 1);
+                        jaColidiu = true;
+                        break;
+                    }
+                    if (distLadoDir1Atomos[i] <= atomos[i].raio) {
+
+                        colidiu();
+                        atomos.splice(i, 1);
+                        jaColidiu = true;
+                        break;
+                    }
+                    if (distLadoDir2Atomos[i] <= atomos[i].raio) {
+
+                        colidiu();
+                        atomos.splice(i, 1);
+                        jaColidiu = true;
+                        break;
+                    }
+                }
+
+                //mede a distancia da nave para as moleculas (se for menor que o raio de um atomo, colidiu)
+                //As listas "dist" são contínuas, mas as dos atomos se dividem nas moleculas
+                if (jaColidiu === false) { //se ja colidiu não precisa verificar isso
+
+                    var contador = 0; //para deixar todos os atomos de todas as moleculas em um array só
+
+                    for (i = 0; i < moleculas.length; i++) {
+                        for (x = 0; x < moleculas[i].atomos.length; x++) {
+                            if (distCima[contador] <= moleculas[i].atomos[x].raio) {
+
+                                colidiu();
+                                moleculas[i].atomos = quebrarMolecula(moleculas[i]);
+                                break;
+                                //moleculas.splice(i,1);
+                            }
+                            if (distEsq[contador] <= moleculas[i].atomos[x].raio) {
+
+                                colidiu();
+                                moleculas[i].atomos = quebrarMolecula(moleculas[i]);
+                                break;
+                                //moleculas.splice(i,1);
+                            }
+                            if (distDir[contador] <= moleculas[i].atomos[x].raio) {
+
+                                colidiu();
+                                moleculas[i].atomos = quebrarMolecula(moleculas[i]);
+                                break;
+                                //moleculas.splice(i,1);
+                            }
+                            if (distBaixo[contador] <= moleculas[i].atomos[x].raio) {
+
+                                colidiu();
+                                moleculas[i].atomos = quebrarMolecula(moleculas[i]);
+                                break;
+                                //moleculas.splice(i,1);
+                            }
+                            if (distLadoEsq1[contador] <= moleculas[i].atomos[x].raio) {
+
+                                colidiu();
+                                moleculas[i].atomos = quebrarMolecula(moleculas[i]);
+                                break;
+                                //moleculas.splice(i,1);
+                            }
+                            if (distLadoEsq2[contador] <= moleculas[i].atomos[x].raio) {
+
+                                colidiu();
+                                moleculas[i].atomos = quebrarMolecula(moleculas[i]);
+                                break;
+                                //moleculas.splice(i,1);
+                            }
+                            if (distLadoDir1[contador] <= moleculas[i].atomos[x].raio) {
+
+                                colidiu();
+                                moleculas[i].atomos = quebrarMolecula(moleculas[i]);
+                                break;
+                                //moleculas.splice(i,1);
+                            }
+                            if (distLadoDir2[contador] <= moleculas[i].atomos[x].raio) {
+
+                                colidiu();
+                                moleculas[i].atomos = quebrarMolecula(moleculas[i]);
+                                break;
+                                //moleculas.splice(i,1);
+                            }
+                            contador += 1;
+                        }
+                    }
+                }
+
+                jaColidiu = false;
+
+                ctx.fillText("ATOMOS: " + atomos.length, 10, 540);
+                ctx.fillText("MOLECULAS: " + moleculas.length, 10, 560);
+                ctx.fillText("VELOCIDADE: " + moleculas[0].atomos[0].velocidade, 10, 580);
+                ctx.closePath();
+
+            }
+
+            setInterval(desenhar, 5);//Repete o metodo "desenhar a cada 5 milissegundos"
+
+        </script>
+    </body>
+</html>
