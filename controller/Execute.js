@@ -18,6 +18,15 @@ function loop(){
 				molecules[i].move();
 				molecules[i].obeyLimit(canvas.width, canvas.height);
 				drawMolecule(ctx, molecules[i].circle);
+
+				for(x = 0; x<shots.length; x++){
+						var response = new SAT.Response();
+						var collided = SAT.testCircleCircle(molecules[i].circle, shots[x].circle, response);
+						if(collided === true){
+							molecules.splice(i, 1);
+							shots.splice(x, 1);
+						}
+				}
 		}
 		//  ...
 }
