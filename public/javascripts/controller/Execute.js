@@ -12,21 +12,21 @@ function loop(){
 			ship.applyForces();//.......................................................FAZ COM QUE A NAVE GANHE "VELOCIDADE" (FORÇA)
 			ship.obeyLimit(canvas.width, canvas.height);//..............................FAZ COM QUE A NAVE OBEDEÇA OS LIMITES DA TELA
 			drawShip(ctx, ship.triangle);//.............................................DESENHA A NAVE
-			//shots = ship.shoot(shots, keys);//..........................................ADICIONA UM NOVO TIRO (SE ATIROU)
+			shots = ship.shoot(shots, keys);//..........................................ADICIONA UM NOVO TIRO (SE ATIROU)
 		}
 
 // PARTE DO TIRO---------------------------------------------------------------------------------------------------------------
 
-		// for(i = 0; i<shots.length; i++){
-		// 		shots[i].move(3);//.......................................................MOVE O TIRO
-		// 		shots[i].obeyLimit(canvas.width, canvas.height);//........................FAZ COM QUE O TIRO OBEDEÇA OS LIMITES DA TELA
-		// 		shots[i].LoseReach(0.1);//................................................FAZ QUE O TIRO PERCA "TEMPO DE VIDA"
-		// 		if(shots[i].reach <= 0){//................................................VERIFICA O TEMPO DE VIDA DO TIRO
-		// 			shots.splice(i, 1);//......................................................REMOVE O TIRO
-		// 		}else{
-		// 			drawShot(ctx, shots[i].circle);//.......................................DESENHA O TIRO
-		// 		}
-		// }
+		for(i = 0; i<shots.length; i++){
+				shots[i].move(3);//.......................................................MOVE O TIRO
+				shots[i].obeyLimit(canvas.width, canvas.height);//........................FAZ COM QUE O TIRO OBEDEÇA OS LIMITES DA TELA
+				shots[i].LoseReach(0.1);//................................................FAZ QUE O TIRO PERCA "TEMPO DE VIDA"
+				if(shots[i].reach <= 0){//................................................VERIFICA O TEMPO DE VIDA DO TIRO
+					shots.splice(i, 1);//......................................................REMOVE O TIRO
+				}else{
+					drawShot(ctx, shots[i].circle);//.......................................DESENHA O TIRO
+				}
+		}
 
 // PARTE DA MOLECULA + COLISÕES ----------------------------------------------------------------------------------------------
 
@@ -37,16 +37,19 @@ function loop(){
 				molecules[i].move();//....................................................MOVE A MOLECULA
 				//molecules[i].obeyLimit(canvas.width, canvas.height);//....................FAZ COM QUE A MOLECULA OBEDEÇA OS LIMITES DA TELA
 				//drawMolecule(ctx, molecules[i].atoms);//.................................DESENHA A MOLECULA
-				//for(x = 0; x<shots.length; x++){
+
+				for(x = 0; x<shots.length; x++){
 						//Está dando erro: Unable to get property 'circle' of undefined or null reference
-						// var response = new SAT.Response();
-						// var collided = SAT.testCircleCircle(molecules[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO
-						// if(collided === true){//..............................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
-						// 	molecules.splice(i, 1);//..............................................REMOVE A MOLECULA
-						// 	shots.splice(x, 1);//..................................................REMOVE O TIRO
-						// 	score.points += 10;//..................................................AUMENTA O SCORE
-						// }
-				//}
+						for(j = 0; j<molecules[i].atoms.length;j++){
+								var response = new SAT.Response();
+								var collided = SAT.testCircleCircle(molecules[i].atoms[j].circle, shots[x].circle, response);// VERIFICA A COLISÃO
+								if(collided === true){//..............................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
+									molecules[i].atoms.splice(j, 1);
+									shots.splice(x, 1);//..................................................REMOVE O TIRO
+									score.points += 10;//..................................................AUMENTA O SCORE
+								}
+						}
+				}
 
 				//COLISÃO (NAVE COM MOLECULAS);
 				// if(hasShip === true){
