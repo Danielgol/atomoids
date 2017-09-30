@@ -6,7 +6,7 @@ function Ship(triangle, centerX, centerY){
 	this.x = centerX;
 	this.y = centerY;
 
-	this.move = function(){
+	this.move = function(keys){
 
 				if (38 in keys) {
 					this.boost();
@@ -46,7 +46,7 @@ function Ship(triangle, centerX, centerY){
 			this.triangle.translate(this.x, this.y);
 	}
 
-	this.shoot = function(shots){
+	this.shoot = function(shots, keys){
 
 			if(17 in keys){
 				var circle = new SAT.Circle(new SAT.Vector(this.x , this.y), 2);

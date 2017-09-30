@@ -14,6 +14,16 @@ function drawScreen(ctx, width, height){
 
 }
 
+function drawScore(ctx, score, x, y){
+
+  ctx.beginPath();
+  ctx.fillStyle = "white";
+  ctx.font = "15px Arial";
+  ctx.fillText(score, x, y);
+  ctx.closePath();
+
+}
+
 function cleanScreen(ctx, width, height){
 
 		ctx.clearRect(1, 1, width - 2, height - 2);
