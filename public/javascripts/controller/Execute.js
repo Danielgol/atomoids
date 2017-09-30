@@ -3,6 +3,8 @@ function loop(){
 
 		if(isPaused === false){
 
+		drawScreen(ctx, canvas.width, canvas.height);
+
 		cleanScreen(ctx, canvas.width, canvas.height);//..............................LIMPA A TELA (O RASTRO DAS COISAS)
 
 // PARTE DA NAVE---------------------------------------------------------------------------------------------------------------
