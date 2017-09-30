@@ -10,7 +10,9 @@
     <body>
 
       <script type="text/javascript">
-          var db = new PouchDB('atomoids_ranking');//var remoteCouch = 'http://127.0.0.1:5984/atomoids_ranking';
+
+          var db = new PouchDB('atomoids_ranking');
+          //var remoteCouch = 'http://127.0.0.1:5984/atomoids_ranking';
 
           var score = {
               _id: '<%= date %>',
@@ -26,6 +28,11 @@
                   }
               });
           }
+
+          // function addScore(){
+          //     score.name = window.document.formulario2.playerName.value;
+          //     document.getElementById("form2").submit();
+          // }
       </script>
 
       <table border="1" style="top: 20%; color: white;">
@@ -39,6 +46,15 @@
           <td><input type="button" value="Submeter" onclick="addScoreIntoDB()"></td></tr>
           </table>
       </form>
+
+      <!-- <form action="/submited" method="post" name="formulario2" id="form2">
+        <table border="1">
+          <tr><td><input type="text" name="playerName">
+                  <input type="text" name="date" style="visibility: hidden;">
+                  <input type="text" name="points" style="visibility: hidden;"></td>
+          <td><input type="button" value="Submeter com Model" onclick="addScore()"></td></tr>
+          </table>
+      </form> -->
 
       <table border="1" id="rankingButton" style="top: 60%;">
         <tr><td><input type="button" value="Menu" onclick="window.location.replace('/')"></td></tr>

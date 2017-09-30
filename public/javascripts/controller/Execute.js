@@ -11,7 +11,12 @@ function loop(){
 		for(i = 0; i<shots.length; i++){// REALIZA AS ATIVIDADES ABAIXO PARA TODOS OS TIROS
 				shots[i].move();//	MOVE O TIRO
 				shots[i].obeyLimit(canvas.width, canvas.height);//	FAZ COM QUE O TIRO OBEDEÇA OS LIMITES DA TELA
-				drawShot(ctx, shots[i].circle);// DESENHA O TIRO
+				shots[i].LostReach();
+				if(shots[i].reach <= 0){// VERIFICA O TEMPO DE VIDA DO TIRO
+					shots.splice(i, 1);//	REMOVE O TIRO
+				}else{
+					drawShot(ctx, shots[i].circle);// DESENHA O TIRO
+				}
 		}
 
 		for(i = 0; i<molecules.length; i++){// REALIZA AS ATIVIDADES ABAIXO PARA TODAS AS MOLECULAS
@@ -20,9 +25,9 @@ function loop(){
 				drawMolecule(ctx, molecules[i].circle);// DESENHA A MOLECULA
 				//COLISÃO (TIROS COM MOLECULAS);
 				for(x = 0; x<shots.length; x++){
-						var response = new SAT.Response();
 						if(molecules.length>0){
 								//Está dando erro: Unable to get property 'circle' of undefined or null reference
+								var response = new SAT.Response();
 								var collided = SAT.testCircleCircle(molecules[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO
 								if(collided === true){//	SE COLIDIU...
 									molecules.splice(i, 1);//	REMOVE A MOLECULA
