@@ -16,22 +16,32 @@ function comandosTeclado(nave) {
 		nave.impulsionar();
 		nave.triangulo.translate(nave.x, nave.y);
 	}
-	if (39 in teclas) {
+	if (39 in teclas) {//direita
+
+		nave.angulo +=1;
+
+		if(nave.angulo === 360){
+            nave.angulo = 0;
+        }else if(nave.angulo === -1){
+            nave.angulo = 359;
+        }
 
 		nave.triangulo.translate(-nave.x, -nave.y);
-		nave.x += 1;
+		nave.triangulo.rotate((Math.PI/180)*1);
 		nave.triangulo.translate(nave.x, nave.y);
 	}
-	if (37 in teclas) {
+	if (37 in teclas) {//esquerda
+
+		nave.angulo -=1;
+
+		if(nave.angulo === 360){
+            nave.angulo = 0;
+    	}else if(nave.angulo === -1){
+        	nave.angulo = 359;
+        }
 
 		nave.triangulo.translate(-nave.x, -nave.y);
-		nave.x -= 1;
-		nave.triangulo.translate(nave.x, nave.y);
-	}
-	if (40 in teclas) {
-
-		nave.triangulo.translate(-nave.x, -nave.y);
-		nave.y += 1;
+		nave.triangulo.rotate((Math.PI/180)*(-1));
 		nave.triangulo.translate(nave.x, nave.y);
 	}
 }
