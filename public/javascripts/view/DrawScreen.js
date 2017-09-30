@@ -18,7 +18,7 @@ function drawScore(ctx, score, x, y){
 
   ctx.beginPath();
   ctx.fillStyle = "white";
-  ctx.font = "15px Hyperspace Bold";
+  ctx.font = "15px Hyper";
   ctx.fillText("Score: "+score, x, y);
   ctx.closePath();
 

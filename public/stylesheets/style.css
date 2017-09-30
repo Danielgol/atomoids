@@ -1,4 +1,14 @@
 
+@font-face {
+  font-family: Hyper;
+  src: url("./_fonts/Hyperspace Bold.otf");
+}
+
+@font-face {
+  font-family: HyperItalic;
+  src: url("./_fonts/Hyperspace Italic.otf");
+}
+
 canvas {
     position: absolute;
     background-color: #101010;
@@ -11,7 +21,7 @@ canvas {
 }
 
 body {
-    font-family: Hyperspace Bold;
+    font-family: Hyper;
     background-color: #101010;
 }
 
@@ -27,7 +37,7 @@ table {
 }
 
 input {
-    font-family: Hyperspace Bold;
+    font-family: Hyper;
     color: white;
     background-color: #101010;
 }
