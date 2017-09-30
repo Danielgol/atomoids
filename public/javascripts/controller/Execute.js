@@ -47,6 +47,8 @@ function loop(){
 								var response = new SAT.Response();
 								var collided = SAT.testCircleCircle(molecules[i].atoms[j].circle, shots[x].circle, response);// VERIFICA A COLISÃO
 								if(collided === true){//..............................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
+									var audio = new Audio('./../../sounds/shoted.m4a');
+									audio.play();
 									aloneAtoms = molecules[i].divide(aloneAtoms);
 									molecules.splice(i, 1);
 									shots.splice(x, 1);//..................................................REMOVE O TIRO
@@ -62,6 +64,10 @@ function loop(){
 										molecules.splice(i, 1);//............................................REMOVE A MOLECULA
 										lifes -= 1;//........................................................FAZ A NAVE PERDER VIDA
 										hasShip = false;//.........................................ACIONA O TEMPORIZADOR DE RESPAWN
+
+										var audio = new Audio('./../../sounds/bum.m4a');
+										audio.play();
+
 										setTimeout(function() {
 												if(lifes === 0){//............................................CONDIÇÃO DO FIM
 													clearInterval(IntervalId);//................................INTERROMPE O LOOP;
@@ -95,6 +101,8 @@ function loop(){
 							aloneAtoms.splice(i, 1);
 							shots.splice(x, 1);//..................................................REMOVE O TIRO
 							score.points += 10;//..................................................AUMENTA O SCORE
+							var audio = new Audio('./../../sounds/shoted.m4a');
+							audio.play();
 						}
 				}
 				if(hasShip === true && imortality === false){
@@ -105,6 +113,10 @@ function loop(){
 								aloneAtoms.splice(i, 1);//............................................REMOVE A MOLECULA
 								lifes -= 1;//........................................................FAZ A NAVE PERDER VIDA
 								hasShip = false;//.........................................ACIONA O TEMPORIZADOR DE RESPAWN
+
+								var audio = new Audio('./../../sounds/bum.m4a');
+								audio.play();
+
 								setTimeout(function() {
 										if(lifes === 0){//............................................CONDIÇÃO DO FIM
 											clearInterval(IntervalId);//................................INTERROMPE O LOOP;
@@ -220,6 +232,11 @@ function start(){
 			IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
 			document.getElementById("pauseButton").style.visibility="visible";
 		}, 2000);
+
+		// setInterval(function() {
+		// 	var audio = new Audio('./../../sounds/music.m4a');
+		// 	audio.play();
+		// }, 1800);
 
 		setTimeout(function() {
 			imortality = false;

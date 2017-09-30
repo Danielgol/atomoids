@@ -116,6 +116,10 @@ function Ship(triangle, centerX, centerY){
 				if(this.energy >= 15){
 					var circle = new SAT.Circle(new SAT.Vector(this.x , this.y), 2);
 					var shot = new Shot(circle, this.angle);
+
+					var audio = new Audio('./../../sounds/shot.m4a');
+					audio.play();
+
 					shots.push(shot);
 					this.energy -= 15;
 				}
@@ -147,6 +151,7 @@ function Ship(triangle, centerX, centerY){
 			}
 	}
 
+	//@Deprecated
 	this.respawn = function(centerX, centerY){
 			// PENSAR EM COMO ZERAR O ANGULO
 			this.triangle.translate(-this.x, -this.y);
