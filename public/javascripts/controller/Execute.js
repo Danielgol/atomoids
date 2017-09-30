@@ -57,6 +57,7 @@ function loop(){
 								var response = new SAT.Response();
 								var collided = SAT.testPolygonCircle(ship.triangle, molecules[i].atoms[j].circle, response);// VERIFICA A COLISÃO
 								if(collided === true){//..............................................SE A NAVE COLIDIU COM UMA MOLÉCULA
+										document.getElementById("pauseButton").style.visibility="hidden";
 										aloneAtoms = molecules[i].divide(aloneAtoms);
 										molecules.splice(i, 1);//............................................REMOVE A MOLECULA
 										lifes -= 1;//........................................................FAZ A NAVE PERDER VIDA
@@ -69,6 +70,7 @@ function loop(){
 													document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
 												}else{
 													ship = createShip(canvas.width/2, canvas.height/2);
+													document.getElementById("pauseButton").style.visibility="visible";
 												}
 												hasShip = true;
 												imortality = true;
@@ -99,6 +101,7 @@ function loop(){
 						var response = new SAT.Response();
 						var collided = SAT.testPolygonCircle(ship.triangle, aloneAtoms[i].circle, response);// VERIFICA A COLISÃO
 						if(collided === true){//..............................................SE A NAVE COLIDIU COM UMA MOLÉCULA
+								document.getElementById("pauseButton").style.visibility="hidden";
 								aloneAtoms.splice(i, 1);//............................................REMOVE A MOLECULA
 								lifes -= 1;//........................................................FAZ A NAVE PERDER VIDA
 								hasShip = false;//.........................................ACIONA O TEMPORIZADOR DE RESPAWN
@@ -110,6 +113,7 @@ function loop(){
 											document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
 										}else{
 											ship = createShip(canvas.width/2, canvas.height/2);
+											document.getElementById("pauseButton").style.visibility="visible";
 										}
 										hasShip = true;
 										imortality = true;
@@ -124,10 +128,12 @@ function loop(){
 
 		if(molecules.length === 0 && aloneAtoms.length === 0 && hasMoleculesAndAtoms === true){//................CONDIÇÃO PARA CARREGAR NOVAS MOLÉCULAS
 				hasMoleculesAndAtoms = false;//................................................ACIONA O TEMPORIZADOR PARA CARREGAR MOLÉCULAS
+				document.getElementById("pauseButton").style.visibility="hidden";
 				setTimeout(function() {
 						level += 1;
 						loadMolecules(level);//.......................................................CARREGAR NOVAS MOLÉCULAS
 						hasMoleculesAndAtoms = true;
+				document.getElementById("pauseButton").style.visibility="visible";
 				}, 2000);
 		}
 
@@ -199,6 +205,8 @@ function start(){
 		loadMolecules(level);
 		drawScreen(ctx, canvas.width, canvas.height);
 
+		document.getElementById("pauseButton").style.visibility="hidden";
+
 		setTimeout(function() {
 			drawScore(ctx, score.points, (canvas.width/2)-5, 20);//.......................EXIBE O SCORE ATUAL
 			drawLifes(ctx, lifes);
@@ -207,6 +215,7 @@ function start(){
 
 		setTimeout(function() {
 			IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
+			document.getElementById("pauseButton").style.visibility="visible";
 		}, 2000);
 
 		setTimeout(function() {
