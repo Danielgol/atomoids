@@ -13,7 +13,15 @@ function loop(){
 			ship.slide(0.001);//........................................................FAZ COM QUE A NAVE RETARDE
 			ship.applyForces();//.......................................................FAZ COM QUE A NAVE GANHE "VELOCIDADE" (FORÇA)
 			ship.obeyLimit(canvas.width, canvas.height);//..............................FAZ COM QUE A NAVE OBEDEÇA OS LIMITES DA TELA
-			drawShip(ctx, ship.triangle);//.............................................DESENHA A NAVE
+			if(imortality === true){
+				contador += 1;
+				if(contador%2 === 0){
+					drawShip(ctx, ship.triangle);//.............................................DESENHA A NAVE
+				}
+			}else{
+				contador = 0;
+				drawShip(ctx, ship.triangle);
+			}
 			shots = ship.shoot(shots, keys);//..........................................ADICIONA UM NOVO TIRO (SE ATIROU)
 		}
 
@@ -45,7 +53,7 @@ function loop(){
 									score.points += 10;//..................................................AUMENTA O SCORE
 								}
 						}
-						if(hasShip === true){
+						if(hasShip === true && imortality === false){
 								var response = new SAT.Response();
 								var collided = SAT.testPolygonCircle(ship.triangle, molecules[i].atoms[j].circle, response);// VERIFICA A COLISÃO
 								if(collided === true){//..............................................SE A NAVE COLIDIU COM UMA MOLÉCULA
@@ -63,7 +71,12 @@ function loop(){
 													ship = createShip(canvas.width/2, canvas.height/2);
 												}
 												hasShip = true;
+												imortality = true;
 										}, 2000);
+
+										setTimeout(function() {
+												imortality = false;
+										}, 5000);
 								}
 						}
 				}
@@ -82,7 +95,7 @@ function loop(){
 							score.points += 10;//..................................................AUMENTA O SCORE
 						}
 				}
-				if(hasShip === true){
+				if(hasShip === true && imortality === false){
 						var response = new SAT.Response();
 						var collided = SAT.testPolygonCircle(ship.triangle, aloneAtoms[i].circle, response);// VERIFICA A COLISÃO
 						if(collided === true){//..............................................SE A NAVE COLIDIU COM UMA MOLÉCULA
@@ -99,7 +112,12 @@ function loop(){
 											ship = createShip(canvas.width/2, canvas.height/2);
 										}
 										hasShip = true;
+										imortality = true;
 								}, 2000);
+
+								setTimeout(function() {
+										imortality = false;
+								}, 5000);
 						}
 				}
 		}
@@ -120,6 +138,10 @@ function loop(){
 		drawLifes(ctx, lifes);
 
 		drawLevel(ctx, level);
+
+		// ctx.beginPath();
+	  // ctx.fillText("IMORTALIDADE: " + imortality, 20, 490);
+	  // ctx.closePath();
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
@@ -187,6 +209,10 @@ function start(){
 			IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
 		}, 2000);
 
+		setTimeout(function() {
+			imortality = false;
+		}, 5000);
+
 }
 
 
@@ -199,6 +225,8 @@ var ctx = canvas.getContext("2d");
 //	Game contém todos os métodos do Controller
 //	Tudo abaixo
 
+var contador = 0;
+var imortality = true;
 var level = 1;
 var hasMoleculesAndAtoms = true;// colocar numa classe game
 var hasShip = true;// colocar numa classe game
