@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>Atomoids_Ranking</title>
+        <script src="javascripts/pouchdb-6.2.0.min.js"></script>
+        <link rel="stylesheet" href="stylesheets/style.css">
+        <script>
+            var db = new PouchDB('atomoids_ranking');
+
+            function showRanking(tableName, tablePoints, tablePosition){
+                var scores = null;
+                var names = "";
+                var points = "";
+                var position = "";
+                db.allDocs({include_docs: true, descending: true}).then(function(docs){
+                  scores = docs.rows;
+                  for(var f = 0; f<scores.length; f++){
+                      position += (f+1)+".<br>";
+                      names += scores[f].doc.name+"<br>";
+                      points += scores[f].doc.points+"<br>";
+                  }
+                  document.getElementById(tablePosition).innerHTML = position;
+                  document.getElementById(tableName).innerHTML = names;
+                  document.getElementById(tablePoints).innerHTML = points;
+                });
+            }
+        </script>
+    </head>
+
+    <body onload="showRanking('tableName', 'tablePoints', 'tablePosition');">
+
+      <table style="top: 10%;">
+        <tr><td style="font-size: 60px;">RANKING</td></tr>
+      </table>
+
+      <table style="top: 55%;">
+        <tr>
+          <td id="tablePosition" style="text-align: right;"></td>
+          <td id="tableName" style="text-align: left;"></td>
+          <td id="tablePoints" style="text-align: right;"></td>
+        </tr>
+      </table>
+
+    </body>
+
+</html>

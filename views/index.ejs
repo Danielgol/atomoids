@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <title>Atomoids_Index</title>
-        <script src="javascripts/pouchdb-6.2.0.min.js"></script>
+        <!-- <script src="javascripts/pouchdb-6.2.0.min.js"></script> -->
         <link rel="stylesheet" href="stylesheets/style.css">
     </head>
     <body>
@@ -20,18 +20,8 @@
   	           }
   	      }
 
-          var db = new PouchDB('atomoids_ranking');
-
-          function showRanking(){
-              var scores = null;
-              db.allDocs({include_docs: true, descending: true}).then(function(docs){
-                scores = docs.rows;
-                var string = "SCORES: \n";
-                for(var f = 0; f<scores.length; f++){
-                    string += "Name: "+scores[f].doc.name+" Score:"+scores[f].doc.points+"\n";
-                }
-                alert(string);
-              });
+          function goToRankingPage(){
+              window.location.replace("/ranking");
           }
 
       </script>
@@ -50,7 +40,7 @@
       </table>
 
       <table style="top: 85%;">
-        <tr><td><input type="button" style="font-size: 150%;" value="   Mostrar Ranking   " onclick="showRanking()"></td></tr>
+        <tr><td><input type="button" style="font-size: 150%;" value="   Ranking   " onclick="goToRankingPage()"></td></tr>
       </table>
 
     </body>
