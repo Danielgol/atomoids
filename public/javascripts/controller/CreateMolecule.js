@@ -8,10 +8,15 @@ function createMolecule(width, height, type){
 
 		var atoms = [];
 
-		var circle1 = new SAT.Circle(new SAT.Vector(30, 30), 20);
-		var circle2 = new SAT.Circle(new SAT.Vector(15, 45), 15);
-		var circle3 = new SAT.Circle(new SAT.Vector(30, 50), 15);
-		var circle4 = new SAT.Circle(new SAT.Vector(45, 45), 15);
+		//var position = new SAT.Vector(  Math.floor((Math.random() * width-1) + 1), Math.floor((Math.random() * height-1) + 1 ));
+
+		var x = Math.floor((Math.random() * width-1) + 1);
+		var y = Math.floor((Math.random() * height-1) + 1);
+
+		var circle1 = new SAT.Circle(new SAT.Vector(x, y), 25);
+		var circle2 = new SAT.Circle(new SAT.Vector(x-20, y+10), 15);
+		var circle3 = new SAT.Circle(new SAT.Vector(x, y+25), 15);
+		var circle4 = new SAT.Circle(new SAT.Vector(x+20, y+10), 15);
 
 		var atom1 = new Atom(circle1);
 		var atom2 = new Atom(circle2);
@@ -31,9 +36,12 @@ function createMolecule(width, height, type){
 
 		var atoms = [];
 
-		var circle1 = new SAT.Circle(new SAT.Vector(30, 30), 35);
-		var circle2 = new SAT.Circle(new SAT.Vector(5, 55), 25);
-		var circle3 = new SAT.Circle(new SAT.Vector(55, 55), 25);
+		var x = Math.floor((Math.random() * width-1) + 1);
+		var y = Math.floor((Math.random() * height-1) + 1);
+
+		var circle1 = new SAT.Circle(new SAT.Vector(x, y), 35);
+		var circle2 = new SAT.Circle(new SAT.Vector(x-25, y+25), 25);
+		var circle3 = new SAT.Circle(new SAT.Vector(x+35, y+25), 25);
 
 		var atom1 = new Atom(circle1);
 		var atom2 = new Atom(circle2);

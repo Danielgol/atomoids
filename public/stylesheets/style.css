@@ -22,6 +22,7 @@ table {
     border: 0px;
     color: white;
     transform: translate(-50%, -50%); /*Para centralizar levando em conta o tamanho da tabela*/
+    /*https://css-tricks.com/quick-css-trick-how-to-center-an-object-exactly-in-the-center/*/
     z-index: 2;
 }
 
