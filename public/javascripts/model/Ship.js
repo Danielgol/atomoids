@@ -64,6 +64,7 @@ function Ship(triangle, centerX, centerY){
 	this.move = function(keys){
 				if (38 in keys) {
 					this.boost();
+					this.throwFire();
 				}
 				if (39 in keys) {
 					this.turn(1);
@@ -71,6 +72,30 @@ function Ship(triangle, centerX, centerY){
 				if (37 in keys) {
 					this.turn(-1);
 				}
+	}
+
+	this.throwFire = function(){
+
+			var losangle = new SAT.Polygon(new SAT.Vector(0, 0),
+			[new SAT.Vector(-3, -3), new SAT.Vector(0,-5), new SAT.Vector(3,-3), new SAT.Vector(0,5)]);
+
+			losangle.translate(this.x, this.y);
+
+			losangle.translate(-this.x, -(this.y-13));
+			losangle.rotate((Math.PI/180)* this.angle );
+			losangle.translate(this.x, this.y);
+
+			ctx.beginPath();
+			ctx.lineWidth = 1;
+	    ctx.moveTo(losangle['points'][0]['x'], losangle['points'][0]['y']);
+	    ctx.lineTo(losangle['points'][1]['x'], losangle['points'][1]['y']);
+	    ctx.lineTo(losangle['points'][2]['x'], losangle['points'][2]['y']);
+			ctx.lineTo(losangle['points'][3]['x'], losangle['points'][3]['y']);
+	    ctx.lineTo(losangle['points'][0]['x'], losangle['points'][0]['y']);
+	    ctx.strokeStyle = "white";
+	    ctx.stroke();
+	    ctx.closePath();
+
 	}
 
 	this.boost = function(){
