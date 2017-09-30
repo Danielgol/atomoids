@@ -76,7 +76,6 @@ function loop(){
 													document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
 												}else{
 													ship = createShip(canvas.width/2, canvas.height/2);
-													document.getElementById("pauseButton").style.visibility="visible";
 												}
 												hasShip = true;
 												imortality = true;
@@ -84,6 +83,7 @@ function loop(){
 
 										setTimeout(function() {
 												imortality = false;
+												document.getElementById("pauseButton").style.visibility="visible";
 										}, 5000);
 								}
 						}
@@ -125,7 +125,6 @@ function loop(){
 											document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
 										}else{
 											ship = createShip(canvas.width/2, canvas.height/2);
-											document.getElementById("pauseButton").style.visibility="visible";
 										}
 										hasShip = true;
 										imortality = true;
@@ -133,6 +132,7 @@ function loop(){
 
 								setTimeout(function() {
 										imortality = false;
+										document.getElementById("pauseButton").style.visibility="visible";
 								}, 5000);
 						}
 				}
@@ -146,11 +146,11 @@ function loop(){
 						loadMolecules(level);//.......................................................CARREGAR NOVAS MOLÉCULAS
 						hasMoleculesAndAtoms = true;
 						imortality = true;
-						document.getElementById("pauseButton").style.visibility="visible";
 				}, 2000);
 
 				setTimeout(function() {
 						imortality = false;
+						document.getElementById("pauseButton").style.visibility="visible";
 				}, 4000);
 		}
 
@@ -161,6 +161,10 @@ function loop(){
 		drawLifes(ctx, lifes);
 
 		drawLevel(ctx, level);
+
+		ctx.beginPath();
+	  ctx.fillText(time, 950, 580);
+	  ctx.closePath();
 
 		// ctx.beginPath();
 	  // ctx.fillText("IMORTALIDADE: " + imortality, 20, 490);
@@ -174,46 +178,60 @@ function loop(){
 
 
 function loadMolecules(lvl){
-	 if(lvl === 1){
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 2));
-	 }else if(lvl === 2){
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 2));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	 }else if(lvl === 3){
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 2));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	 }else if(lvl === 4){
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 2));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	 }else if(lvl === 5){
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 2));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-		 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	 }
+
+	for(i = 0; i<(lvl+5); i++){
+		molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	}
+
+	//  if(lvl === 1){
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 2));
+	//  }else if(lvl === 2){
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 2));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	//  }else if(lvl === 3){
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 2));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	//  }else if(lvl === 4){
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 2));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	//  }else if(lvl === 5){
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 2));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
+	//  }
+}
+
+
+var time = 180
+
+function countTime(){
+	if(isPaused===false){
+		time -= 1;
+	}
 }
 
 
@@ -230,7 +248,6 @@ function start(){
 
 		setTimeout(function() {
 			IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
-			document.getElementById("pauseButton").style.visibility="visible";
 		}, 2000);
 
 		// setInterval(function() {
@@ -238,8 +255,11 @@ function start(){
 		// 	audio.play();
 		// }, 1800);
 
+		setInterval(countTime, 1000);
+
 		setTimeout(function() {
 			imortality = false;
+			document.getElementById("pauseButton").style.visibility="visible";
 		}, 5000);
 }
 
