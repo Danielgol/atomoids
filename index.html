@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>Atomoids</title>
+        <style>
+            body, canvas {
+                position: absolute;
+                background-color: #101010; /*cinza muito escuro*/
+                width:  100%;
+                height: 100%;
+                margin: 0px;
+            }
+        </style>
+    </head>
+    <body>
+
+         <canvas height="600" width="1200" id="mycanvas">O seu browser não suporta canvas</canvas>
+
+         <script>
+
+            var SAT = require('sat');   //Variável do SAT (carrega o arquivo sat.js do node_modules) (https://github.com/jriecken/sat-js)
+
+         </script>
+
+         <script type="text/javascript" src="./controller/Teclado.js"></script>
+         <script type="text/javascript" src="./model/Nave.js"></script>
+         <script type="text/javascript" src="./view/DesenharJogo.js"></script>
+         <script type="text/javascript" src="./view/DesenharNave.js"></script>
+         <script type="text/javascript" src="./controller/Executar.js"></script>
+
+    </body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "atomoids",
+  "version": "1.0.0",
+  "description": "A game",
+  "main": "index.html",
+  "dependencies": {
+    "pouchdb": "^6.2.0",
+    "sat": "^0.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
