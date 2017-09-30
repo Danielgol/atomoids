@@ -2,11 +2,12 @@
 function desenharLimite(ctx, height, width){
 
 	ctx.beginPath();
-	ctx.moveTo(250, 20);
-	ctx.lineTo(250, height - 20);
-	ctx.lineTo(width - 250, height - 20);
-	ctx.lineTo(width - 250, 20);
-	ctx.lineTo(250, 20);
+	ctx.lineWidth = 2;
+	ctx.moveTo(0, 0);
+	ctx.lineTo(width, 0);
+	ctx.lineTo(width, height);
+	ctx.lineTo(0 , height);
+	ctx.lineTo(0, 0);
 	ctx.strokeStyle = "white";
 	ctx.stroke();
 	ctx.closePath();
@@ -15,6 +16,6 @@ function desenharLimite(ctx, height, width){
 
 function apagarRastro(ctx, height, width){
 
-	ctx.clearRect(251, 21, width - 502, height - 42);
-	
+	ctx.clearRect(1, 1, width - 2, height - 2);
+
 }

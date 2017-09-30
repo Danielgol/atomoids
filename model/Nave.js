@@ -30,5 +30,12 @@ function Nave(triangulo, width, height){
 	}
 
 	this.atirar = function(){
+
+		var ponto = new SAT.Circle(new SAT.Vector(this.x , this.y), 3);
+
+		var tiro = new Tiro(ponto, this.angulo);
+
+		return tiro;
+
 	}
 }

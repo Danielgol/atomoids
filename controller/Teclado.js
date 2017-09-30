@@ -45,3 +45,13 @@ function comandosTeclado(nave) {
 		nave.triangulo.translate(nave.x, nave.y);
 	}
 }
+
+function atirarTeclado(nave){
+
+	if(17 in teclas){
+
+		tiros.push(nave.atirar());
+
+	}
+
+}

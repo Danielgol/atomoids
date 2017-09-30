@@ -5,26 +5,33 @@
         <meta charset="utf-8">
         <title>Atomoids</title>
         <style>
-            body, canvas {
+            canvas {
                 position: absolute;
-                background-color: #101010; /*cinza muito escuro*/
-                width:  100%;
-                height: 100%;
+                background-color: #101010;
+                width:  70%;
+                height: 90%;
+                top: 5%;
+                left: 15%;
                 margin: 0px;
+            }
+            body {
+                background-color: #101010;
             }
         </style>
     </head>
     <body>
 
-         <canvas height="600" width="1200" id="mycanvas">O seu browser não suporta canvas</canvas>
+         <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
 
          <script type="text/javascript" src="./node_modules/sat/SAT.js"></script>
          <script type="text/javascript" src="./controller/Teclado.js"></script>
          <script type="text/javascript" src="./model/Nave.js"></script>
          <script type="text/javascript" src="./model/Molecula.js"></script>
+         <script type="text/javascript" src="./model/Tiro.js"></script>
          <script type="text/javascript" src="./view/DesenharJogo.js"></script>
          <script type="text/javascript" src="./view/DesenharNave.js"></script>
          <script type="text/javascript" src="./view/DesenharMolecula.js"></script>
+         <script type="text/javascript" src="./view/DesenharTiro.js"></script>
          <script type="text/javascript" src="./controller/Executar.js"></script>
 
     </body>
