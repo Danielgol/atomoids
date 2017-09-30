@@ -2,8 +2,7 @@
 var teclas = [];
 
 document.addEventListener("keydown", function (e) {
-	teclas[e.keyCode] = true;
-	//alert(e.keyCode);
+	teclas[e.keyCode] = true; //alert(e.keyCode);
 }, false);
 document.addEventListener("keyup", function (e) {
 	delete teclas[e.keyCode];
@@ -13,38 +12,26 @@ function comandosTeclado(nave) {
 
 	if (38 in teclas) {
 
+		nave.triangulo.translate(-nave.x, -nave.y);
 		nave.impulsionar();
-
+		nave.triangulo.translate(nave.x, nave.y);
 	}
-	if (39 in teclas) {//direita
+	if (39 in teclas) {
 
-		//nave.virar(-1 ou +1);
-		nave.x1 +=0.5;
-		nave.x2 +=0.5;
-		nave.x3 +=0.5;
-		nave.x4 +=0.5;
-		nave.x5 +=0.5;
-		nave.x6 +=0.5;
+		nave.triangulo.translate(-nave.x, -nave.y);
+		nave.x += 1;
+		nave.triangulo.translate(nave.x, nave.y);
 	}
-	if (37 in teclas) {//esquerda
+	if (37 in teclas) {
 
-		//nave.virar(+1 ou -1);
-		nave.x1 -=0.5;
-		nave.x2 -=0.5;
-		nave.x3 -=0.5;
-		nave.x4 -=0.5;
-		nave.x5 -=0.5;
-		nave.x6 -=0.5;
+		nave.triangulo.translate(-nave.x, -nave.y);
+		nave.x -= 1;
+		nave.triangulo.translate(nave.x, nave.y);
 	}
 	if (40 in teclas) {
-		nave.y1 += 0.5;
-		nave.y2 += 0.5;
-		nave.y3 += 0.5;
-		nave.y4 += 0.5;
-		nave.y5 += 0.5;
-		nave.y6 += 0.5;
-	}
-	if (90 in teclas){
-		//nave.atirar();
+
+		nave.triangulo.translate(-nave.x, -nave.y);
+		nave.y += 1;
+		nave.triangulo.translate(nave.x, nave.y);
 	}
 }

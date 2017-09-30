@@ -1,12 +1,11 @@
 
-function desenharNave(ctx, nave){
+function desenharNave(ctx, triangulo){
 		ctx.beginPath();
-		ctx.moveTo(nave.x1, nave.y1);
-		ctx.lineTo(nave.x3, nave.y3);
-		ctx.lineTo(nave.x4, nave.y4);
-		ctx.lineTo(nave.x5, nave.y5);
-		ctx.lineTo(nave.x1, nave.y1);
-		ctx.fillStyle = "white";
-		ctx.fill();
-		ctx.closePath();
+              ctx.moveTo(triangulo['points'][0]['x'], triangulo['points'][0]['y']);// /_ ponta esquerda
+              ctx.lineTo(triangulo['points'][1]['x'], triangulo['points'][1]['y']);// /^\ ponta do meio (não é o centro)
+              ctx.lineTo(triangulo['points'][2]['x'], triangulo['points'][2]['y']); // _\ ponta direita
+              ctx.lineTo(triangulo['points'][0]['x'], triangulo['points'][0]['y']);//SE TIRAR O STROKE TIRE ISSO
+              ctx.strokeStyle = "white";
+              ctx.stroke();
+              ctx.closePath();
 }

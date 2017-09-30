@@ -5,13 +5,19 @@ function loopDoJogo(){
 
 	comandosTeclado(nave);
 
-	desenharNave(ctx, nave);
+	desenharNave(ctx, nave.triangulo);
 
 }
 
 function jogo(ctx, height, width){
 
-	nave = new Nave(canvas.width, canvas.height);
+	var triangulo = new SAT.Polygon(new SAT.Vector(0, 0), [new SAT.Vector(-6, -6), 
+	new SAT.Vector(6,-6), new SAT.Vector(0,7)]);
+
+	nave = new Nave(triangulo, width, height);
+
+	nave.triangulo.rotate((Math.PI/180)*180);
+	nave.triangulo.translate(width/2, height/2);
 
 	desenharLimite(ctx, height, width);
 
