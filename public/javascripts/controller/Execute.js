@@ -127,10 +127,12 @@ function loop(){
 
 
 function loadMolecules(){
-	molecules.push(createMolecule(canvas.width, canvas.height));//}loadMolecules(lvl);
-	molecules.push(createMolecule(canvas.width, canvas.height));//}
-	molecules.push(createMolecule(canvas.width, canvas.height));//}
-	molecules.push(createMolecule(canvas.width, canvas.height));//}
+	molecules.push(createMolecule(canvas.width, canvas.height, 1));//}loadMolecules(lvl);
+	molecules.push(createMolecule(canvas.width, canvas.height, 2));//}
+	molecules.push(createMolecule(canvas.width, canvas.height, 2));//}
+	molecules.push(createMolecule(canvas.width, canvas.height, 1));//}
+	molecules.push(createMolecule(canvas.width, canvas.height, 2));//}
+	molecules.push(createMolecule(canvas.width, canvas.height, 1));//}
 }
 
 
