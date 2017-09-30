@@ -164,9 +164,29 @@ function loop(){
 
 		drawLevel(ctx, level);
 
+
+
+
+		var minutes = Math.floor(time/60);
 		ctx.beginPath();
-	  ctx.fillText(time, 950, 580);
-	  ctx.closePath();
+
+		if(time > 0){
+			if(seconds < 10){
+				ctx.fillText("TIME: "+minutes+":0"+seconds, 890, 580);
+			}else{
+		  	ctx.fillText("TIME: "+minutes+":"+seconds, 890, 580);
+			}
+		  ctx.closePath();
+		}
+
+		if(time <= 0 && lifes > 0){
+			lifes = 0;
+			setTimeout(function() {
+				window.document.formulario.date.value = ''+score._id;
+				window.document.formulario.points.value = ''+score.points;
+				document.getElementById("form").submit();
+			}, 1000);
+		}
 
 		// ctx.beginPath();
 	  // ctx.fillText("IMORTALIDADE: " + imortality, 20, 490);
@@ -180,57 +200,19 @@ function loop(){
 
 
 function loadMolecules(lvl){
-
 	for(i = 0; i<(lvl+5); i++){
 		var moleculeId = Math.floor(Math.random() * 5 + 1);
 		molecules.push(createMolecule(canvas.width, canvas.height, moleculeId));
 	}
-
-	//  if(lvl === 1){
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 2));
-	//  }else if(lvl === 2){
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 2));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	//  }else if(lvl === 3){
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 2));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	//  }else if(lvl === 4){
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 2));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	//  }else if(lvl === 5){
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 2));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	// 	 molecules.push(createMolecule(canvas.width, canvas.height, 1));
-	//  }
 }
 
 function countTime(){
 	if(isPaused===false){
 		time -= 1;
+		seconds -= 1;
+		if(seconds < 0){
+			seconds = 59;
+		}
 	}
 }
 
@@ -272,7 +254,7 @@ var ctx = canvas.getContext("2d");
 //	Game contém todos os métodos do Controller
 //	Tudo abaixo
 
-var time = 180;
+var time = 60; var seconds = 0;
 var contador = 0;
 var imortality = true;
 var level = 1;

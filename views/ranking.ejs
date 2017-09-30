@@ -5,7 +5,34 @@
         <meta charset="utf-8">
         <title>Atomoids_Ranking</title>
         <script src="javascripts/pouchdb-6.2.0.min.js"></script>
-        <link rel="stylesheet" href="stylesheets/style.css">
+        <style>
+
+          body {
+              font-family: Hyperspace Bold;
+              background-color: #101010;
+          }
+
+          table {
+              position: absolute;
+              border: 0px;
+              color: white;
+              transform: translate(-50%, 0%);
+              /*https://css-tricks.com/quick-css-trick-how-to-center-an-object-exactly-in-the-center/*/
+          }
+
+          input {
+              font-family: Hyperspace Bold;
+              color: white;
+              background-color: #101010;
+          }
+
+          tr, td {
+              border: 0px;
+              text-align: center;
+              font-size: 17px;
+          }
+
+        </style>
         <script>
             var db = new PouchDB('atomoids_ranking');
 
@@ -33,7 +60,7 @@
                   names += scores[0].doc.name+"<br>";
                   points += scores[0].doc.points+"<br>";
 
-                  for(var f = 1; f<scores.length; f++){
+                  for(var f = 1; f<20; f++){
                       if(scores[f].doc.points === back){
                         position += ".<br>";
                       }else{
@@ -52,26 +79,42 @@
             function goToIndex(){
               window.location.replace("/");
             }
+
+            // function showPreviousScores(){
+            //
+            // }
+            //
+            // function showNextScores(){
+            //
+            // }
         </script>
     </head>
 
     <body onload="showRanking('tableName', 'tablePoints', 'tablePosition');">
 
-      <table style="top: 10%;">
-        <tr><td style="font-size: 60px;">RANKING</td></tr>
+      <table cellpadding="10" style="top: 5%; left: 50%;">
+        <tr>
+          <td><input style="font-size: 25px;" type="button" value="<" onclick="goToIndex()"></td>
+          <td style="font-size: 60px;">RANKING</td>
+        </tr>
       </table>
 
-      <table style="top: 10%; left: 36%;">
+      <!-- <table style="top: 8.5%; left: 36%;">
         <tr><td><input style="font-size: 25px;" type="button" value="<" onclick="goToIndex()"></td></tr>
-      </table>
+      </table> -->
 
-      <table style="top: 55%;">
+      <table style="top: 22%; left: 50%;">
         <tr>
           <td id="tablePosition" style="text-align: right;"></td>
           <td id="tableName" style="text-align: left;"></td>
           <td id="tablePoints" style="text-align: right;"></td>
         </tr>
       </table>
+
+      <!-- <table style="top: 90%; left: 50%;">
+        <tr><td><input type="button" value="<" onclick="showPreviousScores()"></td>
+        <td><input type="button" value=">" onclick="showNextScores()"></td></tr>
+      </table> -->
 
     </body>
 
