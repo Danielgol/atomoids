@@ -33,16 +33,16 @@
           //     score.name = window.document.formulario2.playerName.value;
           //     document.getElementById("form2").submit();
           // }
-          
+
       </script>
 
-      <table>
+      <table style="top: 30%;">
         <tr><td style="font-size: 30px;">Score: <%= points %></td></tr>
         <tr><td style="font-size: 30px;"><%= date %></td></tr>
       </table>
 
       <form action="/submited" method="post" name="formulario" id="addToRankingButton">
-        <table>
+        <table style="top: 60%;">
           <tr><td><input style="width: 350px; font-size: 22px;" type="text" name="playerName" placeholder="Coloque o seu nome aqui" ></td>
           <td><input style="font-size: 22px;" type="button" value=">" onclick="addScoreIntoDB()"></td></tr>
         </table>
@@ -57,7 +57,7 @@
           </table>
       </form> -->
 
-      <table>
+      <table style="top: 70%;">
         <tr><td><input style="font-size: 30px;" type="button" value="        Menu        " onclick="window.location.replace('/')"></td></tr>
       </table>
 

@@ -40,17 +40,15 @@
 
         </script>
 
-        <!-- <form action="/pause" method="post" id="pause" name="pause"> -->
-        <table border="1" style="top: 7%; left: 81%;" id="pauseButton">
+        <table style="top: 8%; left: 83%;" id="pauseButton">
           <tr><td><input type="button" value="||" onclick="pause()"></td></tr>
         </table>
-        <!-- </form> -->
 
-        <table border="1" style="color: white; top: 15%; left: 36%; visibility: hidden;" id="pauseScreen">
-          <tr><td style="font-size: 70px; padding: 20px 0;">PAUSA</td></tr>
-          <tr><td style="padding: 20px 0;"><input type="button" style="font-size: 200%;" value="     Continuar     " onclick="pause()"></td></tr>
-          <tr><td style="padding: 20px 0;"><input type="button" style="font-size: 200%;" value="     Reiniciar     " onclick="restartGame()"></td></tr>
-          <tr><td style="padding: 20px 0;"><input type="button" style="font-size: 200%;" value="       Sair        " onclick="goToIndex()"></td></tr>
+        <table style=" top: 40%; visibility: hidden;" id="pauseScreen">
+          <tr><td style="font-size: 35px; padding: 40px 0;">JOGO PAUSADO</td></tr>
+          <tr><td><input type="button" style="font-size: 200%;" value="     Continuar     " onclick="pause()"></td></tr>
+          <tr><td style="padding: 30px 0;"><input type="button" style="font-size: 200%;" value="     Reiniciar     " onclick="restartGame()"></td></tr>
+          <tr><td><input type="button" style="font-size: 200%;" value="       Sair        " onclick="goToIndex()"></td></tr>
         </table>
 
         <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
