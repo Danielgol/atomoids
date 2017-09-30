@@ -15,6 +15,7 @@ function loop(){
 		}
 
 		for(i = 0; i<molecules.length; i++){// REALIZA AS ATIVIDADES ABAIXO PARA TODAS AS MOLECULAS
+
 				molecules[i].move();//	MOVE A MOLECULA
 				molecules[i].obeyLimit(canvas.width, canvas.height);//	FAZ COM QUE A MOLECULA OBEDEÇA OS LIMITES DA TELA
 				drawMolecule(ctx, molecules[i].circle);// DESENHA A MOLECULA
@@ -22,20 +23,32 @@ function loop(){
 				//COLISÃO (TIROS COM MOLECULAS);
 				for(x = 0; x<shots.length; x++){
 						var response = new SAT.Response();
-						var collided = SAT.testCircleCircle(molecules[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO
-						if(collided === true){//	SE COLIDIU...
-							molecules.splice(i, 1);//	REMOVE A MOLECULA
-							shots.splice(x, 1);//	REMOVE O TIRO
-							score.increaseScore(10);// AUMENTA O SCORE
+						if(molecules.length>0){
+
+							//Está dando erro: Unable to get property 'circle' of undefined or null reference
+							var collided = SAT.testCircleCircle(molecules[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO
+
+
+							if(collided === true){//	SE COLIDIU...
+								molecules.splice(i, 1);//	REMOVE A MOLECULA
+								shots.splice(x, 1);//	REMOVE O TIRO
+								score.increaseScore(10);// AUMENTA O SCORE
+							}
+						}else{
+							break;
 						}
 				}
 
 				//COLISÃO (NAVE COM MOLECULAS);
-				var response = new SAT.Response();
-				var collided = SAT.testPolygonCircle(ship.triangle, molecules[i].circle, response);// VERIFICA A COLISÃO
-				if(collided === true){//	SE COLIDIU...
-					molecules.splice(i, 1);//	REMOVE A MOLECULA
-					ship.respawn(canvas.width/2, canvas.height/2);// FAZ COM QUE A NAVE VOLTE PARA O CENTRO
+				if(molecules.length>0){
+					var response = new SAT.Response();
+					var collided = SAT.testPolygonCircle(ship.triangle, molecules[i].circle, response);// VERIFICA A COLISÃO
+					if(collided === true){//	SE COLIDIU...
+						molecules.splice(i, 1);//	REMOVE A MOLECULA
+						ship.respawn(canvas.width/2, canvas.height/2);// FAZ COM QUE A NAVE VOLTE PARA O CENTRO
+					}
+			  }else{
+					break;
 				}
 		}
 

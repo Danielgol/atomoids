@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>Atomoids_Pure</title>
+        <script src="javascripts/pouchdb-6.2.0.min.js"></script>
+        <script>
+            var db = new PouchDB('atomoids_ranking');
+            var remoteCouch = 'http://127.0.0.1:5984/atomoids_ranking';
+        </script>
+        <link rel="stylesheet" href="stylesheets/style.css">
+    </head>
+    <body>
+
+        <script>
+          function loadPage(){
+              window.location.replace("/");
+          }
+        </script>
+
+        <table border="1">
+          <tr><td><input type="button" style="left: 100%;" value="Voltar-Página principal" onclick="loadPage()"></td></tr>
+        </table>
+
+        <script type="text/javascript">
+
+            var score;
+            var scores;
+
+            function addScoreIntoDB(){
+                score.playerName = window.document.formulario.playerName.value;
+                var pontuacao = { _id: new Date().toISOString(), points: score.score, name: score.playerName}
+                db.put(pontuacao, function callback(err, result){
+                    if(!err){
+                      clearField();
+                    }
+                });
+            }
+            function clearField(){
+                window.document.formulario.playerName.value = "";
+                score.score = 0;
+            }
+            //SEPARAR: SHOW RANKING COM RECUPERAR RANKING
+            function showRanking(){
+                scores = null;
+                db.allDocs({include_docs: true, descending: true}).then(function(docs){
+                  scores = docs.rows;
+                  var string = "SCORES: \n";
+                  for(var f = 0; f<scores.length; f++){
+                      string += "Name: "+scores[f].doc.name+" Score:"+scores[f].doc.points+"\n";
+                  }
+                  alert(string);
+                });
+            }
+        </script>
+
+        <form name="formulario" id="form1">
+          <table border="1">
+            <tr><td><input type="text" name="playerName"></td>
+            <td><input type="button" value="Submeter" onclick="addScoreIntoDB()"></td></tr>
+            <tr><td colspan="2"><input type="button" value="Mostrar Ranking" onclick="showRanking()"></td></tr>
+          </table>
+        </form>
+
+        <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
+
+        <script type="text/javascript" src="javascripts/SAT.js">//DEVERIA SER PELO: var SAT = require('sat');</script>
+        <script type="text/javascript" src="javascripts/controller/Keyboard.js"></script>
+        <script type="text/javascript" src="javascripts/model/Score.js"></script>
+        <script type="text/javascript" src="javascripts/model/Ship.js"></script>
+        <script type="text/javascript" src="javascripts/model/Molecule.js"></script>
+        <script type="text/javascript" src="javascripts/model/Shot.js"></script>
+        <script type="text/javascript" src="javascripts/view/DrawScreen.js"></script>
+        <script type="text/javascript" src="javascripts/view/DrawShip.js"></script>
+        <script type="text/javascript" src="javascripts/view/DrawMolecule.js"></script>
+        <script type="text/javascript" src="javascripts/view/DrawShot.js"></script>
+        <script type="text/javascript" src="javascripts/controller/CreateShip.js"></script>
+        <script type="text/javascript" src="javascripts/controller/CreateMolecule.js"></script>
+        <script type="text/javascript" src="javascripts/controller/Execute.js"></script>
+
+    </body>
+</html>

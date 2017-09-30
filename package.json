@@ -14,5 +14,9 @@
     "morgan": "~1.8.1",
     "sat": "^0.6.0",
     "serve-favicon": "~2.4.2"
-  }
+  },
+  "description": "A Game",
+  "main": "app.js",
+  "author": "Adônis França Belo & Daniel Carneiro Rosa",
+  "license": "ISC"
 }
