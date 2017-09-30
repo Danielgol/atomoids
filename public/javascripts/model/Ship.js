@@ -6,6 +6,32 @@ function Ship(triangle, centerX, centerY){
 	this.x = centerX;
 	this.y = centerY;
 	this.energy = 15;
+	this.aceleration = 0.005;
+	this.velocity = 0;
+
+	this.resultingAngle = 0;
+
+	this.acelerate = function(){
+			if(this.velocity <= 1.5){
+				this.velocity += this.aceleration;
+			}
+	}
+
+	this.inertia = function(){
+			if(this.velocity >= 0){
+
+				this.velocity -= 0.001;
+
+				this.triangle.translate(-this.x, -this.y);
+				if ((this.resultingAngle < 90 || this.resultingAngle > 270) || (this.resultingAngle > 90 && this.resultingAngle < 270)) {//CIMA BAIXO
+			           this.y -= Math.cos(this.resultingAngle * Math.PI / 180) * this.velocity;
+			  }
+			  if ((this.resultingAngle < 360 && this.resultingAngle > 180) || (this.resultingAngle < 180 && this.resultingAngle > 0)) { //DIREITA ESQUERDA
+			           this.x += Math.sin(this.resultingAngle * Math.PI / 180) * this.velocity;
+			  }
+				this.triangle.translate(this.x, this.y);
+			}
+	}
 
 	this.move = function(keys){
 				if (38 in keys) {
@@ -20,12 +46,25 @@ function Ship(triangle, centerX, centerY){
 	}
 
 	this.boost = function(){
+
+			this.acelerate();
+			// this.triangle.translate(-this.x, -this.y);
+			// if ((this.angle < 90 || this.angle > 270) || (this.angle > 90 && this.angle < 270)) {//CIMA BAIXO
+		  //          this.y -= Math.cos(this.angle * Math.PI / 180) * 1;
+		  // }
+		  // if ((this.angle < 360 && this.angle > 180) || (this.angle < 180 && this.angle > 0)) { //DIREITA ESQUERDA
+		  //          this.x += Math.sin(this.angle * Math.PI / 180) * 1;
+		  // }
+			// this.triangle.translate(this.x, this.y);
+
+			this.resultingAngle = this.angle;
+
 			this.triangle.translate(-this.x, -this.y);
 			if ((this.angle < 90 || this.angle > 270) || (this.angle > 90 && this.angle < 270)) {//CIMA BAIXO
-		           this.y -= Math.cos(this.angle * Math.PI / 180) * 1;
+		           this.y -= Math.cos(this.angle * Math.PI / 180) * this.velocity;
 		  }
 		  if ((this.angle < 360 && this.angle > 180) || (this.angle < 180 && this.angle > 0)) { //DIREITA ESQUERDA
-		           this.x += Math.sin(this.angle * Math.PI / 180) * 1;
+		           this.x += Math.sin(this.angle * Math.PI / 180) * this.velocity;
 		  }
 			this.triangle.translate(this.x, this.y);
 	}

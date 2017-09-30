@@ -4,6 +4,7 @@ function loop(){
 		cleanScreen(ctx, canvas.width, canvas.height);//	LIMPA A TELA (O RASTRO DAS COISAS)
 
 		ship.move(keys);//	MOVE A NAVE
+		ship.inertia();
 		ship.obeyLimit(canvas.width, canvas.height);//	FAZ COM QUE A NAVE OBEDEÇA OS LIMITES DA TELA
 		drawShip(ctx, ship.triangle);//	DESENHA A NAVE
 
