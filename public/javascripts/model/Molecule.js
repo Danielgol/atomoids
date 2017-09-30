@@ -1,31 +1,15 @@
 
-function Molecule(circle, angle){
+function Molecule(angle, atoms){
 
-	this.circle = circle;
   this.angle = angle;
-	//(RESTO)
+	this.atoms = atoms;
 
 	this.move = function(){
-
-			if ((this.angle < 90 || this.angle > 270) || (this.angle > 90 && this.angle < 270)) {//CIMA BAIXO
-	        this.circle['pos'].y -= Math.cos(this.angle * Math.PI / 180) * 1;
-	    }
-	    if ((this.angle < 360 && this.angle > 180) || (this.angle < 180 && this.angle > 0)) { //DIREITA ESQUERDA
-	        this.circle['pos'].x += Math.sin(this.angle * Math.PI / 180) * 1;
-	    }
-	}
-
-	this.obeyLimit = function(width, height){
-
-			if(this.circle['pos'].x > width){
-					this.circle['pos'].x = 0;
-			}else if(this.circle['pos'].x < 0){
-					this.circle['pos'].x = width;
-			}else if(this.circle['pos'].y > height){
-					this.circle['pos'].y = 0;
-			}else if(this.circle['pos'].y < 0){
-					this.circle['pos'].y = height;
-			}
+		for(var i = 0; i<this.atoms.length; i++){
+			this.atoms[i].move(this.angle, 1);
+			this.atoms[i].obeyLimit(1000, 600);
+			drawAtom(ctx, this.atoms[i].circle);
+		}
 	}
 
 }

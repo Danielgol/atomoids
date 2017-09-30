@@ -7,17 +7,18 @@ var index = require('./../controllers/index');
 var submit = require('./../controllers/submit');
 var teste = require('./../controllers/teste');
 
-/* GET home page. */
+/* Home.ejs */
 router.get('/', index.controller.load);
 router.get('/game', game.controller.load);//router.get('/submit', submit.controller.load);
 
+/* Game.ejs */
 router.post('/submit', game.controller.sendToSubmit);
-router.post('/added', submit.controller.sendAddedMessage);
 
-
+/* Submit.ejs */
+router.post('/submited', submit.controller.sendAddedMessage);
 //router.post('/submited', submit.controller.submitNewScore);
 
-//<!-- @TESTE -->
-router.get('/teste', teste.controller.sendMessage);
+//<!-- @TESTE MODEL -->
+//router.get('/teste', teste.controller.sendMessage);
 
 module.exports = router;

@@ -1,89 +1,93 @@
 
 function loop(){
 
-		cleanScreen(ctx, canvas.width, canvas.height);//	LIMPA A TELA (O RASTRO DAS COISAS)
+		cleanScreen(ctx, canvas.width, canvas.height);//..............................LIMPA A TELA (O RASTRO DAS COISAS)
 
-		// PARTE DA NAVE---------------------------------------------------------------------------------------------------------------
+// PARTE DA NAVE---------------------------------------------------------------------------------------------------------------
 
-		if(timingSpawningShip === false){
-
-			ship.move(keys);//............................................................MOVE A NAVE
-			ship.regulateVelocity(1.5);//.................................................LIMITA A VELOCIDADE DA NAVE (FORÇAS)
-			ship.slide(0.001);//..........................................................Faz COM QUE A NAVE RETARDE
-			ship.applyForces();//.........................................................fAZ COM QUE A NAVE GANHE "VELOCIDADE" (FORÇA)
-			ship.obeyLimit(canvas.width, canvas.height);//................................FAZ COM QUE A NAVE OBEDEÇA OS LIMITES DA TELA
-			drawShip(ctx, ship.triangle);//...............................................DESENHA A NAVE
-
+		if(hasShip === true){
+			ship.move(keys);//..........................................................MOVE A NAVE
+			ship.regulateVelocity(1.5);//...............................................LIMITA A VELOCIDADE DA NAVE (FORÇAS)
+			ship.slide(0.001);//........................................................FAZ COM QUE A NAVE RETARDE
+			ship.applyForces();//.......................................................FAZ COM QUE A NAVE GANHE "VELOCIDADE" (FORÇA)
+			ship.obeyLimit(canvas.width, canvas.height);//..............................FAZ COM QUE A NAVE OBEDEÇA OS LIMITES DA TELA
+			drawShip(ctx, ship.triangle);//.............................................DESENHA A NAVE
+			//shots = ship.shoot(shots, keys);//..........................................ADICIONA UM NOVO TIRO (SE ATIROU)
 		}
 
-		// PARTE DO TIRO---------------------------------------------------------------------------------------------------------------
+// PARTE DO TIRO---------------------------------------------------------------------------------------------------------------
 
-	  shots = ship.shoot(shots, keys);//............................................ADICIONA UM NOVO TIRO (SE ATIROU)
+		// for(i = 0; i<shots.length; i++){
+		// 		shots[i].move(3);//.......................................................MOVE O TIRO
+		// 		shots[i].obeyLimit(canvas.width, canvas.height);//........................FAZ COM QUE O TIRO OBEDEÇA OS LIMITES DA TELA
+		// 		shots[i].LoseReach(0.1);//................................................FAZ QUE O TIRO PERCA "TEMPO DE VIDA"
+		// 		if(shots[i].reach <= 0){//................................................VERIFICA O TEMPO DE VIDA DO TIRO
+		// 			shots.splice(i, 1);//......................................................REMOVE O TIRO
+		// 		}else{
+		// 			drawShot(ctx, shots[i].circle);//.......................................DESENHA O TIRO
+		// 		}
+		// }
 
-		for(i = 0; i<shots.length; i++){
-				shots[i].move(3);//........................................................MOVE O TIRO
-				shots[i].obeyLimit(canvas.width, canvas.height);//........................FAZ COM QUE O TIRO OBEDEÇA OS LIMITES DA TELA
-				shots[i].LoseReach(0.1);//................................................FAZ QUE O TIRO PERCA "TEMPO DE VIDA"
-				if(shots[i].reach <= 0){//................................................VERIFICA O TEMPO DE VIDA DO TIRO
-					shots.splice(i, 1);//......................................................REMOVE O TIRO
-				}else{
-					drawShot(ctx, shots[i].circle);//.......................................DESENHA O TIRO
-				}
-		}
-
-		// PARTE DA MOLECULA + COLISÕES ----------------------------------------------------------------------------------------------
+// PARTE DA MOLECULA + COLISÕES ----------------------------------------------------------------------------------------------
 
 		for(i = 0; i<molecules.length; i++){
+
+				//alert("BUM");
+
 				molecules[i].move();//....................................................MOVE A MOLECULA
-				molecules[i].obeyLimit(canvas.width, canvas.height);//....................FAZ COM QUE A MOLECULA OBEDEÇA OS LIMITES DA TELA
-				drawMolecule(ctx, molecules[i].circle);//.................................DESENHA A MOLECULA
+				//molecules[i].obeyLimit(canvas.width, canvas.height);//....................FAZ COM QUE A MOLECULA OBEDEÇA OS LIMITES DA TELA
+				//drawMolecule(ctx, molecules[i].atoms);//.................................DESENHA A MOLECULA
+				//for(x = 0; x<shots.length; x++){
+						//Está dando erro: Unable to get property 'circle' of undefined or null reference
+						// var response = new SAT.Response();
+						// var collided = SAT.testCircleCircle(molecules[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO
+						// if(collided === true){//..............................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
+						// 	molecules.splice(i, 1);//..............................................REMOVE A MOLECULA
+						// 	shots.splice(x, 1);//..................................................REMOVE O TIRO
+						// 	score.points += 10;//..................................................AUMENTA O SCORE
+						// }
+				//}
 
-				for(x = 0; x<shots.length; x++){
-								//Está dando erro: Unable to get property 'circle' of undefined or null reference
-						var response = new SAT.Response();
-						var collided = SAT.testCircleCircle(molecules[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO
-						if(collided === true){//..........................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
-							molecules.splice(i, 1);//..........................................REMOVE A MOLECULA
-							shots.splice(x, 1);//..............................................REMOVE O TIRO
-							score.points += 10;//..............................................AUMENTA O SCORE
-						}
-				}
 				//COLISÃO (NAVE COM MOLECULAS);
-
-				if(timingSpawningShip === false){
-						var response = new SAT.Response();
-						var collided = SAT.testPolygonCircle(ship.triangle, molecules[i].circle, response);// VERIFICA A COLISÃO
-						if(collided === true){//...........................................SE A NAVE COLIDIU COM UMA MOLÉCULA
-								molecules.splice(i, 1);//..........................................REMOVE A MOLECULA
-								lifes -= 1;//......................................................FAZ A NAVE PERDER VIDA
-								timingSpawningShip = true;//.......................................ACIONA O TEMPORIZADOR
-								setTimeout(function() {
-										if(lifes === 0){
-											clearInterval(IntervalId);// INTERROMPE O LOOP;
-											window.document.formulario.date.value = ''+score._id;
-											window.document.formulario.points.value = ''+score.points;
-											document.getElementById("form").submit();
-										}else{
-											ship = createShip(canvas.width/2, canvas.height/2);
-										}
-										timingSpawningShip = false;
-								}, 2000);
-						}
-				}
+				// if(hasShip === true){
+				// 		var response = new SAT.Response();
+				// 		var collided = SAT.testPolygonCircle(ship.triangle, molecules[i].circle, response);// VERIFICA A COLISÃO
+				// 		if(collided === true){//..............................................SE A NAVE COLIDIU COM UMA MOLÉCULA
+				// 				molecules.splice(i, 1);//............................................REMOVE A MOLECULA
+				// 				lifes -= 1;//........................................................FAZ A NAVE PERDER VIDA
+				// 				hasShip = false;//.........................................ACIONA O TEMPORIZADOR DE RESPAWN
+				// 				setTimeout(function() {
+				// 						if(lifes === 0){//............................................CONDIÇÃO DO FIM
+				// 							clearInterval(IntervalId);//................................INTERROMPE O LOOP;
+				// 							window.document.formulario.date.value = ''+score._id;
+				// 							window.document.formulario.points.value = ''+score.points;
+				// 							document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
+				// 						}else{
+				// 							ship = createShip(canvas.width/2, canvas.height/2);
+				// 						}
+				// 						hasShip = true;
+				// 				}, 2000);
+				// 		}
+				// }
 		}
 
-		//---------------------------------------------------------------------------------------------------------------------------
+		// if(molecules.length === 0 && hasMolecules === true){//................CONDIÇÃO PARA CARREGAR NOVAS MOLÉCULAS
+		// 		hasMolecules = false;//................................................ACIONA O TEMPORIZADOR PARA CARREGAR MOLÉCULAS
+		// 		setTimeout(function() {
+		// 				loadMolecules();//.......................................................CARREGAR NOVAS MOLÉCULAS
+		// 				hasMolecules = true;
+		// 		}, 2000);
+		// }
 
-		drawScore(ctx, score.points, (canvas.width/2)-5, 20);// EXIBE O SCORE ATUAL
+// OUTROS----------------------------------------------------------------------------------------------------------------------
 
-		if(molecules.length === 0 && timingLoadMolecules === false){
-				timingLoadMolecules = true;
-				setTimeout(function() {
-						loadMolecules();
-						timingLoadMolecules = false;
-				}, 2000);
-		}
+		drawScore(ctx, score.points, (canvas.width/2)-5, 20);//.......................EXIBE O SCORE ATUAL
+
+//-----------------------------------------------------------------------------------------------------------------------------
+
 }
+
+
 
 function loadMolecules(){
 	molecules.push(createMolecule(canvas.width, canvas.height));//}loadMolecules(lvl);
@@ -91,6 +95,8 @@ function loadMolecules(){
 	molecules.push(createMolecule(canvas.width, canvas.height));//}
 	molecules.push(createMolecule(canvas.width, canvas.height));//}
 }
+
+
 
 function start(){
 		ship = createShip(canvas.width/2, canvas.height/2);
@@ -100,22 +106,28 @@ function start(){
 }
 
 
+
 var canvas = document.getElementById("mycanvas");
 var ctx = canvas.getContext("2d");
 
-var timingLoadMolecules = false;
-var timingSpawningShip = false;
-
-var lifes = 3;
-
-var ship;
-var shots = [];
-var molecules = [];
-var IntervalId;
-var score = {
+// Classe game contém:
+//	Screen: height, widht, meio, (Em vetores)
+//	Game.start() ...
+//	Game contém todos os métodos do Controller
+//	Tudo abaixo
+var hasMolecules = true;// colocar numa classe game
+var hasShip = true;// colocar numa classe game
+var lifes = 3;// colocar numa classe game
+var ship;// colocar numa classe game
+var shots = [];// colocar numa classe game
+var molecules = [];// colocar numa classe game
+var IntervalId;// colocar numa classe game
+var score = {// colocar numa classe game
 	_id: new Date().toISOString(),
 	points: 0
 }
 
+
+//Adaptar os int x e int y em Vector(x,y) nos métodos
 
 start();

@@ -19,7 +19,6 @@ function Shot(circle, angle){
 	}
 
 	this.obeyLimit = function(width, height){
-
 			if(this.circle['pos'].x > width){
 					this.circle['pos'].x = 0;
 			}else if(this.circle['pos'].x < 0){

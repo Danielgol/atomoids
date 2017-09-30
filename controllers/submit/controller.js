@@ -7,9 +7,8 @@ module.exports = {
   //   res.render('submit', {points: '42' , date: 'DATA'});
   // },
 
-  //@Deprecated
   sendAddedMessage: function(req, res ,next) {
-    console.log(req.body.playerName);//res.redirect('/');
+    //res.redirect('/');
     res.render('index', { message: 'O score de '+req.body.playerName+' foi adicionado' } );
   }//,
 

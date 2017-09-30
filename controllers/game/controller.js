@@ -6,7 +6,6 @@ module.exports = {
   },
 
   sendToSubmit: function(req, res ,next){
-    console.log('CHEGOU');
     res.render('submit', {points: req.body.points , date: req.body.date} );
   }
 
