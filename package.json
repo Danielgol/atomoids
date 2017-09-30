@@ -1,17 +1,18 @@
 {
   "name": "atomoids",
-  "version": "1.0.0",
-  "description": "A game",
-  "main": "index.html",
-  "dependencies": {
-    "express": "^4.15.3",
-    "pouchdb": "^6.2.0",
-    "sat": "^0.6.0"
-  },
-  "devDependencies": {},
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "ejs": "^2.5.6",
+    "express": "~4.15.2",
+    "morgan": "~1.8.1",
+    "sat": "^0.6.0",
+    "serve-favicon": "~2.4.2"
+  }
 }
