@@ -18,5 +18,12 @@
   "description": "A Game",
   "main": "app.js",
   "author": "Adônis França Belo & Daniel Carneiro Rosa",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jasmine": "^2.8.0",
+    "jasmine-core": "^2.8.0",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.0"
+  }
 }
