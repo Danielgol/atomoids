@@ -13,6 +13,7 @@ Este jogo destina-se principalmente a todos os estudantes que cursam a disciplin
 ### Ferramentas:
 
 HTML, JavaScript, Node Js, Express, SAT, Jasmine.
+Obs.: Para executar o jogo, abra o prompt de comando do npm e digite npm start.
 
 ### Projetos semelhantes:
 
