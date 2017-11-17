@@ -2,15 +2,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
+      
         <meta charset="utf-8">
         <title>Atomoids_Ranking</title>
         <script src="javascripts/pouchdb-6.2.0.min.js"></script>
         <style>
 
-        @font-face {
-          font-family: Hyper;
-          src: url("stylesheets/_fonts/Hyperspace Bold.otf");
-        }
+          @font-face {
+            font-family: Hyper;
+            src: url("stylesheets/_fonts/Hyperspace Bold.otf");
+          }
 
           body {
               font-family: Hyper;
@@ -38,8 +39,15 @@
           }
 
         </style>
+
         <script>
+
             var db = new PouchDB('atomoids_ranking');
+
+            var maxPositionsPerPage = 20;
+            var firstPosition = 1;
+            var lastPosition = maxPositionsPerPage;
+            var lastPage = false;
 
             function showRanking(tableName, tablePoints, tablePosition){
 
@@ -60,12 +68,24 @@
                   });
                   //https://stackoverflow.com/questions/6712034/sort-array-by-firstname-alphabetically-in-javascript
 
-                  var back = scores[0].doc.points;
-                  position += "1.<br>";
-                  names += scores[0].doc.name+"<br>";
-                  points += scores[0].doc.points+"<br>";
+                  var back = scores[firstPosition-1].doc.points;
 
-                  for(var f = 1; f<scores.length; f++){
+                  position += firstPosition+".<br>";
+                  names += scores[firstPosition-1].doc.name+"<br>";
+                  points += scores[firstPosition-1].doc.points+"<br>";
+
+                  if(lastPosition >= scores.length){
+                    lastPage = true;
+                  }else{
+                    lastPage = false;
+                  }
+
+                  for(var f = firstPosition; f<lastPosition; f++){
+
+                      if(f >= scores.length){
+                        break;
+                      }
+
                       if(scores[f].doc.points === back){
                         position += ".<br>";
                       }else{
@@ -85,14 +105,34 @@
               window.location.replace("/");
             }
 
-            // function showPreviousScores(){
-            //
-            // }
-            //
-            // function showNextScores(){
-            //
-            // }
+            function showPreviousScores(){
+              firstPosition -= maxPositionsPerPage;
+
+              if(firstPosition < 1){
+                firstPosition = 1;
+              }
+
+              lastPosition -= maxPositionsPerPage;
+
+              if(lastPosition < maxPositionsPerPage){
+                lastPosition = maxPositionsPerPage;
+              }
+
+              showRanking('tableName', 'tablePoints', 'tablePosition');
+            }
+
+            function showNextScores(){
+
+              if(lastPage === false){
+                firstPosition += maxPositionsPerPage;
+                lastPosition += maxPositionsPerPage;
+              }
+
+              showRanking('tableName', 'tablePoints', 'tablePosition');
+            }
+
         </script>
+
     </head>
 
     <body onload="showRanking('tableName', 'tablePoints', 'tablePosition');">
@@ -104,10 +144,6 @@
         </tr>
       </table>
 
-      <!-- <table style="top: 8.5%; left: 36%;">
-        <tr><td><input style="font-size: 25px;" type="button" value="<" onclick="goToIndex()"></td></tr>
-      </table> -->
-
       <table style="top: 22%; left: 50%;">
         <tr>
           <td id="tablePosition" style="text-align: right;"></td>
@@ -116,10 +152,10 @@
         </tr>
       </table>
 
-      <!-- <table style="top: 90%; left: 50%;">
+      <table style="top: 90%; left: 50%;">
         <tr><td><input type="button" value="<" onclick="showPreviousScores()"></td>
         <td><input type="button" value=">" onclick="showNextScores()"></td></tr>
-      </table> -->
+      </table>
 
     </body>
 
