@@ -1030,6 +1030,18 @@ describe("Atom Test", function() {
   var atom;
   var circle;
 
+  it("test atom position in 89 degrees", function(){ 
+
+    circle = new SAT.Circle(new SAT.Vector(1, 1), 25);
+    atom = new Atom(circle, 89, "blue");
+
+    atom.move(89, 1);
+
+    expect(1.9998476951563913).toBe(atom.circle['pos'].x);
+    expect(0.9825475935627166).toBe(atom.circle['pos'].y);
+
+  });
+
   it("test atom position in 90 degrees", function(){
 
     circle = new SAT.Circle(new SAT.Vector(1, 1), 25);
