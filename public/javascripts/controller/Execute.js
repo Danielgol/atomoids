@@ -96,7 +96,7 @@ function loop(){
 		for(i = 0; i<aloneAtoms.length; i++){
 				aloneAtoms[i].move(aloneAtoms[i].angle, aloneAtoms[i].velocity);
 				aloneAtoms[i].obeyLimit(canvas.width, canvas.height);
-				drawAtom(ctx, aloneAtoms[i].circle, aloneAtoms[i].color);
+				drawAtom(ctx, aloneAtoms[i].circle, aloneAtoms[i].color, aloneAtoms[i].element);
 				for(x = 0; x<shots.length; x++){
 						var response = new SAT.Response();
 						var collided = SAT.testCircleCircle(aloneAtoms[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO
@@ -203,8 +203,9 @@ function loop(){
 
 
 function loadMolecules(lvl){
-	for(i = 0; i<(lvl+5); i++){
-		var moleculeId = Math.floor(Math.random() * 5 + 1);
+	for(i = 0; i<(lvl+5); i++){//lvl+5
+		var moleculeId = Math.floor(Math.random() * 10 + 1);
+		//var moleculeId = 10;
 		molecules.push(createMolecule(canvas.width, canvas.height, moleculeId));
 	}
 }
