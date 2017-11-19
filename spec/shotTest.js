@@ -1309,4 +1309,15 @@ describe("Shot Test", function() {
 
     });
 
+    it("test shot position when Y is smaller than 0 ", function(){
+
+        circle = new SAT.Circle(new SAT.Vector(500, -1), 25);
+        shot = new Shot(circle, 1);
+
+        shot.obeyLimit(width, height);
+
+        expect(height).toBe(shot.circle['pos'].y);
+
+    });
+
 });
