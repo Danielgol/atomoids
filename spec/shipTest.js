@@ -1675,4 +1675,34 @@ describe("Ship Test", function(){
 
     });
 
+    it("test ship position when X is bigger than 0", function(){
+
+        ship.x = 1;
+
+        ship.obeyLimit(width, height);
+
+        expect(1).toBe(ship.x);
+
+    });
+
+    it("test ship position when X is equal 0", function(){
+
+        ship.x = 0;
+
+        ship.obeyLimit(width, height);
+
+        expect(0).toBe(ship.x);
+
+    });
+
+    it("test ship position when X is smaller than 0", function(){
+
+        ship.x = -1;
+
+        ship.obeyLimit(width, height);
+
+        expect(width).toBe(ship.x);
+
+    });
+
 });
