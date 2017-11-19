@@ -1180,4 +1180,23 @@ describe("Shot Test", function() {
 
      });
 
+     var width;
+     var height;
+
+     beforeEach(function(){
+        width = 1000;
+        height = 600;
+    });
+
+     it("test shot position when X is bigger than canvas width ", function(){
+
+        circle = new SAT.Circle(new SAT.Vector(1001, 300), 25);
+        shot = new Shot(circle, 1);
+
+        shot.obeyLimit(width, height);
+
+        expect(0).toBe(shot.circle['pos'].x);
+
+    });
+
 });
