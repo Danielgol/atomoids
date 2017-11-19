@@ -1114,4 +1114,15 @@ describe("Shot Test", function() {
 
      });
 
+     it("test shot position in 180 degrees", function(){ 
+    
+        shot = new Shot(circle, 180);
+
+        shot.move(1);
+
+        expect(1).toBe(shot.circle['pos'].x);
+        expect(2).toBe(shot.circle['pos'].y);
+
+     });
+
 });
