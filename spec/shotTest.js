@@ -1028,7 +1028,7 @@ function Shot(circle, angle){
 
 
 
-describe("Atom Test", function() {
+describe("Shot Test", function() {
 
     var shot;
     var circle;
@@ -1045,6 +1045,17 @@ describe("Atom Test", function() {
 
         expect(1.9998476951563913).toBe(shot.circle['pos'].x);
         expect(0.9825475935627166).toBe(shot.circle['pos'].y);
+
+     });
+
+     it("test shot position in 90 degrees", function(){ 
+
+        shot = new Shot(circle, 90);
+
+        shot.move(1);
+
+        expect(2).toBe(shot.circle['pos'].x);
+        expect(1).toBe(shot.circle['pos'].y);
 
      });
 
