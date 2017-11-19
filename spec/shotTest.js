@@ -1320,4 +1320,15 @@ describe("Shot Test", function() {
 
     });
 
+    it("test loseReach", function(){
+        var reach = 15;
+
+        shot = new Shot(circle, 1);
+
+        shot.LoseReach(0.1);
+
+        expect(14.9).toBe(shot.reach);
+
+    });
+
 });
