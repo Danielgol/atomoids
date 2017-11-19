@@ -1765,4 +1765,18 @@ describe("Ship Test", function(){
 
     });
 
+    //respawn
+
+    it("test respawn", function(){
+
+        ship.x = 50;
+        ship.y = 50;
+
+        ship.respawn(width/2, height/2);
+
+        expect(500).toBe(ship.x);
+        expect(300).toBe(ship.y);
+
+    });
+
 });
