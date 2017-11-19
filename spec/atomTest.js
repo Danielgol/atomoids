@@ -1186,4 +1186,24 @@ describe("Atom Test", function() {
 
   });
 
+  var width;
+  var height;
+
+  beforeEach(function(){
+     width = 1000;
+     height = 600;
+  });
+
+  it("test atom position when X is bigger than canvas width ", function(){
+
+    circle = new SAT.Circle(new SAT.Vector(1001, 300), 25);
+    atom = new Atom(circle, 1, "blue");
+    
+
+    atom.obeyLimit(width, height);
+
+    expect(0).toBe(atom.circle['pos'].x);
+
+  });
+
   });
