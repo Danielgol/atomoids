@@ -1206,4 +1206,16 @@ describe("Atom Test", function() {
 
   });
 
+  it("test atom position when X is equal to canvas width ", function(){
+
+    circle = new SAT.Circle(new SAT.Vector(1000, 300), 25);
+    atom = new Atom(circle, 1, "blue");
+    
+
+    atom.obeyLimit(width, height);
+
+    expect(width).toBe(atom.circle['pos'].x);
+
+  });
+
   });
