@@ -1150,4 +1150,16 @@ describe("Atom Test", function() {
 
   });
 
+   it("test atom position in 360 degrees", function(){
+
+    circle = new SAT.Circle(new SAT.Vector(1, 1), 25);
+    atom = new Atom(circle, 360, "blue");
+
+    atom.move(360, 1);
+
+    expect(1).toBe(atom.circle['pos'].x);
+    expect(0).toBe(atom.circle['pos'].y);
+
+  });
+
   });
