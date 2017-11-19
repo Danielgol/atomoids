@@ -1265,4 +1265,15 @@ describe("Shot Test", function() {
 
     });
 
+    it("test shot position when Y is equal to canvas height ", function(){
+
+        circle = new SAT.Circle(new SAT.Vector(500, 600), 25);
+        shot = new Shot(circle, 1);
+
+        shot.obeyLimit(width, height);
+
+        expect(height).toBe(shot.circle['pos'].y);
+
+    });
+
 });
