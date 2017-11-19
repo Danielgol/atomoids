@@ -1408,4 +1408,39 @@ describe("Ship Test", function(){
 
     });
 
+    //boost
+
+    it("test ship forces when in 89 degrees", function(){
+
+        ship.angle = 89;
+
+        ship.boost();
+
+        expect(0.00010471443862370025).toBe(ship.forceY);
+        expect(0.0059990861709383475).toBe(ship.forceX);
+
+    });
+
+    it("test ship forces when in 90 degrees", function(){
+
+        ship.angle = 90;
+
+        ship.boost();
+
+        expect(0).toBe(ship.forceY);
+        expect(0.006).toBe(ship.forceX);
+
+    });
+
+    it("test ship forces when in 91 degrees", function(){
+
+        ship.angle = 91;
+
+        ship.boost();
+
+        expect(-0.00010471443862370086).toBe(ship.forceY);
+        expect(0.0059990861709383475).toBe(ship.forceX);
+
+    });
+
 });
