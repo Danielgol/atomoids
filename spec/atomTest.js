@@ -1138,4 +1138,16 @@ describe("Atom Test", function() {
 
   });
 
+  it("test atom position in 359 degrees", function(){
+
+    circle = new SAT.Circle(new SAT.Vector(1, 1), 25);
+    atom = new Atom(circle, 359, "blue");
+
+    atom.move(359, 1);
+
+    expect(0.9825475935627156).toBe(atom.circle['pos'].x);
+    expect(0.00015230484360873042).toBe(atom.circle['pos'].y);
+
+  });
+
   });
