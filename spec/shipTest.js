@@ -1216,4 +1216,24 @@ describe("Ship Test", function(){
 
     });
 
+    it("Test slide when force X is smaller than 0 and force X plus delay is smaller than 0", function(){
+
+        ship.forceX = -1;
+
+        ship.slide(0.001);
+
+        expect(-0.999).toBe(ship.forceX);
+
+    });
+
+    it("Test slide when force X is smaller than 0 and force X plus delay is equal to 0", function(){
+
+        ship.forceX = -0.001;
+
+        ship.slide(0.001);
+
+        expect(0).toBe(ship.forceX);
+
+    });
+
 });
