@@ -1169,4 +1169,15 @@ describe("Shot Test", function() {
 
      });
 
+     it("test shot position in 1 degree", function(){ 
+    
+        shot = new Shot(circle, 1);
+
+        shot.move(1);
+
+        expect(1.0174524064372834).toBe(shot.circle['pos'].x);
+        expect(0.00015230484360873042).toBe(shot.circle['pos'].y);
+
+     });
+
 });
