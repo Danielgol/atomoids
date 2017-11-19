@@ -1286,4 +1286,36 @@ describe("Ship Test", function(){
 
     });
 
+    //regulateVelocity
+
+    it("Test regulteVelocity when forceX is bigger than the maximum velocity", function(){
+
+        ship.forceX = 1.6;
+
+        ship.regulateVelocity(1.5);
+
+        expect(1.5).toBe(ship.forceX);
+
+    });
+
+    it("Test regulteVelocity when forceX is equal to the maximum velocity", function(){
+
+        ship.forceX = 1.5;
+
+        ship.regulateVelocity(1.5);
+
+        expect(1.5).toBe(ship.forceX);
+
+    });
+
+    it("Test regulteVelocity when forceX is smaller than maximum velocity", function(){
+
+        ship.forceX = 1.4;
+
+        ship.regulateVelocity(1.5);
+
+        expect(1.4).toBe(ship.forceX);
+
+    });
+
 });
