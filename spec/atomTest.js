@@ -1290,4 +1290,16 @@ describe("Atom Test", function() {
 
   });
 
+  it("test atom position when Y is smaller than canvas height ", function(){
+
+    circle = new SAT.Circle(new SAT.Vector(500, 599), 25);
+    atom = new Atom(circle, 1, "blue");
+    
+
+    atom.obeyLimit(width, height);
+
+    expect(599).toBe(atom.circle['pos'].y);
+
+  });
+
   });
