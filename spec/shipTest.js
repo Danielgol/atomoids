@@ -1595,4 +1595,44 @@ describe("Ship Test", function(){
 
     });
 
+    it("test turn method when ship's angle is equal to 0 degrees (Right)", function(){
+
+        ship.angle = 0;
+
+        ship.turn(-1);
+
+        expect(359).toBe(ship.angle);
+
+    });
+
+    it("test turn method when ship's angle is bigger than 0 degrees (Right)", function(){
+
+        ship.angle = 1;
+
+        ship.turn(-1);
+
+        expect(0).toBe(ship.angle);
+
+    });
+
+    it("test turn method when ship's angle is smaller than 359 degrees (Right)", function(){
+
+        ship.angle = 358;
+
+        ship.turn(-1);
+
+        expect(357).toBe(ship.angle);
+
+    });
+
+    it("test turn method when ship's angle is equal to 359 degrees (Right)", function(){
+
+        ship.angle = 359;
+
+        ship.turn(-1);
+
+        expect(358).toBe(ship.angle);
+
+    });
+
 });
