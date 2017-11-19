@@ -1266,4 +1266,16 @@ describe("Atom Test", function() {
 
   });
 
+  it("test atom position when Y is bigger than canvas height ", function(){
+
+    circle = new SAT.Circle(new SAT.Vector(500, 601), 25);
+    atom = new Atom(circle, 1, "blue");
+    
+
+    atom.obeyLimit(width, height);
+
+    expect(0).toBe(atom.circle['pos'].y);
+
+  });
+
   });
