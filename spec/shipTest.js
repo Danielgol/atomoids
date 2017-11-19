@@ -1705,4 +1705,34 @@ describe("Ship Test", function(){
 
     });
 
+    it("test ship position when Y is bigger than height", function(){
+
+        ship.y = 601;
+
+        ship.obeyLimit(width, height);
+
+        expect(0).toBe(ship.y);
+
+    });
+
+    it("test ship position when Y is equal to height", function(){
+
+        ship.y = 600;
+
+        ship.obeyLimit(width, height);
+
+        expect(height).toBe(ship.y);
+
+    });
+
+    it("test ship position when Y is smaller than height", function(){
+
+        ship.y = 599;
+
+        ship.obeyLimit(width, height);
+
+        expect(599).toBe(ship.y);
+
+    });
+
 });
