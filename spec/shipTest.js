@@ -1635,4 +1635,44 @@ describe("Ship Test", function(){
 
     });
 
+    //obeyLimit
+
+    var width;
+    var height;
+
+    beforeEach(function(){
+        width = 1000;
+        height = 600;
+    });
+
+    it("test ship position when X is bigger than canvas width ", function(){
+
+        ship.x = 1001;
+
+        ship.obeyLimit(width, height);
+
+        expect(0).toBe(ship.x);
+
+    });
+
+    it("test ship position when X is equal to canvas width ", function(){
+
+        ship.x = 1000;
+
+        ship.obeyLimit(width, height);
+
+        expect(width).toBe(ship.x);
+
+    });
+
+    it("test ship position when X is smaller than canvas width ", function(){
+
+        ship.x = 999;
+
+        ship.obeyLimit(width, height);
+
+        expect(999).toBe(ship.x);
+
+    });
+
 });
