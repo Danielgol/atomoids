@@ -1199,4 +1199,15 @@ describe("Shot Test", function() {
 
     });
 
+    it("test shot position when X is equal to canvas width ", function(){
+
+        circle = new SAT.Circle(new SAT.Vector(1000, 300), 25);
+        shot = new Shot(circle, 1);
+
+        shot.obeyLimit(width, height);
+
+        expect(width).toBe(shot.circle['pos'].x);
+
+    });
+
 });
