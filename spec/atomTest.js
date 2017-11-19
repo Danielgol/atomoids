@@ -1326,4 +1326,16 @@ describe("Atom Test", function() {
 
   });
 
+  it("test atom position when Y is smaller than 0 ", function(){
+
+    circle = new SAT.Circle(new SAT.Vector(500, -1), 25);
+    atom = new Atom(circle, 1, "blue");
+    
+
+    atom.obeyLimit(width, height);
+
+    expect(height).toBe(atom.circle['pos'].y);
+
+  });
+
   });
