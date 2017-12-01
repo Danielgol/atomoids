@@ -24,12 +24,25 @@
           }
 
           function addScoreIntoDB(){
-              score.name = window.document.formulario.playerName.value;
+             
+             var characters = window.document.formulario.playerName.value;
+
+               characters = characters.replace(/ /g, "_");
+
+              if(characters.length >= 3){
+
+              score.name = characters;
+
               db.put(score, function callback(err, result){
                   if(!err){
                       document.getElementById("addToRankingButton").submit();
                   }
+              
               });
+              }else{
+                document.getElementById("message").style.visibility = "visible";
+              }
+
           }
 
           var canvas = document.getElementById("mycanvas");
@@ -57,6 +70,10 @@
 
       <table style="top: 80%;">
         <tr><td><input style="font-size: 30px;" type="button" value="        Menu        " onclick="window.location.replace('/')"></td></tr>
+      </table>
+
+      <table style="top: 55%; visibility: hidden;" id="message">
+        <tr><td>Quantidade de caracteres insuficiente</td>
       </table>
 
     </body>
