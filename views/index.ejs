@@ -29,43 +29,14 @@
 
       <script type="text/javascript" src="javascripts/view/DrawScreen.js"></script>
 
-      <!-- <script type="text/javascript" src="javascripts/SAT.js"></script>
-      <script type="text/javascript" src="javascripts/model/Atom.js"></script>
-      <script type="text/javascript" src="javascripts/model/Molecule.js"></script>
-      <script type="text/javascript" src="javascripts/view/DrawScreen.js"></script>
-      <script type="text/javascript" src="javascripts/view/DrawAtom.js"></script>
-      <script type="text/javascript" src="javascripts/view/DrawMolecule.js"></script>
-      <script type="text/javascript" src="javascripts/controller/CreateMolecule.js"></script> -->
-
       <script>
 
-        // function loop(){
-        //     drawScreen(ctx, canvas.width, canvas.height);
-        //     cleanScreen(ctx, canvas.width, canvas.height);//..............................LIMPA A TELA (O RASTRO DAS COISAS)
-        //     for(i = 0; i<molecules.length; i++){
-        //         molecules[i].move();//....................................................MOVE A MOLECULA
-        //     }
-        // }
-        //
-        // function loadMolecules(){
-        //   for(i = 0; i<(7); i++){
-        //     var moleculeId = Math.floor(Math.random() * 5 + 1);
-        //     molecules.push(createMolecule(canvas.width, canvas.height, moleculeId));
-        //   }
-        // }
-
         function start(){
-            // loadMolecules();
             drawScreen(ctx, canvas.width, canvas.height);
-            // IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
-            // setInterval(countTime, 1000);
         }
 
         var canvas = document.getElementById("mycanvas");
         var ctx = canvas.getContext("2d");
-
-        // var molecules = [];// colocar numa classe game
-        // var IntervalId;// colocar numa classe game
 
         start();
 
@@ -73,7 +44,7 @@
 
       <table style="top: 20%;">
         <tr><td style="font-size: 100px;">ATOMOIDS</td></tr>
-        
+
       </table>
 
       <img src="images/atomoids_logo.png"> 
