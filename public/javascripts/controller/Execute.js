@@ -75,7 +75,7 @@ function loop(){
 													clearInterval(IntervalId);//................................INTERROMPE O LOOP;
 													window.document.formulario.date.value = ''+score._id;
 													window.document.formulario.points.value = ''+score.points;
-													window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
+													//window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
 													document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
 												}else{
 													ship = createShip(canvas.width/2, canvas.height/2);
@@ -125,7 +125,7 @@ function loop(){
 											clearInterval(IntervalId);//................................INTERROMPE O LOOP;
 											window.document.formulario.date.value = ''+score._id;
 											window.document.formulario.points.value = ''+score.points;
-											window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
+											//window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
 											document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
 										}else{
 											ship = createShip(canvas.width/2, canvas.height/2);
@@ -169,27 +169,27 @@ function loop(){
 
 
 
-		var minutes = Math.floor(time/60);
-		ctx.beginPath();
+		//var minutes = Math.floor(time/60);
+		//ctx.beginPath();
 
-		if(time > 0){
-			if(seconds < 10){
-				ctx.fillText("TIME: "+minutes+":0"+seconds, 890, 580);
-			}else{
-		  	ctx.fillText("TIME: "+minutes+":"+seconds, 890, 580);
-			}
-		  ctx.closePath();
-		}
+		//if(time > 0){
+			//if(seconds < 10){
+				//ctx.fillText("TIME: "+minutes+":0"+seconds, 890, 580);
+			//}else{
+		  	//ctx.fillText("TIME: "+minutes+":"+seconds, 890, 580);
+			//}
+		  //ctx.closePath();
+		//}
 
-		if(time <= 0 && lifes > 0){
-			lifes = 0;
-			setTimeout(function() {
-				window.document.formulario.date.value = ''+score._id;
-				window.document.formulario.points.value = ''+score.points;
-				window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
-				document.getElementById("form").submit();
-			}, 1000);
-		}
+		//if(time <= 0 && lifes > 0){
+			//lifes = 0;
+			//setTimeout(function() {
+				//window.document.formulario.date.value = ''+score._id;
+				//window.document.formulario.points.value = ''+score.points;
+				//window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
+				//document.getElementById("form").submit();
+			//}, 1000);
+		//}
 
 		// ctx.beginPath();
 	  // ctx.fillText("IMORTALIDADE: " + imortality, 20, 490);
@@ -205,20 +205,20 @@ function loop(){
 function loadMolecules(lvl){
 	for(i = 0; i<(lvl+5); i++){//lvl+5
 		var moleculeId = Math.floor(Math.random() * 10 + 1);
-		//var moleculeId = 10;
+		
 		molecules.push(createMolecule(canvas.width, canvas.height, moleculeId));
 	}
 }
 
-function countTime(){
-	if(isPaused===false){
-		time -= 1;
-		seconds -= 1;
-		if(seconds < 0){
-			seconds = 59;
-		}
-	}
-}
+//function countTime(){
+	//if(isPaused===false){
+		//time -= 1;
+		//seconds -= 1;
+		//if(seconds < 0){
+			//seconds = 59;
+		//}
+	//}
+//}
 
 
 function start(){
@@ -234,7 +234,7 @@ function start(){
 
 		setTimeout(function() {
 			IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
-			setInterval(countTime, 1000);
+			//setInterval(countTime, 1000);
 		}, 2000);
 
 		// setInterval(function() {
@@ -258,7 +258,7 @@ var ctx = canvas.getContext("2d");
 //	Game contém todos os métodos do Controller
 //	Tudo abaixo
 
-var time = 600; var seconds = 0;
+//var time = 600; var seconds = 0;
 var contador = 0;
 var imortality = true;
 var level = 1;
