@@ -7,7 +7,8 @@
         <script src="javascripts/pouchdb-6.2.0.min.js"></script>
         <link rel="stylesheet" href="stylesheets/style.css">
     </head>
-    <body>
+
+    <body onload="getBiggerScore()">
 
       <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
 
@@ -21,6 +22,28 @@
               _id: '<%= date %>',
               points: '<%= points %>',
               name: ''
+          }
+
+          function getBiggerScore(){
+          
+            db.allDocs({include_docs: true, descending: true}).then(function(docs){
+
+                scores = docs.rows;
+
+                var biggerScore = 0;
+
+                for(var k = 0; k < scores.length; k++){
+                  if(parseInt(scores[k].doc.points) > parseInt(biggerScore)){
+                    biggerScore = scores[k].doc.points;
+                  }
+                }
+
+                if(parseInt(biggerScore) < parseInt(score.points)){
+                   document.getElementById("record").style.visibility = "visible";
+                }
+                    
+            });
+
           }
 
           function addScoreIntoDB(){
@@ -54,7 +77,6 @@
 
       <table style="top: 30%;">
         <tr><td style="font-size: 30px;">Score: <%= points %></td></tr>
-        
       </table>
 
       <form action="/submited" method="post" name="formulario" id="addToRankingButton">
@@ -74,6 +96,10 @@
 
       <table style="top: 55%; visibility: hidden;" id="message">
         <tr><td>Quantidade de caracteres insuficiente</td>
+      </table>
+
+      <table style="top: 22%; visibility: hidden;" id="record">
+        <tr><td>Novo Recorde</td>
       </table>
 
     </body>
