@@ -25,6 +25,10 @@
               window.location.replace("/ranking");
           }
 
+          function goToHelpPage(){
+              window.location.replace("/help");
+          }
+
       </script>
 
       <script type="text/javascript" src="javascripts/view/DrawScreen.js"></script>
@@ -49,16 +53,20 @@
 
       <img src="images/atomoids_logo.png"> 
 
-      <table style="top: 65%;">
+      <table style="top: 64%;">
         <tr><td><%= message %></td></tr>
       </table>
 
-      <table style="top: 75%;">
+      <table style="top: 70%;">
         <tr><td style="font-size: 25px;">APERTE ESPAÇO PARA JOGAR</td></tr>
       </table>
 
-      <table style="top: 85%;">
-        <tr><td><input type="button" style="font-size: 150%;" value="   Ranking   " onclick="goToRankingPage()"></td></tr>
+      <table style="top: 78%;">
+        <tr><td><input type="button" style="font-size: 150%;" value="    Ranking    " onclick="goToRankingPage()"></td></tr>
+      </table>
+
+      <table style="top: 86%;">
+        <tr><td><input type="button" style="font-size: 150%;" value="   Como jogar  " onclick="goToHelpPage()"></td></tr>
       </table>
 
       <table style="top: 93%;">

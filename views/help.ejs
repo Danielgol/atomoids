@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+
+        <meta charset="utf-8">
+        <title>Atomoids_Ranking</title>
+        <script src="javascripts/pouchdb-6.2.0.min.js"></script>
+        <style>
+
+          @font-face {
+            font-family: Hyper;
+            src: url("stylesheets/_fonts/Hyperspace Bold.otf");
+          }
+
+          body {
+              font-family: Hyper;
+              background-color: #101010;
+          }
+
+          table {
+              position: absolute;
+              border: 0px;
+              color: white;
+              transform: translate(-50%, 0%);
+              /*https://css-tricks.com/quick-css-trick-how-to-center-an-object-exactly-in-the-center/*/
+          }
+
+          input {
+              font-family: Hyper;
+              color: white;
+              background-color: #101010;
+          }
+
+          tr, td {
+              border: 0px;
+              text-align: center;
+              font-size: 17px;
+          }
+
+        </style>
+
+        <script>
+
+            function goToIndex(){
+              window.location.replace("/");
+            }
+
+        </script>
+
+    </head>
+
+    <body>
+
+      <table cellpadding="10" style="top: 5%; left: 50%;">
+        <tr>
+          <td><input style="font-size: 25px;" type="button" value="<" onclick="goToIndex()"></td>
+          <td style="font-size: 60px;">COMO JOGAR</td>
+        </tr>
+      </table>
+
+    </body>
+
+</html>

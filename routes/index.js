@@ -6,6 +6,7 @@ var game = require('./../controllers/game');
 var index = require('./../controllers/index');
 var submit = require('./../controllers/submit');
 var ranking = require('./../controllers/ranking');
+var help = require('./../controllers/help');
 
 /* Home.ejs */
 router.get('/', index.controller.load);
@@ -17,5 +18,8 @@ router.post('/submit', game.controller.sendToSubmit);
 
 /* Submit.ejs */
 router.post('/submited', submit.controller.sendAddedMessage);
+
+/* Help.ejs */
+router.get('/help', help.controller.load);
 
 module.exports = router;
