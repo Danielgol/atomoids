@@ -11,7 +11,7 @@ function drawAtom(ctx, circle, color, element){
 
     ctx.beginPath();
     ctx.fillStyle = "white";
-    ctx.font = "20px Arial Bold";
+    ctx.font = "20px ArialBold";
     ctx.fillText(element, circle['pos'].x -7, circle['pos'].y +7);
     ctx.closePath();
 

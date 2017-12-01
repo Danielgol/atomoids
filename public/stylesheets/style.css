@@ -9,6 +9,11 @@
   src: url("./_fonts/Hyperspace Italic.otf");
 }
 
+@font-face {
+  font-family: ArialBold;
+  src: url("./_fonts/arialbd.ttf");
+}
+
 canvas {
     position: absolute;
     background-color: #101010;
