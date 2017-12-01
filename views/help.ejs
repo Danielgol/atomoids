@@ -8,6 +8,22 @@
         <script src="javascripts/pouchdb-6.2.0.min.js"></script>
         <link rel="stylesheet" href="stylesheets/style.css">
 
+        <style>
+
+            img{
+              position: absolute;
+              top: 21%;
+              left: 23%;
+              /*https://css-tricks.com/quick-css-trick-how-to-center-an-object-exactly-in-the-center/*/
+              z-index: 2;
+              max-width:700px;
+              max-height:500px;
+              width: auto;
+              height: auto;
+            }
+
+        </style>
+
         <script>
 
             function goToIndex(){
@@ -26,6 +42,32 @@
 
       <script>
 
+        var page = 1;
+
+        function showHelp(){
+          if(page === 1){
+            document.getElementById("help").src="images/setas.png";
+          }else if(page === 2){
+            document.getElementById("help").src="images/control.png";
+          }else if(page === 3){
+            document.getElementById("help").src="images/tela.png";
+          }
+        }
+
+        function showPreviousHelp(){
+          if(page>1){
+            page -= 1;
+            showHelp(page);
+          }
+        }
+
+        function showNextHelp(){
+          if(page<3){
+            page += 1;
+            showHelp(page);
+          }
+        }
+
         function start(){
             drawScreen(ctx, canvas.width, canvas.height);
         }
@@ -37,11 +79,21 @@
 
       </script>
 
+      <img id="help" src="images/setas.png">
+
       <table cellpadding="10" style="top: 15%; left: 50%;">
         <tr>
           <td><input style="font-size: 25px;" type="button" value="<" onclick="goToIndex()"></td>
           <td style="font-size: 60px;">COMO JOGAR</td>
         </tr>
+      </table>
+
+      <table style="top: 55.5%; left: 20%;">
+        <tr><td><input style="font-size: 50px;" type="button" value="<" onclick="showPreviousHelp()"></td>
+      </table>
+
+      <table style="top: 55.5%; left: 80%;">
+        <tr><td><input style="font-size: 50px;" type="button" value=">" onclick="showNextHelp()"></td>
       </table>
 
     </body>
