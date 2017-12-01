@@ -6,39 +6,7 @@
         <meta charset="utf-8">
         <title>Atomoids_Ranking</title>
         <script src="javascripts/pouchdb-6.2.0.min.js"></script>
-        <style>
-
-          @font-face {
-            font-family: Hyper;
-            src: url("stylesheets/_fonts/Hyperspace Bold.otf");
-          }
-
-          body {
-              font-family: Hyper;
-              background-color: #101010;
-          }
-
-          table {
-              position: absolute;
-              border: 0px;
-              color: white;
-              transform: translate(-50%, 0%);
-              /*https://css-tricks.com/quick-css-trick-how-to-center-an-object-exactly-in-the-center/*/
-          }
-
-          input {
-              font-family: Hyper;
-              color: white;
-              background-color: #101010;
-          }
-
-          tr, td {
-              border: 0px;
-              text-align: center;
-              font-size: 17px;
-          }
-
-        </style>
+        <link rel="stylesheet" href="stylesheets/style.css">
 
         <script>
 
@@ -52,7 +20,24 @@
 
     <body>
 
-      <table cellpadding="10" style="top: 5%; left: 50%;">
+      <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
+
+      <script type="text/javascript" src="javascripts/view/DrawScreen.js"></script>
+
+      <script>
+
+        function start(){
+            drawScreen(ctx, canvas.width, canvas.height);
+        }
+
+        var canvas = document.getElementById("mycanvas");
+        var ctx = canvas.getContext("2d");
+
+        start();
+
+      </script>
+
+      <table cellpadding="10" style="top: 15%; left: 50%;">
         <tr>
           <td><input style="font-size: 25px;" type="button" value="<" onclick="goToIndex()"></td>
           <td style="font-size: 60px;">COMO JOGAR</td>
