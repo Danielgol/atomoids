@@ -26,7 +26,17 @@
                 isPaused = false;
                 document.getElementById("pauseScreen").style.visibility="hidden";
                 document.getElementById("pauseButton").style.visibility="visible";
+                setTimeout(function() {
+                  isPaused = true;
+                  countdown();
+            		}, 10);
               }
+          }
+
+          function countdown(){
+            setTimeout(function() {
+              isPaused = false;
+        		}, 3000);
           }
 
           function goToIndex(){
