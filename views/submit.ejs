@@ -25,7 +25,7 @@
           }
 
           function getBiggerScore(){
-          
+
             db.allDocs({include_docs: true, descending: true}).then(function(docs){
 
                 scores = docs.rows;
@@ -41,25 +41,16 @@
                 if(parseInt(biggerScore) < parseInt(score.points)){
                    document.getElementById("record").style.visibility = "visible";
                 }
-                    
+
             });
 
           }
 
-          window.onkeydown = keyPressed;
-          function keyPressed(event){
-          	  switch(event.keyCode){
-      	         case 13:
-                    addScoreIntoDB();
-  	             break;
-  	           }
-  	      }
-
           function addScoreIntoDB(){
-             
-             var characters = window.document.formulario.playerName.value;
 
-               characters = characters.replace(/ /g, "_");
+              var characters = window.document.formulario.playerName.value;
+
+              characters = characters.replace(/ /g, "_");
 
               if(characters.length >= 3){
 
@@ -69,7 +60,7 @@
                   if(!err){
                       document.getElementById("addToRankingButton").submit();
                   }
-              
+
               });
               }else{
                 document.getElementById("message").style.visibility = "visible";
