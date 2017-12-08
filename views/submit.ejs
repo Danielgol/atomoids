@@ -46,6 +46,15 @@
 
           }
 
+          window.onkeydown = keyPressed;
+          function keyPressed(event){
+          	  switch(event.keyCode){
+      	         case 13:
+                    addScoreIntoDB();
+  	             break;
+  	           }
+  	      }
+
           function addScoreIntoDB(){
              
              var characters = window.document.formulario.playerName.value;
