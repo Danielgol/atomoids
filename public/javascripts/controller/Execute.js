@@ -166,35 +166,6 @@ function loop(){
 
 		drawLevel(ctx, level);
 
-
-
-
-		//var minutes = Math.floor(time/60);
-		//ctx.beginPath();
-
-		//if(time > 0){
-			//if(seconds < 10){
-				//ctx.fillText("TIME: "+minutes+":0"+seconds, 890, 580);
-			//}else{
-		  	//ctx.fillText("TIME: "+minutes+":"+seconds, 890, 580);
-			//}
-		  //ctx.closePath();
-		//}
-
-		//if(time <= 0 && lifes > 0){
-			//lifes = 0;
-			//setTimeout(function() {
-				//window.document.formulario.date.value = ''+score._id;
-				//window.document.formulario.points.value = ''+score.points;
-				//window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
-				//document.getElementById("form").submit();
-			//}, 1000);
-		//}
-
-		// ctx.beginPath();
-	  // ctx.fillText("IMORTALIDADE: " + imortality, 20, 490);
-	  // ctx.closePath();
-
 //-----------------------------------------------------------------------------------------------------------------------------
 
 	}
@@ -210,17 +181,6 @@ function loadMolecules(lvl){
 	}
 }
 
-//function countTime(){
-	//if(isPaused===false){
-		//time -= 1;
-		//seconds -= 1;
-		//if(seconds < 0){
-			//seconds = 59;
-		//}
-	//}
-//}
-
-
 function start(){
 		ship = createShip(canvas.width/2, canvas.height/2);
 		loadMolecules(level);
@@ -234,13 +194,7 @@ function start(){
 
 		setTimeout(function() {
 			IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
-			//setInterval(countTime, 1000);
 		}, 2000);
-
-		// setInterval(function() {
-		// 	var audio = new Audio('./../../sounds/music.m4a');
-		// 	audio.play();
-		// }, 1800);
 
 		setTimeout(function() {
 			imortality = false;
@@ -258,7 +212,6 @@ var ctx = canvas.getContext("2d");
 //	Game contém todos os métodos do Controller
 //	Tudo abaixo
 
-//var time = 600; var seconds = 0;
 var contador = 0;
 var imortality = true;
 var level = 1;
@@ -274,8 +227,5 @@ var score = {// colocar numa classe game
 	_id: new Date().toISOString(),
 	points: 0
 }
-
-
-//Adaptar os int x e int y em Vector(x,y) nos métodos
 
 start();
