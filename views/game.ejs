@@ -16,6 +16,18 @@
 
           var isPaused = false;
 
+           window.onkeydown = keyPressed;
+          function keyPressed(event){
+          	  switch(event.keyCode){
+      	         case 32:
+                 if(document.getElementById("pauseButton").style.visibility==="visible"){
+                    pause();
+                 }
+                    
+  	             break;
+  	           }
+  	      }
+
           function pause(){
               if(isPaused === false){
                 isPaused = true;
