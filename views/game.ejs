@@ -25,7 +25,6 @@
               }else{
                 isPaused = false;
                 document.getElementById("pauseScreen").style.visibility="hidden";
-                document.getElementById("pauseButton").style.visibility="visible";
                 setTimeout(function() {
                   isPaused = true;
                   countdown();
@@ -34,9 +33,47 @@
           }
 
           function countdown(){
+
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.moveTo((canvas.width/2)-10, (canvas.height/2)+180);
+            ctx.lineTo((canvas.width/2)+20, (canvas.height/2)+180);
+            ctx.lineTo((canvas.width/2)+20, (canvas.height/2)+210);
+            ctx.lineTo((canvas.width/2)-10, (canvas.height/2)+210);
+            ctx.lineTo((canvas.width/2)-10, (canvas.height/2)+180);
+            ctx.strokeStyle = "white";
+            ctx.stroke();
+
+            ctx.clearRect((canvas.width/2)-10, (canvas.height/2)+180, 30, 30);
+
+            ctx.fillStyle = "white";
+            ctx.font = "20px Hyper";
+            ctx.fillText("3", 500, 500);
+            ctx.closePath();
+
             setTimeout(function() {
               isPaused = false;
+              document.getElementById("pauseButton").style.visibility="visible";
         		}, 3000);
+
+            setTimeout(function() {
+              ctx.clearRect((canvas.width/2)-10, (canvas.height/2)+180, 30, 30);
+              ctx.beginPath();
+              ctx.fillStyle = "white";
+              ctx.font = "20px Hyper";
+              ctx.fillText("1", 500, 500);
+              ctx.closePath();
+        		}, 2000);
+
+            setTimeout(function() {
+              ctx.clearRect((canvas.width/2)-10, (canvas.height/2)+180, 30, 30);
+              ctx.beginPath();
+              ctx.fillStyle = "white";
+              ctx.font = "20px Hyper";
+              ctx.fillText("2", 500, 500);
+              ctx.closePath();
+        		}, 1000);
+
           }
 
           function goToIndex(){
