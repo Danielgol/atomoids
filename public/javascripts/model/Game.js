@@ -27,9 +27,16 @@ function Game(ctx, scr){
   	this.ship = ship;
   }
 
+  this.moveShip = function(keys){
+    this.ship.move(keys);//..........................................................MOVE A NAVE
+    this.ship.regulateVelocity(1.5);//...............................................LIMITA A VELOCIDADE DA NAVE (FORÇAS)
+    this.ship.slide(0.001);//........................................................FAZ COM QUE A NAVE RETARDE
+    this.ship.applyForces();//.......................................................FAZ COM QUE A NAVE GANHE "VELOCIDADE" (FORÇA)
+    this.ship.obeyLimit(this.scr.width, this.scr.height);//..........................FAZ COM QUE A NAVE OBEDEÇA OS LIMITES DA TELA
+    this.ship.drawShip(this.ctx);
+  }
 
-
-  // MOLÉCULAS---------------------------------------------------------------------
+  // MOLÉCULAS--------------------------------------------------------------------------------------------------------------------
 
   this.loadMolecules = function(){
   	for(i = 0; i<(this.level+5); i++){

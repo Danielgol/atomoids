@@ -62,7 +62,7 @@ function Ship(triangle, centerX, centerY){
 	this.move = function(keys){
 				if (38 in keys) {
 					this.boost();
-					drawFire(ctx, this.throwFire());
+					this.drawFire(ctx, this.throwFire());
 				}
 				if (39 in keys) {
 					this.turn(2);
@@ -73,18 +73,13 @@ function Ship(triangle, centerX, centerY){
 	}
 
 	this.throwFire = function(){
-
 			var losangle = new SAT.Polygon(new SAT.Vector(0, 0),
 			[new SAT.Vector(-3, -3), new SAT.Vector(0,-5), new SAT.Vector(3,-3), new SAT.Vector(0,5)]);
-
 			losangle.translate(this.x, this.y);
-
 			losangle.translate(-this.x, -(this.y-13));
 			losangle.rotate((Math.PI/180)* this.angle );
 			losangle.translate(this.x, this.y);
-
 			return losangle;
-
 	}
 
 	this.boost = function(){
@@ -99,13 +94,11 @@ function Ship(triangle, centerX, centerY){
 
 	this.turn = function(i){
 			this.angle += i;
-
 			if(this.angle >= 360){
 	        this.angle = 0;
 	    }else if(this.angle < 0){
 	        this.angle = 359;
-	    }//PENSAR EM CRIAR UM MÉTODO PRA ISSO (SE É MAIS CORRETO)
-
+	    }
 			this.triangle.translate(-this.x, -this.y);
 			this.triangle.rotate((Math.PI/180)* i );
 			this.triangle.translate(this.x, this.y);
@@ -151,13 +144,34 @@ function Ship(triangle, centerX, centerY){
 			}
 	}
 
-	//@Deprecated
-	this.respawn = function(centerX, centerY){
-			// PENSAR EM COMO ZERAR O ANGULO
-			this.triangle.translate(-this.x, -this.y);
-			this.x = centerX;
-			this.y = centerY;
-			this.triangle.translate(this.x, this.y);
+	this.drawShip = function(ctx){
+			ctx.beginPath();
+	    ctx.moveTo(this.triangle['points'][0]['x'], this.triangle['points'][0]['y']);
+	    ctx.lineTo(this.triangle['points'][1]['x'], this.triangle['points'][1]['y']);
+	    ctx.lineTo(this.triangle['points'][2]['x'], this.triangle['points'][2]['y']);
+	    ctx.lineTo(this.triangle['points'][0]['x'], this.triangle['points'][0]['y']);
+			if(this.imortality === true){
+				ctx.lineWidth = 0.8;
+				ctx.strokeStyle = "grey";
+			}else {
+				ctx.lineWidth = 1.5;
+				ctx.strokeStyle = "white";
+			}
+	    ctx.stroke();
+	    ctx.closePath();
+	}
+
+	this.drawFire = function(ctx, losangle){
+			ctx.beginPath();
+			ctx.lineWidth = 1;
+			ctx.moveTo(losangle['points'][0]['x'], losangle['points'][0]['y']);
+			ctx.lineTo(losangle['points'][1]['x'], losangle['points'][1]['y']);
+			ctx.lineTo(losangle['points'][2]['x'], losangle['points'][2]['y']);
+			ctx.lineTo(losangle['points'][3]['x'], losangle['points'][3]['y']);
+			ctx.lineTo(losangle['points'][0]['x'], losangle['points'][0]['y']);
+			ctx.strokeStyle = "white";
+			ctx.stroke();
+			ctx.closePath();
 	}
 
 }
