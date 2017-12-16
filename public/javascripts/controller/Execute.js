@@ -16,20 +16,8 @@ function loop(){
 				game.moveShip(keys);
 				game.setShots(game.ship.shoot(game.shots, keys));//........................................ADICIONA UM NOVO TIRO (SE ATIROU);
 			}
-
-// PARTE DO TIRO---------------------------------------------------------------------------------------------------------------
-
-// 		for(i = 0; i<shots.length; i++){
-// 				shots[i].move(3);//.......................................................MOVE O TIRO
-// 				shots[i].obeyLimit(canvas.width, canvas.height);//........................FAZ COM QUE O TIRO OBEDEÇA OS LIMITES DA TELA
-// 				shots[i].LoseReach(0.1);//................................................FAZ QUE O TIRO PERCA "TEMPO DE VIDA"
-// 				if(shots[i].reach <= 0){//................................................VERIFICA O TEMPO DE VIDA DO TIRO
-// 					shots.splice(i, 1);//......................................................REMOVE O TIRO
-// 				}else{
-// 					drawShot(ctx, shots[i].circle);//.......................................DESENHA O TIRO
-// 				}
-// 		}
-//
+			// TIRO--------------------------------------------------------------------------------------------------------------
+			game.moveShots();
 // // PARTE DAS MOLECULAS E ATOMOS + COLISÕES ------------------------------------------------------------------------------------
 //
 // 		for(i = 0; i<molecules.length; i++){

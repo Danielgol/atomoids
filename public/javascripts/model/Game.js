@@ -36,6 +36,23 @@ function Game(ctx, scr){
     this.ship.drawShip(this.ctx);
   }
 
+  this.moveShots = function(){
+    for(i = 0; i<this.shots.length; i++){
+				this.shots[i].move(3);//......................................................MOVE O TIRO
+				this.shots[i].obeyLimit(this.scr.width, this.scr.height);//...................FAZ COM QUE O TIRO OBEDEÇA OS LIMITES DA TELA
+				this.shots[i].LoseReach(0.1);//...............................................FAZ QUE O TIRO PERCA "TEMPO DE VIDA"
+				if(this.shots[i].reach <= 0){//...............................................VERIFICA O TEMPO DE VIDA DO TIRO
+					this.shots.splice(i, 1);//..................................................REMOVE O TIRO
+				}else{
+					this.shots[i].drawShot(this.ctx);//.........................................DESENHA O TIRO
+				}
+		}
+  }
+
+  this.setShots = function(shots){
+    this.shots = shots;
+  }
+
   // MOLÉCULAS--------------------------------------------------------------------------------------------------------------------
 
   this.loadMolecules = function(){
