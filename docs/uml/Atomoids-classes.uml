@@ -1,0 +1,128 @@
+@startuml
+
+class Ship{
+    triangle
+    centerX
+    centerY
+    angle
+    resultingAngle
+    forceX
+    forceY
+    energy
+    imortality
+
+    applyForces()
+    slide(delay)
+    regulateVelocity(maxVelocity)
+    move(keys)
+    throwFire()
+    boost()
+    turn(i)
+    shoot(shots, keys)
+    obeyTheLimit(width, height)
+    drawShip(ctx)
+    drawFire(ctx, losangle)
+    setImortality(bool)
+}
+
+class Atom{
+    circle
+    angle
+    velocity
+    color
+    element
+
+    move()
+    obeyTheLimit(width, height)
+    drawAtom(ctx)
+}
+
+class Shot{
+    circle
+    angle
+    reach
+
+    move(i)
+    LoseReach(i)
+    obeyTheLimit(width, height)
+    drawShot(ctx)
+}
+
+class Molecule{
+    atoms
+    type
+
+    move(ctx)
+    divide(aloneAtoms)
+    drawAtoms(atom, ctx)
+}
+
+class Score{
+    id
+    score
+    playerName
+
+    increaseScore(i)
+}
+
+class Screen{
+    width
+    height
+
+    drawScreen(ctx)
+    drawScore(ctx, score, x, y)
+    drawLevel(ctx, level)
+    drawLifes(ctx, lifes)
+    cleanScreen(ctx)
+}
+
+class Game{
+    ctx
+    src
+    hasMoleculesAndAtoms
+    hasShip
+    ship
+    level
+    lifes
+    shots
+    aloneAtoms
+    molecules
+    IntervalId
+    score
+
+    createShip()
+    moveShip(keys)
+    moveShots()
+    moveAloneAtoms(i)
+    verifyShotMoleculeColision(i, x, circle)
+    verifyShotAtomColision(i, x, circle)
+    doShipMoleculeColision(i)
+    doShipAtomColision(i)
+    respawnShip()
+    submitForm()
+    setShots(shots)
+    loadMolecules()
+    createMolecules(type)
+}
+
+class Canvas <<default>> {
+
+}
+
+Canvas <-- Ship
+Canvas <-- Atom
+Canvas <-- Molecule
+Canvas <-- Screen
+Canvas <-- Game
+Canvas <-- Shot
+
+Atom "n" <-- " 1 " Molecule
+
+Game --> Ship
+Game " 1 " --> "n" Atom
+Game " 1 " --> "n" Molecule
+Game --> Score
+Game --> Screen
+Game " 1 " --> "n" Shot
+
+@enduml
