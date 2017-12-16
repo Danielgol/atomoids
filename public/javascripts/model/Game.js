@@ -49,6 +49,12 @@ function Game(ctx, scr){
 		}
   }
 
+  this.moveAloneAtoms = function(i){
+    this.aloneAtoms[i].move();
+    this.aloneAtoms[i].obeyLimit(this.scr.width, this.scr.height);
+    this.aloneAtoms[i].drawAtom(this.ctx);
+  }
+
   this.verifyShotMoleculeColision = function(i,x,circle){
     var response = new SAT.Response();
     var collided = SAT.testCircleCircle(circle, this.shots[x].circle, response);//.....VERIFICA A COLISÃO
@@ -62,10 +68,31 @@ function Game(ctx, scr){
     }
   }
 
+  this.verifyShotAtomColision = function(i,x,circle){
+    var response = new SAT.Response();
+    var collided = SAT.testCircleCircle(circle,this.shots[x].circle, response);//......VERIFICA A COLISÃO
+    if(collided === true){
+      this.aloneAtoms.splice(i, 1);//..................................................REMOVE O ÁTOMO
+      this.shots.splice(x, 1);//.......................................................REMOVE O TIRO
+      this.score.increaseScore(10);//..................................................AUMENTA O SCORE
+      var audio = new Audio('./../../sounds/shoted.m4a');
+      audio.play();
+    }
+  }
+
   this.doShipMoleculeColision = function(i){
       document.getElementById("pauseButton").style.visibility="hidden";
       this.aloneAtoms = this.molecules[i].divide(this.aloneAtoms);
       this.molecules.splice(i, 1);//...................................................REMOVE A MOLECULA
+      this.lifes -= 1;//...............................................................FAZ A NAVE PERDER VIDA
+      this.hasShip = false;//..........................................................ACIONA O TEMPORIZADOR DE RESPAWN
+      var audio = new Audio('./../../sounds/bum.m4a');
+      audio.play();
+  }
+
+  this.doShipAtomColision = function(i){
+      document.getElementById("pauseButton").style.visibility="hidden";
+      this.aloneAtoms.splice(i, 1);//..................................................REMOVE O ÁTOMO
       this.lifes -= 1;//...............................................................FAZ A NAVE PERDER VIDA
       this.hasShip = false;//..........................................................ACIONA O TEMPORIZADOR DE RESPAWN
       var audio = new Audio('./../../sounds/bum.m4a');
@@ -89,8 +116,42 @@ function Game(ctx, scr){
     this.shots = shots;
   }
 
-  // ₀₁₂₃₄₅₆₇₈₉
-  // MOLÉCULAS--------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//₀₁₂₃₄₅₆₇₈₉
+
+
+  // MOlÉCULAS----------------------------------------------------------------------------------------------------------------
 
   this.loadMolecules = function(){
   	for(i = 0; i<(this.level+5); i++){

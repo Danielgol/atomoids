@@ -45,55 +45,32 @@ function loop(){
 						}
 				}
 		}
-
-// 		for(i = 0; i<aloneAtoms.length; i++){
-// 				aloneAtoms[i].move(aloneAtoms[i].angle, aloneAtoms[i].velocity);
-// 				aloneAtoms[i].obeyLimit(canvas.width, canvas.height);
-// 				drawAtom(ctx, aloneAtoms[i].circle, aloneAtoms[i].color, aloneAtoms[i].element);
-// 				for(x = 0; x<shots.length; x++){
-// 						var response = new SAT.Response();
-// 						var collided = SAT.testCircleCircle(aloneAtoms[i].circle, shots[x].circle, response);// VERIFICA A COLISÃO
-// 						if(collided === true){//..............................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
-// 							aloneAtoms.splice(i, 1);
-// 							shots.splice(x, 1);//..................................................REMOVE O TIRO
-// 							score.points += 10;//..................................................AUMENTA O SCORE
-// 							var audio = new Audio('./../../sounds/shoted.m4a');
-// 							audio.play();
-// 						}
-// 				}
-// 				if(hasShip === true && imortality === false){
-// 						var response = new SAT.Response();
-// 						var collided = SAT.testPolygonCircle(ship.triangle, aloneAtoms[i].circle, response);// VERIFICA A COLISÃO
-// 						if(collided === true){//..............................................SE A NAVE COLIDIU COM UMA MOLÉCULA
-// 								document.getElementById("pauseButton").style.visibility="hidden";
-// 								aloneAtoms.splice(i, 1);//............................................REMOVE A MOLECULA
-// 								lifes -= 1;//........................................................FAZ A NAVE PERDER VIDA
-// 								hasShip = false;//.........................................ACIONA O TEMPORIZADOR DE RESPAWN
-//
-// 								var audio = new Audio('./../../sounds/bum.m4a');
-// 								audio.play();
-//
-// 								setTimeout(function() {
-// 										if(lifes === 0){//............................................CONDIÇÃO DO FIM
-// 											clearInterval(IntervalId);//................................INTERROMPE O LOOP;
-// 											window.document.formulario.date.value = ''+score._id;
-// 											window.document.formulario.points.value = ''+score.points;
-// 											//window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
-// 											document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
-// 										}else{
-// 											ship = createShip(canvas.width/2, canvas.height/2);
-// 										}
-// 										hasShip = true;
-// 										imortality = true;
-// 								}, 2000);
-//
-// 								setTimeout(function() {
-// 										imortality = false;
-// 										document.getElementById("pauseButton").style.visibility="visible";
-// 								}, 5000);
-// 						}
-// 				}
-// 		}
+		// ÁTOMOS (SOZINHOS) E COLISÕES-------------------------------------------------------------------------------------
+		for(i = 0; i<game.aloneAtoms.length; i++){
+				game.moveAloneAtoms(i);//................................................................MOVE OS ÁTOMOS
+				for(x = 0; x<game.shots.length; x++){
+						game.verifyShotAtomColision(i,x,game.aloneAtoms[i].circle);//........................VERIFICA COLISÃO (TIROS, ÁTOMO)
+				}
+				if(game.hasShip === true && game.ship.imortality === false){
+					var response = new SAT.Response();
+					var collided = SAT.testPolygonCircle
+					(game.ship.triangle, game.aloneAtoms[i].circle, response);//...........................VERIFICA COLISÃO (NAVE, ÁTOMO)
+					if(collided === true){
+							game.doShipAtomColision(i);
+							setTimeout(function(){
+								if(game.lifes === 0){//..........................................................CONDIÇÃO DO FIM
+									game.submitForm();//...........................................................ENVIA O SCORE PARA SUBMIT.ejs
+								}else{
+									game.respawnShip();//..........................................................FAZ RESPAWN DA NAVE;
+								}
+							}, 2000);
+							setTimeout(function() {
+								game.ship.setImortality(false);//................................................RETORNA A MORTALIDADE DA NAVE (3s)
+								document.getElementById("pauseButton").style.visibility="visible";
+							}, 5000);
+					}
+				}
+		}
 //
 // 		if(molecules.length === 0 && aloneAtoms.length === 0 && hasMoleculesAndAtoms === true){//................CONDIÇÃO PARA CARREGAR NOVAS MOLÉCULAS
 // 				hasMoleculesAndAtoms = false;//................................................ACIONA O TEMPORIZADOR PARA CARREGAR MOLÉCULAS
