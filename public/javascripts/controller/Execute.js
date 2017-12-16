@@ -71,66 +71,29 @@ function loop(){
 					}
 				}
 		}
-//
-// 		if(molecules.length === 0 && aloneAtoms.length === 0 && hasMoleculesAndAtoms === true){//................CONDIÇÃO PARA CARREGAR NOVAS MOLÉCULAS
-// 				hasMoleculesAndAtoms = false;//................................................ACIONA O TEMPORIZADOR PARA CARREGAR MOLÉCULAS
-// 				document.getElementById("pauseButton").style.visibility="hidden";
-// 				setTimeout(function() {
-// 						level += 1;
-// 						loadMolecules(level);//.......................................................CARREGAR NOVAS MOLÉCULAS
-// 						hasMoleculesAndAtoms = true;
-// 						imortality = true;
-// 				}, 2000);
-//
-// 				setTimeout(function() {
-// 						imortality = false;
-// 						document.getElementById("pauseButton").style.visibility="visible";
-// 				}, 4000);
-// 		}
-//
-// // OUTROS----------------------------------------------------------------------------------------------------------------------
-//
-// 		drawScore(ctx, score.points, (canvas.width/2)-5, 20);//.......................EXIBE O SCORE ATUAL
-//
-// 		drawLifes(ctx, lifes);
-//
-// 		drawLevel(ctx, level);
+		// CONDIÇÃO PARA CARREGAR MAIS MOLÉCULAS---------------------------------------------------------------------------------------
+	  if(game.molecules.length === 0 && game.aloneAtoms.length === 0 && game.hasMoleculesAndAtoms === true){
+	  		game.hasMoleculesAndAtoms = false;//..............................................ACIONA O TEMPORIZADOR PARA CARREGAR MOLÉCULAS
+	  		document.getElementById("pauseButton").style.visibility="hidden";
+	  		setTimeout(function() {
+	  				game.level += 1;//............................................................AUMENTA O NÍVEL
+	  				game.loadMolecules();//.......................................................CARREGAR NOVAS MOLÉCULAS
+	  				game.hasMoleculesAndAtoms = true;
+	  				game.ship.setImortality(true);//..............................................DEIXA A NAVE IMORTAL
+	  		}, 2000);
+	  		setTimeout(function() {
+	  				game.ship.setImortality(false);//.............................................RETORNA A MORTALIDADE DA NAVE (2s)
+	  				document.getElementById("pauseButton").style.visibility="visible";
+	  		}, 4000);
+	  }
+		// OUTROS----------------------------------------------------------------------------------------------------------------------
+	  game.scr.drawScore(game.ctx, game.score.points, (game.scr.width/2)-5, 20);//..........EXIBE O SCORE ATUAL
+	  game.scr.drawLifes(game.ctx, game.lifes);
+	  game.scr.drawLevel(game.ctx, game.level);
+	  //-----------------------------------------------------------------------------------------------------------------------------
+	}//isPaused;
 
-//-----------------------------------------------------------------------------------------------------------------------------
-
-	}
-
-}
-
-
-// function loadMolecules(lvl){
-// 	for(i = 0; i<(lvl+5); i++){//lvl+5
-// 		var moleculeId = Math.floor(Math.random() * 10 + 1);
-//
-// 		molecules.push(createMolecule(canvas.width, canvas.height, moleculeId));
-// 	}
-// }
-
-// function start(){
-// 		ship = createShip(canvas.width/2, canvas.height/2);
-// 		loadMolecules(level);
-// 		drawScreen(ctx, canvas.width, canvas.height);
-//
-// 		setTimeout(function() {
-// 			drawScore(ctx, score.points, (canvas.width/2)-5, 20);//.......................EXIBE O SCORE ATUAL
-// 			drawLifes(ctx, lifes);
-// 			drawLevel(ctx, level);
-// 		}, 1000);
-//
-// 		setTimeout(function() {
-// 			IntervalId = setInterval(loop, 5);//https://stackoverflow.com/questions/109086/stop-setinterval-call-in-javascript/109098
-// 		}, 2000);
-//
-// 		setTimeout(function() {
-// 			imortality = false;
-// 			document.getElementById("pauseButton").style.visibility="visible";
-// 		}, 5000);
-// }
+}//loop
 
 function start(){
 	game.createShip();
