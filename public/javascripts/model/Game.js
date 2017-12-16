@@ -49,27 +49,64 @@ function Game(ctx, scr){
 		}
   }
 
+  this.verifyShotMoleculeColision = function(i,x,circle){
+    var response = new SAT.Response();
+    var collided = SAT.testCircleCircle(circle, this.shots[x].circle, response);//.....VERIFICA A COLISÃO
+    if(collided === true){
+      this.aloneAtoms = this.molecules[i].divide(this.aloneAtoms);//...................DIVIDE A MOLÉCULA
+      this.molecules.splice(i, 1);//...................................................REMOVE A MOLÉCULA
+      this.shots.splice(x, 1);//.......................................................REMOVE O TIRO
+      this.score.increaseScore(10);//..................................................AUMENTA O SCORE
+      var audio = new Audio('./../../sounds/shoted.m4a');
+      audio.play();
+    }
+  }
+
+  this.doShipMoleculeColision = function(i){
+      document.getElementById("pauseButton").style.visibility="hidden";
+      this.aloneAtoms = this.molecules[i].divide(this.aloneAtoms);
+      this.molecules.splice(i, 1);//...................................................REMOVE A MOLECULA
+      this.lifes -= 1;//...............................................................FAZ A NAVE PERDER VIDA
+      this.hasShip = false;//..........................................................ACIONA O TEMPORIZADOR DE RESPAWN
+      var audio = new Audio('./../../sounds/bum.m4a');
+      audio.play();
+  }
+
+  this.respawnShip = function(){
+    this.createShip();//...............................................................RECRIA A NAVE
+    this.hasShip = true;
+    this.ship.setImortality(true);
+  }
+
+  this.submitForm = function(){
+    clearInterval(this.IntervalId);//..................................................INTERROMPE O LOOP;
+    window.document.formulario.date.value = ''+this.score._id;
+    window.document.formulario.points.value = ''+this.score.points;
+    document.getElementById("form").submit();//........................................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
+  }
+
   this.setShots = function(shots){
     this.shots = shots;
   }
 
+  // ₀₁₂₃₄₅₆₇₈₉
   // MOLÉCULAS--------------------------------------------------------------------------------------------------------------------
 
   this.loadMolecules = function(){
   	for(i = 0; i<(this.level+5); i++){
   		var moleculeId = Math.floor(Math.random() * 10 + 1);
-  		this.molecules.push(createMolecule(canvas.width, canvas.height, moleculeId));
+  		this.createMolecule(moleculeId);
   	}
   }
 
-  this.createMolecule = function(width, height, type){
+  this.createMolecule = function(type){
 
   	if(type === 1){
 
   		var atoms = [];
 
-  		var x = Math.floor(Math.random() * ((width-200) - 200) + 200);
-  		var y = Math.floor(Math.random() * ((height-200) - 200) + 200);
+  		var x = Math.floor(Math.random() * ((this.scr.width-200) - 200) + 200);
+  		var y = Math.floor(Math.random() * ((this.scr.height-200) - 200) + 200);
 
   		var circle1 = new SAT.Circle(new SAT.Vector(x, y), 30);
   		var circle2 = new SAT.Circle(new SAT.Vector(x-38, y+25), 15);
@@ -78,26 +115,21 @@ function Game(ctx, scr){
 
   		var angle = Math.floor((Math.random() * 359) + 1);
 
-  		var atom1 = new Atom(circle1, angle, "orange", "N");
-  		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "blue", "H");
-  		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "blue", "H");
-  		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1), "blue", "H");
+  		atoms.push(new Atom(circle1, angle, "orange", "N"));
+  		atoms.push(new Atom(circle2, angle, "blue", "H"));
+  		atoms.push(new Atom(circle3, angle, "blue", "H"));
+  		atoms.push(new Atom(circle4, angle, "blue", "H"));
 
-  		atoms.push(atom1);
-  		atoms.push(atom2);
-  		atoms.push(atom3);
-  		atoms.push(atom4);
+  		var molecule = new Molecule(atoms, "NH₃");
 
-  		var molecule = new Molecule(atoms, angle);
-
-  		return molecule;
+  		this.molecules.push(molecule);
 
   	}else if(type === 2){
 
   		var atoms = [];
 
-  		var x = Math.floor(Math.random() * ((width-200) - 200) + 200);
-  		var y = Math.floor(Math.random() * ((height-200) - 200) + 200);
+  		var x = Math.floor(Math.random() * ((this.scr.width-200) - 200) + 200);
+  		var y = Math.floor(Math.random() * ((this.scr.height-200) - 200) + 200);
 
   		var circle1 = new SAT.Circle(new SAT.Vector(x, y), 25);
   		var circle2 = new SAT.Circle(new SAT.Vector(x-35, y+15), 15);
@@ -105,52 +137,43 @@ function Game(ctx, scr){
 
   		var angle = Math.floor((Math.random() * 359) + 1);
 
-  		var atom1 = new Atom(circle1, angle, "red", "O");
-  		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "blue", "H");
-  		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "blue", "H");
+  		atoms.push(new Atom(circle1, angle, "red", "O"));
+  		atoms.push(new Atom(circle2, angle, "blue", "H"));
+  		atoms.push(new Atom(circle3, angle, "blue", "H"));
 
-  		atoms.push(atom1);
-  		atoms.push(atom2);
-  		atoms.push(atom3);
+  		var molecule = new Molecule(atoms, "H₂O");
 
-  		var molecule = new Molecule(atoms, angle);
-
-  		return molecule;
+  		this.molecules.push(molecule);
 
   	}else if(type === 3){
 
   		var atoms = [];
 
-  		var x = Math.floor(Math.random() * ((width-200) - 200) + 200);
-  		var y = Math.floor(Math.random() * ((height-200) - 200) + 200);
+  		var x = Math.floor(Math.random() * ((this.scr.width-200) - 200) + 200);
+  		var y = Math.floor(Math.random() * ((this.scr.height-200) - 200) + 200);
 
-  		var circle1 = new SAT.Circle(new SAT.Vector(x, y), 25);
+  		var circle1 = new SAT.Circle(new SAT.Vector(x, y), 26);
   		var circle2 = new SAT.Circle(new SAT.Vector(x-35, y+15), 15);
   		var circle3 = new SAT.Circle(new SAT.Vector(x, y-40), 15);
   		var circle4 = new SAT.Circle(new SAT.Vector(x+35, y+15), 15);
 
   		var angle = Math.floor((Math.random() * 359) + 1);
 
-  		var atom1 = new Atom(circle1, angle, "purple", "B");
-  		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "grey", "F");
-  		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "grey", "F");
-  		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1), "grey", "F");
+  		atoms.push(new Atom(circle1, angle, "purple", "B"));
+  		atoms.push(new Atom(circle2, angle, "grey", "F"));
+  		atoms.push(new Atom(circle3, angle, "grey", "F"));
+  		atoms.push(new Atom(circle4, angle, "grey", "F"));
 
-  		atoms.push(atom1);
-  		atoms.push(atom2);
-  		atoms.push(atom3);
-  		atoms.push(atom4);
+  		var molecule = new Molecule(atoms, "BF₃");
 
-  		var molecule = new Molecule(atoms, angle);
-
-  		return molecule;
+  		this.molecules.push(molecule);
 
   	}else if(type === 4){
 
   		var atoms = [];
 
-  		var x = Math.floor(Math.random() * ((width-200) - 200) + 200);
-  		var y = Math.floor(Math.random() * ((height-200) - 200) + 200);
+  		var x = Math.floor(Math.random() * ((this.scr.width-200) - 200) + 200);
+  		var y = Math.floor(Math.random() * ((this.scr.height-200) - 200) + 200);
 
   		var circle1 = new SAT.Circle(new SAT.Vector(x, y), 28);
   		var circle2 = new SAT.Circle(new SAT.Vector(x-38, y+18), 15);
@@ -160,28 +183,22 @@ function Game(ctx, scr){
 
   		var angle = Math.floor((Math.random() * 359) + 1);
 
-  		var atom1 = new Atom(circle1, angle, "brown", "C");
-  		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "blue", "H");
-  		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "blue", "H");
-  		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1), "blue", "H");
-  		var atom5 = new Atom(circle5, Math.floor((Math.random() * 359) + 1), "blue", "H");
+  		atoms.push(new Atom(circle1, angle, "brown", "C"));
+  		atoms.push(new Atom(circle2, angle, "blue", "H"));
+  		atoms.push(new Atom(circle3, angle, "blue", "H"));
+  		atoms.push(new Atom(circle4, angle, "blue", "H"));
+  		atoms.push(new Atom(circle5, angle, "blue", "H"));
 
-  		atoms.push(atom1);
-  		atoms.push(atom2);
-  		atoms.push(atom3);
-  		atoms.push(atom4);
-  		atoms.push(atom5);
+  		var molecule = new Molecule(atoms, "CH₄");
 
-  		var molecule = new Molecule(atoms, angle);
-
-  		return molecule;
+  		this.molecules.push(molecule);
 
   	}else if(type === 5){
 
   		var atoms = [];
 
-  		var x = Math.floor(Math.random() * ((width-200) - 200) + 200);
-  		var y = Math.floor(Math.random() * ((height-200) - 200) + 200);
+  		var x = Math.floor(Math.random() * ((this.scr.width-200) - 200) + 200);
+  		var y = Math.floor(Math.random() * ((this.scr.height-200) - 200) + 200);
 
   		var circle1 = new SAT.Circle(new SAT.Vector(x, y), 35);
   		var circle2 = new SAT.Circle(new SAT.Vector(x-58, y), 25);
@@ -193,32 +210,24 @@ function Game(ctx, scr){
 
   		var angle = Math.floor((Math.random() * 359) + 1);
 
-  		var atom1 = new Atom(circle1, angle, "green", "S");
-  		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "red", "O");
-  		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "red", "O");
-  		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1), "red", "O");
-  		var atom5 = new Atom(circle5, Math.floor((Math.random() * 359) + 1), "red", "O");
-  		var atom6 = new Atom(circle6, Math.floor((Math.random() * 359) + 1), "blue", "H");
-  		var atom7 = new Atom(circle7, Math.floor((Math.random() * 359) + 1), "blue", "H");
+  		atoms.push(new Atom(circle1, angle, "green", "S"));
+  		atoms.push(new Atom(circle2, angle, "red", "O"));
+  		atoms.push(new Atom(circle3, angle, "red", "O"));
+  		atoms.push(new Atom(circle4, angle, "red", "O"));
+  		atoms.push(new Atom(circle5, angle, "red", "O"));
+  		atoms.push(new Atom(circle6, angle, "blue", "H"));
+  		atoms.push(new Atom(circle7, angle, "blue", "H"));
 
-  		atoms.push(atom1);
-  		atoms.push(atom2);
-  		atoms.push(atom3);
-  		atoms.push(atom4);
-  		atoms.push(atom5);
-  		atoms.push(atom6);
-  		atoms.push(atom7);
+  		var molecule = new Molecule(atoms, "H₂SO₄");
 
-  		var molecule = new Molecule(atoms, angle);
-
-  		return molecule;
+  		this.molecules.push(molecule);
 
   	}else if(type === 6){
 
   		var atoms = [];
 
-  		var x = Math.floor(Math.random() * ((width-200) - 200) + 200);
-  		var y = Math.floor(Math.random() * ((height-200) - 200) + 200);
+  		var x = Math.floor(Math.random() * ((this.scr.width-200) - 200) + 200);
+  		var y = Math.floor(Math.random() * ((this.scr.height-200) - 200) + 200);
 
   		var circle1 = new SAT.Circle(new SAT.Vector(x, y), 30);
   		var circle2 = new SAT.Circle(new SAT.Vector(x-44, y+32), 25);
@@ -228,50 +237,41 @@ function Game(ctx, scr){
 
   		var angle = Math.floor((Math.random() * 359) + 1);
 
-  		var atom1 = new Atom(circle1, angle, "orange", "N");
-  		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "red", "O");
-  		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "red", "O");
-  		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1), "red", "O");
-  		var atom5 = new Atom(circle5, Math.floor((Math.random() * 359) + 1), "blue", "H");
+  		atoms.push(new Atom(circle1, angle, "orange", "N"));
+  		atoms.push(new Atom(circle2, angle, "red", "O"));
+  		atoms.push(new Atom(circle3, angle, "red", "O"));
+  		atoms.push(new Atom(circle4, angle, "red", "O"));
+  		atoms.push(new Atom(circle5, angle, "blue", "H"));
 
-  		atoms.push(atom1);
-  		atoms.push(atom2);
-  		atoms.push(atom3);
-  		atoms.push(atom4);
-  		atoms.push(atom5);
+  		var molecule = new Molecule(atoms, "HNO₃");
 
-  		var molecule = new Molecule(atoms, angle);
-
-  		return molecule;
+  		this.molecules.push(molecule);
 
   	}else if(type === 7){
 
   		var atoms = [];
 
-  		var x = Math.floor(Math.random() * ((width-200) - 200) + 200);
-  		var y = Math.floor(Math.random() * ((height-200) - 200) + 200);
+  		var x = Math.floor(Math.random() * ((this.scr.width-200) - 200) + 200);
+  		var y = Math.floor(Math.random() * ((this.scr.height-200) - 200) + 200);
 
   		var circle1 = new SAT.Circle(new SAT.Vector(x, y), 40);
   		var circle2 = new SAT.Circle(new SAT.Vector(x+68, y), 30);
 
   		var angle = Math.floor((Math.random() * 359) + 1);
 
-  		var atom1 = new Atom(circle1, angle, "#9ACD32", "Na");
-  		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "tan", "Cl");
+  		atoms.push(new Atom(circle1, angle, "#9ACD32", "Na"));
+  		atoms.push(new Atom(circle2, angle, "tan", "Cl"));
 
-  		atoms.push(atom1);
-  		atoms.push(atom2);
+  		var molecule = new Molecule(atoms, "NaCl");
 
-  		var molecule = new Molecule(atoms, angle);
-
-  		return molecule;
+  		this.molecules.push(molecule);
 
   	}else if(type === 8){
 
   		var atoms = [];
 
-  		var x = Math.floor(Math.random() * ((width-200) - 200) + 200);
-  		var y = Math.floor(Math.random() * ((height-200) - 200) + 200);
+  		var x = Math.floor(Math.random() * ((this.scr.width-200) - 200) + 200);
+  		var y = Math.floor(Math.random() * ((this.scr.height-200) - 200) + 200);
 
   		var angle = Math.floor((Math.random() * 359) + 1);
 
@@ -280,26 +280,21 @@ function Game(ctx, scr){
   		var circle3 = new SAT.Circle(new SAT.Vector(x-30, y+25), 15);
   		var circle4 = new SAT.Circle(new SAT.Vector(x+78, y-25), 15);
 
-  		var atom1 = new Atom(circle1, angle, "red", "O");
-  		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "red", "O");
-  		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "blue", "H");
-  		var atom4 = new Atom(circle4, Math.floor((Math.random() * 359) + 1), "blue", "H");
+  		atoms.push(new Atom(circle1, angle, "red", "O"));
+  		atoms.push(new Atom(circle2, angle, "red", "O"));
+  		atoms.push(new Atom(circle3, angle, "blue", "H"));
+  		atoms.push(new Atom(circle4, angle, "blue", "H"));
 
-  		atoms.push(atom1);
-  		atoms.push(atom2);
-  		atoms.push(atom3);
-  		atoms.push(atom4);
+  		var molecule = new Molecule(atoms, "H₂O₂");
 
-  		var molecule = new Molecule(atoms, angle);
-
-  		return molecule;
+  		this.molecules.push(molecule);
 
   	}else if(type === 9){
 
   		var atoms = [];
 
-  		var x = Math.floor(Math.random() * ((width-200) - 200) + 200);
-  		var y = Math.floor(Math.random() * ((height-200) - 200) + 200);
+  		var x = Math.floor(Math.random() * ((this.scr.width-200) - 200) + 200);
+  		var y = Math.floor(Math.random() * ((this.scr.height-200) - 200) + 200);
 
   		var angle = Math.floor((Math.random() * 359) + 1);
 
@@ -307,43 +302,34 @@ function Game(ctx, scr){
   		var circle2 = new SAT.Circle(new SAT.Vector(x-48, y), 25);
   		var circle3 = new SAT.Circle(new SAT.Vector(x+48, y), 25);
 
-  		var atom1 = new Atom(circle1, angle, "brown", "C");
-  		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "red", "O");
-  		var atom3 = new Atom(circle3, Math.floor((Math.random() * 359) + 1), "red", "O");
+  		atoms.push(new Atom(circle1, angle, "brown", "C"));
+  		atoms.push(new Atom(circle2, angle, "red", "O"));
+  		atoms.push(new Atom(circle3, angle, "red", "O"));
 
-  		atoms.push(atom1);
-  		atoms.push(atom2);
-  		atoms.push(atom3);
+  		var molecule = new Molecule(atoms, "CO₂");
 
-  		var molecule = new Molecule(atoms, angle);
-
-  		return molecule;
+  		this.molecules.push(molecule);
 
   	}else if(type === 10){
 
   		var atoms = [];
 
-  		var x = Math.floor(Math.random() * ((width-200) - 200) + 200);
-  		var y = Math.floor(Math.random() * ((height-200) - 200) + 200);
+  		var x = Math.floor(Math.random() * ((this.scr.width-200) - 200) + 200);
+  		var y = Math.floor(Math.random() * ((this.scr.height-200) - 200) + 200);
 
   		var circle1 = new SAT.Circle(new SAT.Vector(x, y), 30);
   		var circle2 = new SAT.Circle(new SAT.Vector(x+44, y), 15);
 
   		var angle = Math.floor((Math.random() * 359) + 1);
 
-  		var atom1 = new Atom(circle1, angle, "tan", "Cl");
-  		var atom2 = new Atom(circle2, Math.floor((Math.random() * 359) + 1), "blue", "H");
+  		atoms.push(new Atom(circle1, angle, "tan", "Cl"));
+  		atoms.push(new Atom(circle2, angle, "blue", "H"));
 
-  		atoms.push(atom1);
-  		atoms.push(atom2);
+  		var molecule = new Molecule(atoms, "HCl");
 
-  		var molecule = new Molecule(atoms, angle);
-
-  		return molecule;
+  		this.molecules.push(molecule);
 
   	}
-
   }
-
 
 }

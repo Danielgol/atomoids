@@ -16,14 +16,13 @@
 
           var isPaused = false;
 
-           window.onkeydown = keyPressed;
+          window.onkeydown = keyPressed;
           function keyPressed(event){
           	  switch(event.keyCode){
       	         case 32:
                  if(document.getElementById("pauseButton").style.visibility==="visible"){
                     pause();
                  }
-
   	             break;
   	           }
   	      }
@@ -31,7 +30,7 @@
           function pause(){
               if(isPaused === false){
                 isPaused = true;
-                cleanScreen(ctx, canvas.width, canvas.height);
+                scr.cleanScreen(ctx);
                 document.getElementById("pauseScreen").style.visibility="visible";
                 document.getElementById("pauseButton").style.visibility="hidden";
               }else{
@@ -117,13 +116,9 @@
         <script type="text/javascript" src="javascripts/model/Atom.js"></script>
         <script type="text/javascript" src="javascripts/model/Molecule.js"></script>
         <script type="text/javascript" src="javascripts/model/Shot.js"></script>
-        <script type="text/javascript" src="javascripts/view/DrawAtom.js"></script>
-        <script type="text/javascript" src="javascripts/view/DrawMolecule.js"></script>
-        <script type="text/javascript" src="javascripts/view/DrawShot.js"></script>
         <script type="text/javascript" src="javascripts/model/Screen.js"></script>
         <script type="text/javascript" src="javascripts/model/Game.js"></script>
         <script type="text/javascript" src="javascripts/controller/Keyboard.js"></script>
-        <script type="text/javascript" src="javascripts/controller/CreateMolecule.js"></script>
         <script type="text/javascript" src="javascripts/controller/Execute.js"></script>
 
     </body>

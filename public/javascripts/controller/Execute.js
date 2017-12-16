@@ -7,70 +7,45 @@ var game = new Game(ctx, scr);
 
 function loop(){
 
-		if(isPaused === false){
-			game.scr.drawScreen(game.ctx);//.............................................................DESENHA A BORDA BRANCA DA TELA;
-			game.scr.cleanScreen(game.ctx);//............................................................LIMPA A TELA (O RASTRO DAS COISAS);
+	if(isPaused === false){
+		game.scr.drawScreen(game.ctx);//.............................................................DESENHA A BORDA BRANCA DA TELA;
+		game.scr.cleanScreen(game.ctx);//............................................................LIMPA A TELA (O RASTRO DAS COISAS);
+		// NAVE--------------------------------------------------------------------------------------------------------------
+		if(game.hasShip === true){
+			game.moveShip(keys);
+			game.setShots(game.ship.shoot(game.shots, keys));//........................................ADICIONA UM NOVO TIRO (SE ATIROU);
+		}
+		// TIRO--------------------------------------------------------------------------------------------------------------
+		game.moveShots();
+		// MOLÉCULAS E COLISÕES---------------------------------------------------------------------------------------------
+		for(i = 0; i<game.molecules.length; i++){
+				game.molecules[i].move(game.ctx);//......................................................MOVE A MOLECULA;
+				for(j = 0; j<game.molecules[i].atoms.length; j++){
+						for(x = 0; x<game.shots.length; x++){
+				        game.verifyShotMoleculeColision(i,x,game.molecules[i].atoms[j].circle);//........VERIFICA COLISÃO (TIRO, MOLÉCULA);
+				    }
+						if(game.hasShip === true && game.ship.imortality === false){
+							var response = new SAT.Response();
+					    var collided = SAT.testPolygonCircle
+							(game.ship.triangle, game.molecules[i].atoms[j].circle, response);//...............VERIFICA COLISÃO (NAVE, MOLÉCULA);
+							if(collided === true){
+								game.doShipMoleculeColision(i);
+								setTimeout(function() {
+									if(game.lifes === 0){
+										game.submitForm();//.........................................................ENVIA O SCORE PARA SUBMIT.ejs
+									}else{
+										game.respawnShip();//........................................................FAZ RESPAWN DA NAVE;
+									}
+				        }, 2000);
+				        setTimeout(function() {
+										game.ship.setImortality(false);//............................................RETORNA A MORTALIDADE DA NAVE (3s)
+				            document.getElementById("pauseButton").style.visibility="visible";
+				        }, 5000);
+							}
+						}
+				}
+		}
 
-			// NAVE--------------------------------------------------------------------------------------------------------------
-			if(game.hasShip === true){
-				game.moveShip(keys);
-				game.setShots(game.ship.shoot(game.shots, keys));//........................................ADICIONA UM NOVO TIRO (SE ATIROU);
-			}
-			// TIRO--------------------------------------------------------------------------------------------------------------
-			game.moveShots();
-// // PARTE DAS MOLECULAS E ATOMOS + COLISÕES ------------------------------------------------------------------------------------
-//
-// 		for(i = 0; i<molecules.length; i++){
-// 				molecules[i].move();//....................................................MOVE A MOLECULA
-// 				for(j = 0; j<molecules[i].atoms.length; j++){
-// 						for(x = 0; x<shots.length; x++){
-// 								var response = new SAT.Response();
-// 								var collided = SAT.testCircleCircle(molecules[i].atoms[j].circle, shots[x].circle, response);// VERIFICA A COLISÃO
-// 								if(collided === true){//..............................................SE UM TIRO COLIDIU COM UMA MOlÉCULA
-// 									var audio = new Audio('./../../sounds/shoted.m4a');
-// 									audio.play();
-// 									aloneAtoms = molecules[i].divide(aloneAtoms);
-// 									molecules.splice(i, 1);
-// 									shots.splice(x, 1);//..................................................REMOVE O TIRO
-// 									score.points += 10;//..................................................AUMENTA O SCORE
-// 								}
-// 						}
-// 						if(hasShip === true && imortality === false){
-// 								var response = new SAT.Response();
-// 								var collided = SAT.testPolygonCircle(ship.triangle, molecules[i].atoms[j].circle, response);// VERIFICA A COLISÃO
-// 								if(collided === true){//..............................................SE A NAVE COLIDIU COM UMA MOLÉCULA
-// 										document.getElementById("pauseButton").style.visibility="hidden";
-// 										aloneAtoms = molecules[i].divide(aloneAtoms);
-// 										molecules.splice(i, 1);//............................................REMOVE A MOLECULA
-// 										lifes -= 1;//........................................................FAZ A NAVE PERDER VIDA
-// 										hasShip = false;//.........................................ACIONA O TEMPORIZADOR DE RESPAWN
-//
-// 										var audio = new Audio('./../../sounds/bum.m4a');
-// 										audio.play();
-//
-// 										setTimeout(function() {
-// 												if(lifes === 0){//............................................CONDIÇÃO DO FIM
-// 													clearInterval(IntervalId);//................................INTERROMPE O LOOP;
-// 													window.document.formulario.date.value = ''+score._id;
-// 													window.document.formulario.points.value = ''+score.points;
-// 													//window.document.formulario.time.value = "TEMPO RESTANTE: "+Math.floor(time/60)+":"+seconds;
-// 													document.getElementById("form").submit();//.................ENVIA O SCORE PARA A PÁGINA DE SUBMISSÃO
-// 												}else{
-// 													ship = createShip(canvas.width/2, canvas.height/2);
-// 												}
-// 												hasShip = true;
-// 												imortality = true;
-// 										}, 2000);
-//
-// 										setTimeout(function() {
-// 												imortality = false;
-// 												document.getElementById("pauseButton").style.visibility="visible";
-// 										}, 5000);
-// 								}
-// 						}
-// 				}
-// 		}
-//
 // 		for(i = 0; i<aloneAtoms.length; i++){
 // 				aloneAtoms[i].move(aloneAtoms[i].angle, aloneAtoms[i].velocity);
 // 				aloneAtoms[i].obeyLimit(canvas.width, canvas.height);
@@ -182,7 +157,7 @@ function loop(){
 
 function start(){
 	game.createShip();
-	//game.loadMolecules();
+	game.loadMolecules();
 	game.scr.drawScreen(game.ctx);
 	setTimeout(function() {
 		game.scr.drawScore(game.ctx, game.score.points, (game.scr.width/2)-5, 20);//.......................EXIBE O SCORE ATUAL
