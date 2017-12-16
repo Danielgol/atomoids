@@ -1,7 +1,8 @@
 
-function Game(ctx){
+function Game(ctx, scr){
 
   this.ctx = ctx;
+  this.scr = scr;
 
   this.hasMoleculesAndAtoms = true;
   this.hasShip = true;
