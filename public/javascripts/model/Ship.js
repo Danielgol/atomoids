@@ -9,6 +9,7 @@ function Ship(triangle, centerX, centerY){
 	this.forceX = 0;
 	this.forceY = 0;
 	this.energy = 15;
+	this.imortality = true;
 
 	this.applyForces = function(){
 		this.triangle.translate(-this.x, -this.y);
@@ -173,5 +174,9 @@ function Ship(triangle, centerX, centerY){
 			ctx.stroke();
 			ctx.closePath();
 	}
+
+	this.setImortality = function(bool){
+    this.imortality = bool;
+  }
 
 }
