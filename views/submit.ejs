@@ -12,7 +12,7 @@
 
       <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
 
-      <script type="text/javascript" src="javascripts/view/DrawScreen.js"></script>
+      <script type="text/javascript" src="javascripts/classes/Screen.js"></script>
 
       <script type="text/javascript">
 
@@ -74,7 +74,8 @@
           var canvas = document.getElementById("mycanvas");
           var ctx = canvas.getContext("2d");
 
-          drawScreen(ctx, canvas.width, canvas.height);
+          var scr = new Screen(canvas.width, canvas.height);
+          scr.drawScreen(ctx);
 
       </script>
 

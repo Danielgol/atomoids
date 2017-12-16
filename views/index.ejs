@@ -51,12 +51,13 @@
 
       </script>
 
-      <script type="text/javascript" src="javascripts/view/DrawScreen.js"></script>
+      <script type="text/javascript" src="javascripts/classes/Screen.js"></script>
 
       <script>
 
         function start(){
-            drawScreen(ctx, canvas.width, canvas.height);
+          var scr = new Screen(canvas.width, canvas.height);
+          scr.drawScreen(ctx);
         }
 
         var canvas = document.getElementById("mycanvas");
