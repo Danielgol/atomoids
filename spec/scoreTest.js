@@ -1,11 +1,10 @@
-function Score(){
+function Score(date){
 
-  this.id = 0;
-  this.score = 0;
-  this.playerName = "";
+  this._id = date;
+  this.points = 0;
 
   this.increaseScore = function(i){
-      this.score += i;
+      this.points += i;
   }
 
 }
@@ -17,11 +16,11 @@ describe("Score Test", function() {
     var score;
 
     it("test increaseScore", function(){
-        score = new Score(1, 0, "Name");
+        score = new Score(1, 0);
 
         score.increaseScore(10);
 
-        expect(10).toBe(score.score);
+        expect(10).toBe(score.points);
     });
 
 });

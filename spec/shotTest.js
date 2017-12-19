@@ -1024,8 +1024,15 @@ function Shot(circle, angle){
 			}
 	}
 
-}
+	this.drawShot = function(ctx){
+	    ctx.beginPath();
+	    ctx.fillStyle = "white";
+	    ctx.arc(this.circle['pos'].x, this.circle['pos'].y, this.circle['r'], 0, 2 * Math.PI);
+	    ctx.fill();
+	    ctx.closePath();
+	}
 
+}
 
 
 describe("Shot Test", function() {
