@@ -10,14 +10,14 @@ function loop(){
 	if(isPaused === false){
 		game.scr.drawScreen(game.ctx);//.............................................................DESENHA A BORDA BRANCA DA TELA;
 		game.scr.cleanScreen(game.ctx);//............................................................LIMPA A TELA (O RASTRO DAS COISAS);
-		// NAVE--------------------------------------------------------------------------------------------------------------
+		// NAVE-------------------------------------------------------------------------------------------------------------------------
 		if(game.hasShip === true){
 			game.moveShip(keys);
 			game.setShots(game.ship.shoot(game.shots, keys));//........................................ADICIONA UM NOVO TIRO (SE ATIROU);
 		}
-		// TIRO--------------------------------------------------------------------------------------------------------------
+		// TIRO-------------------------------------------------------------------------------------------------------------------------
 		game.moveShots();
-		// MOLÉCULAS E COLISÕES---------------------------------------------------------------------------------------------
+		// MOLÉCULAS E COLISÕES---------------------------------------------------------------------------------------------------------
 		for(i = 0; i<game.molecules.length; i++){
 				game.molecules[i].move(game.ctx);//......................................................MOVE A MOLECULA;
 				for(j = 0; j<game.molecules[i].atoms.length; j++){
@@ -45,7 +45,7 @@ function loop(){
 						}
 				}
 		}
-		// ÁTOMOS (SOZINHOS) E COLISÕES-------------------------------------------------------------------------------------
+		// ÁTOMOS (SOZINHOS) E COLISÕES------------------------------------------------------------------------------------------------
 		for(i = 0; i<game.aloneAtoms.length; i++){
 				game.moveAloneAtoms(i);//................................................................MOVE OS ÁTOMOS
 				for(x = 0; x<game.shots.length; x++){
@@ -71,7 +71,7 @@ function loop(){
 					}
 				}
 		}
-		// CONDIÇÃO PARA CARREGAR MAIS MOLÉCULAS---------------------------------------------------------------------------------------
+		// CONDIÇÃO PARA CARREGAR MAIS MOLÉCULAS----------------------------------------------------------------------------------------
 	  if(game.molecules.length === 0 && game.aloneAtoms.length === 0 && game.hasMoleculesAndAtoms === true){
 	  		game.hasMoleculesAndAtoms = false;//..............................................ACIONA O TEMPORIZADOR PARA CARREGAR MOLÉCULAS
 	  		document.getElementById("pauseButton").style.visibility="hidden";
@@ -86,11 +86,11 @@ function loop(){
 	  				document.getElementById("pauseButton").style.visibility="visible";
 	  		}, 4000);
 	  }
-		// OUTROS----------------------------------------------------------------------------------------------------------------------
+		// OUTROS-----------------------------------------------------------------------------------------------------------------------
 	  game.scr.drawScore(game.ctx, game.score.points, (game.scr.width/2)-5, 20);//..........EXIBE O SCORE ATUAL
 	  game.scr.drawLifes(game.ctx, game.lifes);
 	  game.scr.drawLevel(game.ctx, game.level);
-	  //-----------------------------------------------------------------------------------------------------------------------------
+	  //------------------------------------------------------------------------------------------------------------------------------
 	}//isPaused;
 
 }//loop
