@@ -1,3 +1,4 @@
+
 // Version 0.6.0 - Copyright 2012 - 2016 -  Jim Riecken <jimr@jimr.ca>
 //
 // Released under the MIT License - https://github.com/jriecken/sat-js
@@ -987,6 +988,31 @@
   return SAT;
 }));
 
+function Atom(circle, angle, color, element){
+	this.circle = circle;
+	this.angle = angle;
+	this.color = color;
+	this.element = element;
+}
+
+function Molecule(atoms, type){
+  this.atoms = atoms;
+  this.type = type;
+}
+
+function Score(date){
+  this._id = date;
+  this.points = 0;
+  this.increaseScore = function(i){
+      this.points += i;
+  }
+}
+
+function Screen(width, height){
+	this.width = width;
+	this.height = height;
+}
+
 
 function Ship(triangle, centerX, centerY){
 
@@ -1170,62 +1196,6 @@ function Ship(triangle, centerX, centerY){
 
 }
 
-
-function Screen(width, height){
-
-	this.width = width;
-	this.height = height;
-
-  this.drawScreen = function(ctx){
-  	ctx.beginPath();
-  	ctx.lineWidth = 2;
-  	ctx.moveTo(0, 0);
-  	ctx.lineTo(this.width, 0);
-  	ctx.lineTo(this.width, this.height);
-  	ctx.lineTo(0 , this.height);
-  	ctx.lineTo(0, 0);
-  	ctx.strokeStyle = "white";
-  	ctx.stroke();
-  	ctx.closePath();
-  }
-
-  this.drawScore = function(ctx, score, x, y){
-    ctx.beginPath();
-    ctx.fillStyle = "white";
-    ctx.font = "15px Hyper";
-    ctx.fillText("Score: "+score, x, y);
-    ctx.closePath();
-  }
-
-  this.drawLevel = function(ctx, level){
-  	ctx.beginPath();
-  	ctx.fillStyle = "white";
-  	ctx.fillText("lvl: " + level, 10, 590);
-  	ctx.closePath();
-  }
-
-  this.drawLifes = function(ctx, lifes){
-  	var space = 20;
-  	for(l = 0; l<lifes; l++){
-  			ctx.beginPath();
-  			ctx.lineWidth = 1;
-  	    ctx.moveTo(space, 10);
-  	    ctx.lineTo(space+5, 20);
-  	    ctx.lineTo(space-5, 20);
-  	    ctx.lineTo(space, 10);
-  	    ctx.strokeStyle = "white";
-  	    ctx.stroke();
-  	    ctx.closePath();
-  			space+=15;
-  	}
-  }
-
-  this.cleanScreen = function(ctx){
-  	ctx.clearRect(1, 1, this.width - 2, this.height - 2);
-  }
-}
-
-
 function Game(ctx, scr){
 
   this.ctx = ctx;
@@ -1308,7 +1278,6 @@ function Game(ctx, scr){
   }
 
   this.doShipMoleculeColision = function(i){
-      //document.getElementById("pauseButton").style.visibility="hidden";
       this.aloneAtoms = this.molecules[i].divide(this.aloneAtoms);
       this.molecules.splice(i, 1);//...................................................REMOVE A MOLECULA
       this.lifes -= 1;//...............................................................FAZ A NAVE PERDER VIDA
@@ -1318,7 +1287,6 @@ function Game(ctx, scr){
   }
 
   this.doShipAtomColision = function(i){
-      //document.getElementById("pauseButton").style.visibility="hidden";
       this.aloneAtoms.splice(i, 1);//..................................................REMOVE O ÁTOMO
       this.lifes -= 1;//...............................................................FAZ A NAVE PERDER VIDA
       this.hasShip = false;//..........................................................ACIONA O TEMPORIZADOR DE RESPAWN
@@ -1587,612 +1555,37 @@ function Game(ctx, scr){
 
 
 
-describe("Ship Test", function(){
+describe("Shot Test", function() {
 
     var ctx = 0;
     var scr = new Screen(1000, 600);
-    var game = new Game(ctx, scr);
+    var game;
 
     beforeEach(function(){
+        game = new Game(ctx, scr);
+    });
+
+     it("testCreateShip", function(){
         game.createShip();
-    });
-
-    //applyForces
-
-    it("Test applyForces", function(){
-
-        game.ship.forceX = 1;
-        game.ship.forceY = 1;
-
-        game.ship.x = 50;
-        game.ship.y = 50;
-
-        game.ship.applyForces();
-
-        expect(51).toBe(game.ship.x);
-        expect(49).toBe(game.ship.y);
-
-    });
-
-    //slide
-
-    it("Test slide when force X is bigger than 0 and force X minus delay is bigger than 0", function(){
-
-        game.ship.forceX = 1;
-
-        game.ship.slide(0.001);
-
-        expect(0.999).toBe(game.ship.forceX);
-
-    });
-
-    it("Test slide when force X is bigger than 0 and force X minus delay is equals to 0", function(){
-
-        game.ship.forceX = 0.001;
-
-        game.ship.slide(0.001);
-
-        expect(0).toBe(game.ship.forceX);
-
-    });
-
-    it("Test slide when force X is equal to 0 and force X minus delay is smaller than 0", function(){
-
-        game.ship.forceX = 0;
-
-        game.ship.slide(0.001);
-
-        expect(0).toBe(game.ship.forceX);
-
-    });
-
-    it("Test slide when force X is smaller than 0 and force X plus delay is smaller than 0", function(){
-
-        game.ship.forceX = -1;
-
-        game.ship.slide(0.001);
-
-        expect(-0.999).toBe(game.ship.forceX);
-
-    });
-
-    it("Test slide when force X is smaller than 0 and force X plus delay is equal to 0", function(){
-
-        game.ship.forceX = -0.001;
-
-        game.ship.slide(0.001);
-
-        expect(0).toBe(game.ship.forceX);
-
-    });
-
-    it("Test slide when force Y is bigger than 0 and force Y minus delay is bigger than 0", function(){
-
-        game.ship.forceY = 1;
-
-        game.ship.slide(0.001);
-
-        expect(0.999).toBe(game.ship.forceY);
-
-    });
-
-    it("Test slide when force Y is bigger than 0 and force Y minus delay is equal to 0", function(){
-
-        game.ship.forceY = 0.001;
-
-        game.ship.slide(0.001);
-
-        expect(0).toBe(game.ship.forceY);
-
-    });
-
-    it("Test slide when force Y is equal to 0 and force Y minus delay is smaller than 0", function(){
-
-        game.ship.forceY = 0;
-
-        game.ship.slide(0.001);
-
-        expect(0).toBe(game.ship.forceY);
-
-    });
-
-    it("Test slide when force Y is smaller than 0 and force Y plus delay is smaller than 0", function(){
-
-        game.ship.forceY = -1;
-
-        game.ship.slide(0.001);
-
-        expect(-0.999).toBe(game.ship.forceY);
-
-    });
-
-    it("Test slide when force Y is smaller than 0 and force Y plus delay is equal to 0", function(){
-
-        game.ship.forceY = -0.001;
-
-        game.ship.slide(0.001);
-
-        expect(0).toBe(game.ship.forceY);
-
-    });
-
-    //regulateVelocity
-
-    it("Test regulteVelocity when forceX is bigger than the maximum velocity", function(){
-
-        game.ship.forceX = 1.6;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(1.5).toBe(game.ship.forceX);
-
-    });
-
-    it("Test regulteVelocity when forceX is equal to the maximum velocity", function(){
-
-        game.ship.forceX = 1.5;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(1.5).toBe(game.ship.forceX);
-
-    });
-
-    it("Test regulteVelocity when forceX is smaller than maximum velocity", function(){
-
-        game.ship.forceX = 1.4;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(1.4).toBe(game.ship.forceX);
-
-    });
-
-    it("Test regulteVelocity when forceX is smaller than negative maximum velocity", function(){
-
-        game.ship.forceX = -1.6;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(-1.5).toBe(game.ship.forceX);
-
-    });
-
-    it("Test regulteVelocity when forceX is equal to negative maximum velocity", function(){
-
-        game.ship.forceX = -1.5;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(-1.5).toBe(game.ship.forceX);
-
-    });
-
-    it("Test regulteVelocity when forceX is bigger than negative maximum velocity", function(){
-
-        game.ship.forceX = -1.4;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(-1.4).toBe(game.ship.forceX);
-
-    });
-
-    it("Test regulteVelocity when forceY is bigger than the maximum velocity", function(){
-
-        game.ship.forceY = 1.6;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(1.5).toBe(game.ship.forceY);
-
-    });
-
-    it("Test regulteVelocity when forceY is equal to the maximum velocity", function(){
-
-        game.ship.forceY = 1.5;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(1.5).toBe(game.ship.forceY);
-
-    });
-
-    it("Test regulteVelocity when forceY is smaller than maximum velocity", function(){
-
-        game.ship.forceY = 1.4;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(1.4).toBe(game.ship.forceY);
-
-    });
-
-    it("Test regulteVelocity when forceY is smaller than negative maximum velocity", function(){
-
-        game.ship.forceY = -1.6;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(-1.5).toBe(game.ship.forceY);
-
-    });
-
-    it("Test regulteVelocity when forceY is equal to negative maximum velocity", function(){
-
-        game.ship.forceY = -1.5;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(-1.5).toBe(game.ship.forceY);
-
-    });
-
-    it("Test regulteVelocity when forceY is bigger than negative maximum velocity", function(){
-
-        game.ship.forceY = -1.4;
-
-        game.ship.regulateVelocity(1.5);
-
-        expect(-1.4).toBe(game.ship.forceY);
-
-    });
-
-    //boost
-
-    it("test ship forces when in 89 degrees", function(){
-
-        game.ship.angle = 89;
-
-        game.ship.boost();
-
-        expect(0.00010471443862370025).toBe(game.ship.forceY);
-        expect(0.0059990861709383475).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 90 degrees", function(){
-
-        game.ship.angle = 90;
-
-        game.ship.boost();
-
-        expect(0).toBe(game.ship.forceY);
-        expect(0.006).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 91 degrees", function(){
-
-        game.ship.angle = 91;
-
-        game.ship.boost();
-
-        expect(-0.00010471443862370086).toBe(game.ship.forceY);
-        expect(0.0059990861709383475).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 269 degrees", function(){
-
-        game.ship.angle = 269;
-
-        game.ship.boost();
-
-        expect(-0.00010471443862370099).toBe(game.ship.forceY);
-        expect(-0.0059990861709383475).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 270 degrees", function(){
-
-        game.ship.angle = 270;
-
-        game.ship.boost();
-
-        expect(0).toBe(game.ship.forceY);
-        expect(-0.006).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 271 degrees", function(){
-
-        game.ship.angle = 271;
-
-        game.ship.boost();
-
-        expect(0.00010471443862369878).toBe(game.ship.forceY);
-        expect(-0.0059990861709383475).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 179 degrees", function(){
-
-        game.ship.angle = 179;
-
-        game.ship.boost();
-
-        expect(-0.0059990861709383475).toBe(game.ship.forceY);
-        expect(0.00010471443862370063).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 180 degrees", function(){
-
-        game.ship.angle = 180;
-
-        game.ship.boost();
-
-        expect(-0.006).toBe(game.ship.forceY);
-        expect(0).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 181 degrees", function(){
-
-        game.ship.angle = 181;
-
-        game.ship.boost();
-
-        expect(-0.0059990861709383475).toBe(game.ship.forceY);
-        expect(-0.00010471443862369916).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 359 degrees", function(){
-
-        game.ship.angle = 359;
-
-        game.ship.boost();
-
-        expect(0.0059990861709383475).toBe(game.ship.forceY);
-        expect(-0.00010471443862370669).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 360 degrees", function(){
-
-        game.ship.angle = 360;
-
-        game.ship.boost();
-
-        expect(0.006).toBe(game.ship.forceY);
-        expect(0).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 0 degrees", function(){
-
-        game.ship.angle = 0;
-
-        game.ship.boost();
-
-        expect(0.006).toBe(game.ship.forceY);
-        expect(0).toBe(game.ship.forceX);
-
-    });
-
-    it("test ship forces when in 1 degrees", function(){
-
-        game.ship.angle = 1;
-
-        game.ship.boost();
-
-        expect(0.0059990861709383475).toBe(game.ship.forceY);
-        expect(0.00010471443862370107).toBe(game.ship.forceX);
-
-    });
-
-    //turn
-
-    it("test turn method when ship's angle is equal to 359 degrees (Left)", function(){
-
-        game.ship.angle = 359;
-
-        game.ship.turn(1);
-
-        expect(0).toBe(game.ship.angle);
-
-    });
-
-    it("test turn method when ship's angle is smaller than 359 degrees (Left)", function(){
-
-        game.ship.angle = 358;
-
-        game.ship.turn(1);
-
-        expect(359).toBe(game.ship.angle);
-
-    });
-
-    it("test turn method when ship's angle is equal to 0 degrees (Left)", function(){
-
-        game.ship.angle = 0;
-
-        game.ship.turn(1);
-
-        expect(1).toBe(game.ship.angle);
-
-    });
-
-    it("test turn method when ship's angle is bigger than 0 degrees (Left)", function(){
-
-        game.ship.angle = 1;
-
-        game.ship.turn(1);
-
-        expect(2).toBe(game.ship.angle);
-
-    });
-
-    it("test turn method when ship's angle is equal to 0 degrees (Right)", function(){
-
-        game.ship.angle = 0;
-
-        game.ship.turn(-1);
-
-        expect(359).toBe(game.ship.angle);
-
-    });
-
-    it("test turn method when ship's angle is bigger than 0 degrees (Right)", function(){
-
-        game.ship.angle = 1;
-
-        game.ship.turn(-1);
-
-        expect(0).toBe(game.ship.angle);
-
-    });
-
-    it("test turn method when ship's angle is smaller than 359 degrees (Right)", function(){
-
-        game.ship.angle = 358;
-
-        game.ship.turn(-1);
-
-        expect(357).toBe(game.ship.angle);
-
-    });
-
-    it("test turn method when ship's angle is equal to 359 degrees (Right)", function(){
-
-        game.ship.angle = 359;
-
-        game.ship.turn(-1);
-
-        expect(358).toBe(game.ship.angle);
-
-    });
-
-    //obeyLimit
-
-    var width;
-    var height;
-
-    beforeEach(function(){
-        width = 1000;
-        height = 600;
-    });
-
-    it("test ship position when X is bigger than canvas width ", function(){
-
-        game.ship.x = 1001;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(0).toBe(game.ship.x);
-
-    });
-
-    it("test ship position when X is equal to canvas width ", function(){
-
-        game.ship.x = 1000;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(width).toBe(game.ship.x);
-
-    });
-
-    it("test ship position when X is smaller than canvas width ", function(){
-
-        game.ship.x = 999;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(999).toBe(game.ship.x);
-
-    });
-
-    it("test ship position when X is bigger than 0", function(){
-
-        game.ship.x = 1;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(1).toBe(game.ship.x);
-
-    });
-
-    it("test ship position when X is equal 0", function(){
-
-        game.ship.x = 0;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(0).toBe(game.ship.x);
-
-    });
-
-    it("test ship position when X is smaller than 0", function(){
-
-        game.ship.x = -1;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(width).toBe(game.ship.x);
-
-    });
-
-    it("test ship position when Y is bigger than height", function(){
-
-        game.ship.y = 601;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(0).toBe(game.ship.y);
-
-    });
-
-    it("test ship position when Y is equal to height", function(){
-
-        game.ship.y = 600;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(height).toBe(game.ship.y);
-
-    });
-
-    it("test ship position when Y is smaller than height", function(){
-
-        game.ship.y = 599;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(599).toBe(game.ship.y);
-
-    });
-
-    it("test ship position when Y is bigger than 0", function(){
-
-        game.ship.y = 1;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(1).toBe(game.ship.y);
-
-    });
-
-    it("test ship position when Y is equal to 0", function(){
-
-        game.ship.y = 0;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(0).toBe(game.ship.y);
-
-    });
-
-    it("test ship position when Y is smaller than 0", function(){
-
-        game.ship.y = -1;
-
-        game.ship.obeyLimit(width, height);
-
-        expect(height).toBe(game.ship.y);
-
-    });
+        expect(500).toBe(game.ship.x);
+        expect(300).toBe(game.ship.y);
+     });
+
+     it("testDoShipMoleculeColision", function(){
+        game.createMolecule(1);
+        game.doShipMoleculeColision(0);
+        expect(game.molecules.length).toBe(0);
+        expect(game.lifes).toBe(2);
+        expect(game.hasShip).toBe(false);
+     });
+
+     it("testDoShipAtomColision", function(){
+        var circle1 = new SAT.Circle(new SAT.Vector(5, 5), 30);
+        game.aloneAtoms.push(new Atom(circle1, 0, "nah", "nah"));
+        game.doShipAtomColision(0);
+        expect(game.aloneAtoms.length).toBe(0);
+        expect(game.lifes).toBe(2);
+        expect(game.hasShip).toBe(false);
+     });
 
 });
