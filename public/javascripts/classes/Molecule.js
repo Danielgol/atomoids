@@ -13,10 +13,9 @@ function Molecule(atoms, type){
 	}
 
   this.divide = function(aloneAtoms){
-    for(var i=0; i<this.atoms.length; i++){
-      if(i>0){
-        this.atoms[i].angle = Math.floor((Math.random() * 359) + 1);//......................APENAS O "ÁTOMO CENTRAL" CONTINUARÁ COM O ÂNGULO ANTERIOR
-      }
+    aloneAtoms.push(this.atoms[0]);
+    for(var i=1; i<this.atoms.length; i++){
+      this.atoms[i].angle = Math.floor((Math.random() * 359) + 1);//......................APENAS O "ÁTOMO CENTRAL" CONTINUARÁ COM O ÂNGULO ANTERIOR
       aloneAtoms.push(this.atoms[i]);
     }
     return aloneAtoms;
@@ -24,9 +23,12 @@ function Molecule(atoms, type){
 
   this.drawAtoms = function(atom, ctx){
       ctx.beginPath();
-      ctx.fillStyle = atom.color;
+      //ctx.fillStyle = atom.color;
       ctx.arc(atom.circle['pos'].x, atom.circle['pos'].y, atom.circle['r'], 0, 2 * Math.PI);
-      ctx.fill();
+      //ctx.fill();
+      ctx.strokeStyle = "white";
+			ctx.stroke();
+
       ctx.closePath();
 
       ctx.beginPath();

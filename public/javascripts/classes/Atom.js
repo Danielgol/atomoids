@@ -30,9 +30,12 @@ function Atom(circle, angle, color, element){
 
 	this.drawAtom = function(ctx){
 	    ctx.beginPath();
-	    ctx.fillStyle = this.color;
+	    //ctx.fillStyle = this.color;
 	    ctx.arc(this.circle['pos'].x, this.circle['pos'].y, this.circle['r'], 0, 2 * Math.PI);
-	    ctx.fill();
+	    //ctx.fill();
+			ctx.strokeStyle = "white";
+			ctx.stroke();
+
 	    ctx.closePath();
 
 	    ctx.beginPath();
