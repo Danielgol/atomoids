@@ -17,6 +17,7 @@ function Molecule(atoms, type){
     aloneAtoms.push(this.atoms[0]);
     for(var i=1; i<this.atoms.length; i++){
       this.atoms[i].angle = Math.floor(Math.random() * ((angleReference+20) - (angleReference-20) + 1)) + (angleReference-20);
+      //-----------------------------------------------------MAX---------------------MIN-------------------------MIN----------
       //this.atoms[i].angle = Math.floor((Math.random() * 359) + 1);//......................APENAS O "ÁTOMO CENTRAL" CONTINUARÁ COM O ÂNGULO ANTERIOR
       aloneAtoms.push(this.atoms[i]);
     }
