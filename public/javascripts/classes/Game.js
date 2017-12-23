@@ -6,6 +6,7 @@ function Game(ctx, scr){
 
   this.hasMoleculesAndAtoms = true;
   this.hasShip = true;
+  this.hasCollision = false;
 
   this.ship;
   this.level = 1;
@@ -65,6 +66,9 @@ function Game(ctx, scr){
       this.score.increaseScore(10);//..................................................AUMENTA O SCORE
       var audio = new Audio('./../../sounds/shoted.m4a');
       audio.play();
+      this.hasCollision = true;
+    }else{
+      this.hasCollision = false;
     }
   }
 
@@ -77,6 +81,9 @@ function Game(ctx, scr){
       this.score.increaseScore(10);//..................................................AUMENTA O SCORE
       var audio = new Audio('./../../sounds/shoted.m4a');
       audio.play();
+      this.hasCollision = true;
+    }else{
+      this.hasCollision = false;
     }
   }
 

@@ -18,12 +18,19 @@ function loop(){
 		// TIRO-------------------------------------------------------------------------------------------------------------------------
 		game.moveShots();
 		// MOLÉCULAS E COLISÕES---------------------------------------------------------------------------------------------------------
-		for(i = 0; i<game.molecules.length; i++){
+		for(i = game.molecules.length-1; i>=0; i--){
 				game.molecules[i].move(game.ctx);//......................................................MOVE A MOLECULA;
-				for(j = 0; j<game.molecules[i].atoms.length; j++){
-						for(x = 0; x<game.shots.length; x++){
+				game.hasCollision = false;
+				for(j = game.molecules[i].atoms.length-1; j>=0; j--){
+						for(x = game.shots.length-1; x>=0; x--){
 				        game.verifyShotMoleculeColision(i,x,game.molecules[i].atoms[j].circle);//........VERIFICA COLISÃO (TIRO, MOLÉCULA);
+								if(game.hasCollision === true){
+									break;
+								}
 				    }
+						if(game.hasCollision === true){
+							break;
+						}
 						if(game.hasShip === true && game.ship.imortality === false){
 							var response = new SAT.Response();
 					    var collided = SAT.testPolygonCircle
@@ -46,12 +53,16 @@ function loop(){
 				}
 		}
 		// ÁTOMOS (SOZINHOS) E COLISÕES------------------------------------------------------------------------------------------------
-		for(i = 0; i<game.aloneAtoms.length; i++){
+		for(i = game.aloneAtoms.length-1; i>=0; i--){
 				game.moveAloneAtoms(i);//................................................................MOVE OS ÁTOMOS
-				for(x = 0; x<game.shots.length; x++){
+				game.hasCollision = false;
+				for(x = game.shots.length-1; x>=0; x--){
 						game.verifyShotAtomColision(i,x,game.aloneAtoms[i].circle);//........................VERIFICA COLISÃO (TIROS, ÁTOMO)
+						if(game.hasCollision === true){
+							break;
+						}
 				}
-				if(game.hasShip === true && game.ship.imortality === false){
+				if(game.hasShip === true && game.ship.imortality === false && game.hasCollision === false){
 					var response = new SAT.Response();
 					var collided = SAT.testPolygonCircle
 					(game.ship.triangle, game.aloneAtoms[i].circle, response);//...........................VERIFICA COLISÃO (NAVE, ÁTOMO)
