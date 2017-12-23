@@ -26,6 +26,7 @@ function Molecule(atoms, type){
 
   this.drawAtoms = function(atom, ctx){
       ctx.beginPath();
+      ctx.lineWidth = 1.5;
       //ctx.fillStyle = atom.color;
       ctx.arc(atom.circle['pos'].x, atom.circle['pos'].y, atom.circle['r'], 0, 2 * Math.PI);
       //ctx.fill();
