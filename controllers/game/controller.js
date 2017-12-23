@@ -22,11 +22,11 @@ module.exports = {
            return 0;
         });
         var recordMessage = "";
-        console.log(data.data.rows[0].value.points);
-        if(req.body.points > data.data.rows[0].value.points){
+        console.log("RECORDE: "+data.data.rows[0].value.points);
+        console.log("PONTUAÇÃO ATUAL: "+req.body.points);
+        if(parseInt(req.body.points) > parseInt(data.data.rows[0].value.points)){
           recordMessage = "Novo recorde";
         }
-        console.log(req.body.points);
         res.render('submit', {points: req.body.points , date: req.body.date, recordMessage: recordMessage} );
       },
       function(err){
