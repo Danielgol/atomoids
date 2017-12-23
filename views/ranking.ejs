@@ -5,7 +5,6 @@
 
         <meta charset="utf-8">
         <title>Atomoids_Ranking</title>
-        <script src="javascripts/pouchdb-6.2.0.min.js"></script>
         <style>
 
           @font-face {
@@ -52,7 +51,15 @@
 
         <script>
 
-            var db = new PouchDB('atomoids_ranking');
+            function goToIndex(){
+              window.location.replace("/");
+            }
+
+            var strPoints = '<%= points %>';
+            var strNames = '<%= names %>';
+
+            var arrayPoints = strPoints.split("|");
+            var arrayNames = strNames.split("|");
 
             var maxPositionsPerPage = 20;
             var firstPosition = 1;
@@ -61,83 +68,56 @@
 
             function showRanking(tableName, tablePoints, tablePosition){
 
-                var scores = null;
+                var position = "";
                 var names = "";
                 var points = "";
-                var position = "";
+                var back = arrayPoints[firstPosition-1];
 
-                db.allDocs({include_docs: true, descending: true}).then(function(docs){
+                position += firstPosition+".<br>";
+                names += arrayNames[firstPosition-1]+"<br>";
+                points += arrayPoints[firstPosition-1]+"<br>";
 
-                  scores = docs.rows;
-                  scores.sort(function(a, b){
-                    if(Number(a.doc.points) > Number(b.doc.points)) return -1;
-                    if(Number(a.doc.points) < Number(b.doc.points)) return 1;
-                    if(a.doc.name < b.doc.name) return -1;
-                    if(a.doc.name > b.doc.name) return 1;
-                    return 0;
-                  });
-                  //https://stackoverflow.com/questions/6712034/sort-array-by-firstname-alphabetically-in-javascript
+                if(lastPosition >= arrayNames.length){
+                   lastPage = true;
+                }else{
+                   lastPage = false;
+                }
 
-                  var back = scores[firstPosition-1].doc.points;
-
-                  position += firstPosition+".<br>";
-                  names += scores[firstPosition-1].doc.name+"<br>";
-                  points += scores[firstPosition-1].doc.points+"<br>";
-
-                  if(lastPosition >= scores.length){
-                    lastPage = true;
-                  }else{
-                    lastPage = false;
-                  }
-
-                  for(var f = firstPosition; f<lastPosition; f++){
-
-                      if(f >= scores.length){
-                        break;
-                      }
-
-                      if(scores[f].doc.points === back){
-                        position += ".<br>";
-                      }else{
-                        position += (f+1)+".<br>";
-                        back = scores[f].doc.points;
-                      }
-                      names += scores[f].doc.name+"<br>";
-                      points += scores[f].doc.points+"<br>";
-                  }
-                  document.getElementById(tablePosition).innerHTML = position;
-                  document.getElementById(tableName).innerHTML = names;
-                  document.getElementById(tablePoints).innerHTML = points;
-                });
-            }
-
-            function goToIndex(){
-              window.location.replace("/");
+                for(var f = firstPosition; f<lastPosition; f++){
+                     if(f >= arrayNames.length){
+                       break;
+                     }
+                     if(arrayPoints[f] === back){
+                       position += ".<br>";
+                     }else{
+                       position += (f+1)+".<br>";
+                       back = arrayPoints[f];
+                     }
+                    names += arrayNames[f]+"<br>";
+                    points += arrayPoints[f]+"<br>";
+                }
+                document.getElementById(tablePosition).innerHTML = position;
+                document.getElementById(tableName).innerHTML = names;
+                document.getElementById(tablePoints).innerHTML = points;
             }
 
             function showPreviousScores(){
               firstPosition -= maxPositionsPerPage;
-
               if(firstPosition < 1){
                 firstPosition = 1;
               }
-
               lastPosition -= maxPositionsPerPage;
-
               if(lastPosition < maxPositionsPerPage){
                 lastPosition = maxPositionsPerPage;
               }
-
               showRanking('tableName', 'tablePoints', 'tablePosition');
             }
 
             function showNextScores(){
-
               if(lastPage === false){
                 firstPosition += maxPositionsPerPage;
                 lastPosition += maxPositionsPerPage;
               }
-
               showRanking('tableName', 'tablePoints', 'tablePosition');
             }
 

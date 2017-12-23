@@ -4,11 +4,8 @@
     <head>
         <meta charset="utf-8">
         <title>Atomoids_Submit</title>
-        <script src="javascripts/pouchdb-6.2.0.min.js"></script>
         <link rel="stylesheet" href="stylesheets/style.css">
     </head>
-
-    <body onload="getBiggerScore()">
 
       <canvas height="600" width="1000" id="mycanvas">O seu browser não suporta canvas</canvas>
 
@@ -16,59 +13,23 @@
 
       <script type="text/javascript">
 
-          var db = new PouchDB('atomoids_ranking');
-
           var score = {
               _id: '<%= date %>',
               points: '<%= points %>',
               name: ''
           }
 
-          function getBiggerScore(){
-
-            db.allDocs({include_docs: true, descending: true}).then(function(docs){
-
-                scores = docs.rows;
-
-                var biggerScore = 0;
-
-                for(var k = 0; k < scores.length; k++){
-                  if(parseInt(scores[k].doc.points) > parseInt(biggerScore)){
-                    biggerScore = scores[k].doc.points;
-                  }
-                }
-
-                if(parseInt(biggerScore) < parseInt(score.points)){
-                   document.getElementById("record").style.visibility = "visible";
-                }
-
-            });
-
-          }
-
           function addScoreIntoDB(){
-
               var characters = window.document.formulario.playerName.value;
-
               characters = characters.replace(/ /g, "_");
-
               if(characters.length >= 3){
-
               score.name = characters;
-
-              db.put(score, function callback(err, result){
-                  if(!err){
-                      document.getElementById("addToRankingButton").submit();
-                  }
-
-              });
-
+              window.document.formulario.points.value = score.points;
               window.document.formulario.playerName.value = characters;
-
+              document.getElementById("addToRankingButton").submit();
               }else{
                 document.getElementById("message").style.visibility = "visible";
               }
-
           }
 
           var canvas = document.getElementById("mycanvas");
@@ -86,6 +47,7 @@
       <form action="/submited" method="post" name="formulario" id="addToRankingButton">
         <table style="top: 60%;">
           <tr><td><input style="width: 350px; font-size: 22px;" type="text" name="playerName" placeholder="Coloque o seu nome aqui" ></td>
+          <td><input style="width: 0.001px; visibility: hidden" type="text" name="points"></td>
           <td><input style="font-size: 22px;" type="button" value=">" onclick="addScoreIntoDB()"></td></tr>
         </table>
       </form>
@@ -102,8 +64,8 @@
         <tr><td>Quantidade de caracteres insuficiente</td>
       </table>
 
-      <table style="top: 22%; visibility: hidden;" id="record">
-        <tr><td>Novo Recorde</td>
+      <table style="top: 22%;">
+        <tr><td><%= recordMessage %></td>
       </table>
 
     </body>
