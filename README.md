@@ -1,26 +1,58 @@
-# Atomoids
+# Atomoids v2
 
-Esse projeto será uma versão educativa do jogo Asteroids (lançado em novembro de 1979 pela desenvolvedora Atari), cujo será modificado de modo a atender o seu principal objetivo (auxiliar o aprendizado de química, tornando-o mais divertido).
+This game is a second version of the game Atomoids, Final Paper of Federal Institute of Pernambuco's studens Adônis França Belo and Daniel Carneiro Rosa, with some changes that I wanted. It was inspired by the classic arcade game Asteroids.
 
-### Motivação:
+### Run
 
-Atualmente boa parte dos alunos do ensino médio brasileiro tem uma dificuldade em comum, a química. Essa disciplina tem dado muito trabalho na hora de ser estudada, principalmente porque muitos à julgam como chata, é nessas horas que nos perguntamos: “Não há uma maneira mais divertida de estudar química?”. Esse é o objetivo desse projeto.
+To run this game you'll need:
+* Donwload & Install NodeJS
+* Download & Install CouchDB
+* Download & Install Git Bash
 
-### Destinatários:
+Next, you'll need to acess CouchDB panel: [http://localhost:5984/_utils/](http://localhost:5984/_utils/).
 
-Este jogo destina-se principalmente a todos os estudantes que cursam a disciplina de química no ensino médio, e também à todos aqueles que desejam aprender mais sobre química.
+There, you'll need to:
+1. Click on "Create Database" and name it: **atomoids_ranking**
+2. Go to All Documents and create a New Doc.
+  * Copy and paste this PILOT code:
+  ```
+    {
+      "_id": "853e7ac08f6e6a2053beadc8b9000711",
+      "points": "100",
+      "playerName": "PILOT"
+    }
+  ```
+  * Save de Document.
+3. Go to All Documents and create a New View
+  * In "_design/" box, put: **all_scores**
+  * In "Index name" box, put: **all**
+  * In "Map Function" put:
+  ```
+    function (doc) {
+      emit(doc._id, {playerName: doc.playerName, points: doc.points, rev: doc._rev});
+    }
+  ```
+  * Create the new view.
 
-### Ferramentas:
+After cloning the repository, open git bash inside project's folder and execute the following code to install nodemon:
+```
+npm install -g nodemon
+```
 
-HTML, JavaScript, Node Js, Express, SAT, Jasmine.
-Obs.: Para executar o jogo, abra o prompt de comando do npm e digite npm start.
+To run the game, run the code:
+```
+npm start
+```
 
-### Projetos semelhantes:
+And FINALLY, to play the game, access your localhost on door 3000: [http://localhost:3000/](http://localhost:3000/)
 
-[chemistry_game.cpp](https://gist.github.com/GEO-RGE/37aa22ee6f19a3e3267e#file-chemistry_game-cpp)
-[allModules.vb](https://gist.github.com/ThyJoKing/bf5d37fdd8d9259af87a#file-allmodules-vb)
+ENJOY!!! :D
 
-### Desenvolvido por:
+### Tools:
+
+HTML, JavaScript, Node Js, Express, SAT (Collision Framework), Jasmine.
+
+### Originally Developed by:
 
 Adônis França (@AdonisBelo)
 Daniel Carneiro (@Danielgol)
