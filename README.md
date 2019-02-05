@@ -1,6 +1,6 @@
 # Atomoids v2
 
-This game is a second version of the game Atomoids, Final Paper of Federal Institute of Pernambuco's studens Adônis França Belo and Daniel Carneiro Rosa, with some changes that I wanted. It was inspired by the classic arcade game Asteroids.
+This game is a second version of the game Atomoids, Final Paper of Federal Institute of Pernambuco's students Adônis França Belo and Daniel Carneiro Rosa, with some changes that I wanted. It was inspired by the classic arcade game Asteroids.
 
 ### Run
 
@@ -22,7 +22,7 @@ There, you'll need to:
       "playerName": "PILOT"
     }
   ```
-  * Save de Document.
+  * Save the Document.
 3. Go to All Documents and create a New View
   * In "_design/" box, put: **all_scores**
   * In "Index name" box, put: **all**
